@@ -1,11 +1,10 @@
 package ua.foxminded.university.model;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
+@Getter
+@SuperBuilder(builderMethodName = "studentBuilder")
 public class Student extends Person {
-
-    public Student(int id, String name, String surname, Date birthDate, String email, String gender) {
-        super(id, name, surname, birthDate, email, gender);
-    }
-
+    
 }
