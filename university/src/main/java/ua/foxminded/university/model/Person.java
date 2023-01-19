@@ -2,16 +2,14 @@ package ua.foxminded.university.model;
 
 import java.time.LocalDate;
 
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
 
-@Getter
-@SuperBuilder
-public abstract  class Person {
-    protected  int id;
-    protected  String name;
-    protected  String surname;
-    protected  LocalDate birthDate;
-    protected  String email;
-    protected  Gender gender;   
+@AllArgsConstructor
+public class Person {
+    private int id;
+    private String name;
+    private String surname;
+    private LocalDate birthDate;
+    private String email;
+    private Gender gender;
 }
