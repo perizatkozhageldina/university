@@ -1,0 +1,44 @@
+package ua.foxminded.university.dao;
+
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import ua.foxminded.university.model.Course;
+
+@Repository
+public class CourseJdbcDAO implements GenericDAO<Course> {
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public CourseJdbcDAO(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @Override
+    public List<Course> getAll() {
+        return jdbcTemplate.query("SELECT * FROM course", new BeanPropertyRowMapper<>(Course.class));
+    }
+
+    @Override
+    public void add(Course course) {
+        jdbcTemplate.update("INSERT INTO course VALUES(?, ?, ?, ?, ?, ?)", course.getId(), course.getName(),
+                course.getDescription(), course.getCreditHours(), course.getLectures(), course.getTeacher());
+    }
+
+    @Override
+    public void deleteById(int id) {
+        jdbcTemplate.update("DELETE FROM course WHERE course_id = ?", id);
+    }
+
+    @Override
+    public Course getById(int id) {
+        return jdbcTemplate.queryForObject("SELECT * FROM course WHERE course_id = ?",
+                new BeanPropertyRowMapper<>(Course.class), id);
+    }
+}

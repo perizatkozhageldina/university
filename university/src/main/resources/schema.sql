@@ -1,0 +1,23 @@
+DROP TABLE IF EXISTS audience;
+DROP TABLE IF EXISTS course;
+DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS gender;
+DROP TABLE IF EXISTS groups;
+DROP TABLE IF EXISTS lecture;
+DROP TABLE IF EXISTS person;
+DROP TABLE IF EXISTS school;
+DROP TABLE IF EXISTS specialization;
+DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS teacher;
+
+CREATE TABLE audience(audience_id SERIAL PRIMARY KEY, room integer, capacity integer);
+CREATE TABLE course(course_id SERIAL PRIMARY KEY, name VARCHAR(50), description VARCHAR(250), creditHours integer, teacher_id integer, groups_id integer);
+CREATE TABLE department(department_id SERIAL PRIMARY KEY, name VARCHAR(50), school_id integer);
+CREATE TABLE gender(gender_id SERIAL PRIMARY KEY, name VARCHAR(50));
+CREATE TABLE groups(groups_id SERIAL PRIMARY KEY, name VARCHAR(50), specialization_id integer);
+CREATE TABLE lecture(lecture_id SERIAL PRIMARY KEY, theme VARCHAR(50), startTime TIMESTAMP, endTime TIMESTAMP, audience_id integer, course_id integer);
+CREATE TABLE person(person_id SERIAL PRIMARY KEY, name VARCHAR(50), surname VARCHAR(50), email VARCHAR(50), birthDate DATE, gender_id integer);
+CREATE TABLE school(school_id SERIAL PRIMARY KEY, name VARCHAR(50));
+CREATE TABLE specialization(specialization_id SERIAL PRIMARY KEY, name VARCHAR(50), department_id integer);
+CREATE TABLE student(student_id SERIAL PRIMARY KEY, person_id integer, groups_id integer);
+CREATE TABLE teacher(teacher_id SERIAL PRIMARY KEY, salary integer, person_id integer, department_id integer);
