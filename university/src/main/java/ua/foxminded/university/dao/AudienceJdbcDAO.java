@@ -14,6 +14,10 @@ import ua.foxminded.university.model.Audience;
 @Component
 public class AudienceJdbcDAO implements GenericDAO<Audience> {
     private JdbcTemplate jdbcTemplate;
+    private static final String SELECT_ALL = "SELECT * FROM audience";
+    private static final String SELECT_ONE = "SELECT * FROM audience WHERE audience_id = ?";
+    private static final String INSERT = "INSERT INTO audience VALUES(?, ?, ?)";
+    private static final String DELETE = "DELETE FROM audience WHERE audience_id = ?";
     
     @Autowired
     public AudienceJdbcDAO(DataSource dataSource) {
@@ -22,21 +26,21 @@ public class AudienceJdbcDAO implements GenericDAO<Audience> {
     
     @Override
     public List<Audience> getAll() {
-        return jdbcTemplate.query("SELECT * FROM audience", new BeanPropertyRowMapper<>(Audience.class));
+        return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Audience.class));
     }
     
     @Override
     public void add(Audience audience) {
-        jdbcTemplate.update("INSERT INTO audience VALUES(?, ?, ?)", audience.getId(), audience.getRoom(), audience.getCapacity());
+        jdbcTemplate.update(INSERT, audience.getId(), audience.getRoom(), audience.getCapacity());
     }
 
     @Override
     public void deleteById(int id) {
-        jdbcTemplate.update("DELETE FROM audience WHERE audience_id = ?", id);
+        jdbcTemplate.update(DELETE, id);
     }
 
     @Override
     public Audience getById(int id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM audience WHERE audience_id = ?", new BeanPropertyRowMapper<>(Audience.class), id);
+        return jdbcTemplate.queryForObject(SELECT_ONE, new BeanPropertyRowMapper<>(Audience.class), id);
     }
 }

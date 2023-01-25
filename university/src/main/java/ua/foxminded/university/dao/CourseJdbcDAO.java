@@ -14,6 +14,10 @@ import ua.foxminded.university.model.Course;
 @Repository
 public class CourseJdbcDAO implements GenericDAO<Course> {
     private JdbcTemplate jdbcTemplate;
+    private static final String SELECT_ALL = "SELECT * FROM course";
+    private static final String SELECT_ONE = "SELECT * FROM course WHERE course_id = ?";
+    private static final String INSERT = "INSERT INTO course VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String DELETE = "DELETE FROM course WHERE course_id = ?";
 
     @Autowired
     public CourseJdbcDAO(DataSource dataSource) {
@@ -22,23 +26,23 @@ public class CourseJdbcDAO implements GenericDAO<Course> {
 
     @Override
     public List<Course> getAll() {
-        return jdbcTemplate.query("SELECT * FROM course", new BeanPropertyRowMapper<>(Course.class));
+        return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Course.class));
     }
 
     @Override
     public void add(Course course) {
-        jdbcTemplate.update("INSERT INTO course VALUES(?, ?, ?, ?, ?, ?)", course.getId(), course.getName(),
+        jdbcTemplate.update(INSERT, course.getId(), course.getName(),
                 course.getDescription(), course.getCreditHours(), course.getLectures(), course.getTeacher());
     }
 
     @Override
     public void deleteById(int id) {
-        jdbcTemplate.update("DELETE FROM course WHERE course_id = ?", id);
+        jdbcTemplate.update(DELETE, id);
     }
 
     @Override
     public Course getById(int id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM course WHERE course_id = ?",
+        return jdbcTemplate.queryForObject(SELECT_ONE,
                 new BeanPropertyRowMapper<>(Course.class), id);
     }
 }

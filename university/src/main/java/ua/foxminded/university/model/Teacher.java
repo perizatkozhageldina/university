@@ -3,7 +3,9 @@ package ua.foxminded.university.model;
 import java.time.LocalDate;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class Teacher extends Person {
     private int salary;
 
