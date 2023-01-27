@@ -2,8 +2,6 @@ package ua.foxminded.university.dao;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,8 +16,8 @@ public class SchoolJdbcDAO implements GenericDAO<School> {
     private static final String DELETE = "DELETE FROM school WHERE school_id=?";
 
     @Autowired
-    public SchoolJdbcDAO(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public SchoolJdbcDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override

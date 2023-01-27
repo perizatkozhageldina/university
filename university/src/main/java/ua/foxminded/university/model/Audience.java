@@ -1,10 +1,14 @@
 package ua.foxminded.university.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Audience {
     private int id;
     private int room;

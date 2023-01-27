@@ -3,10 +3,12 @@ package ua.foxminded.university.model;
 import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Person {
     private int id;
     private String name;

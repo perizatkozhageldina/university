@@ -2,10 +2,14 @@ package ua.foxminded.university.model;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Builder
 public class Lecture {
     private int id;

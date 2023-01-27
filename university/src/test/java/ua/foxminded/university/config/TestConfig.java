@@ -13,9 +13,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @Configuration
 @ComponentScan("ua.foxminded.university.dao")
-@PropertySource("classpath:database.properties")
-public class AppConfig {
-
+@PropertySource("classpath:testDatabase.properties")
+public class TestConfig {
     @Autowired
     Environment environment;
 
@@ -37,5 +36,5 @@ public class AppConfig {
     @Bean
     JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
-    }    
+    }
 }
