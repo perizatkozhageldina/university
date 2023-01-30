@@ -3,19 +3,13 @@ package ua.foxminded.university.dao;
 import static org.junit.Assert.assertTrue;
 
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.support.TestPropertySourceUtils;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import ua.foxminded.university.config.AppConfig;
-
-@SpringBootTest(classes = AppConfig.class)
+@SpringBootTest
 @Testcontainers
 public class DAOTest {
 
