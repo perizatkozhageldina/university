@@ -11,19 +11,19 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import ua.foxminded.university.dao.AudienceJdbcDAO;
+
 @Configuration
 @ComponentScan("ua.foxminded.university.dao")
-@PropertySource("classpath:testDatabase.properties")
-public class TestConfig {
-    @Autowired
-    Environment environment;
+@PropertySource("classpath:application-test.properties")
+public class TestConfig extends AppConfig {
 
-    private static final String URL = "url";
-    private static final String USER = "dbuser";
-    private static final String DRIVER = "driver";
-    private static final String PASSWORD = "dbpassword";
+    private static final String URL = "spring.datasource.url";
+    private static final String USER = "spring.datasource.username";
+    private static final String DRIVER = "spring.datasource.driverClassName";
+    private static final String PASSWORD = "spring.datasource.password";
 
-    @Bean
+    @Override
     DataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
         driverManagerDataSource.setUrl(environment.getProperty(URL));
@@ -33,7 +33,7 @@ public class TestConfig {
         return driverManagerDataSource;
     }
     
-    @Bean
+    @Override
     JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }

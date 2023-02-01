@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import ua.foxminded.university.model.Group;
 
+@Component
 public class GroupJdbcDAO implements GenericDAO<Group> {
     private JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM group";

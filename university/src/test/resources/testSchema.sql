@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS specialization;
 DROP TABLE IF EXISTS student;
 DROP TABLE IF EXISTS teacher;
 DROP TABLE IF EXISTS audience;
+select * from audience;
 
 CREATE TABLE audience(audience_id SERIAL PRIMARY KEY, room integer, capacity integer);
 CREATE TABLE course(course_id SERIAL PRIMARY KEY, name VARCHAR(50), description VARCHAR(250), creditHours integer, teacher_id integer, groups_id integer);
