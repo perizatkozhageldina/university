@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Person {
-    private int id;
+    private int personId;
     private String name;
     private String surname;
     private LocalDate birthDate;

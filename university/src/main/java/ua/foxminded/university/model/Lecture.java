@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Lecture {
-    private int id;
+    private int lectureId;
     private String theme;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Specialization {
-    private int id;
+    private int specializationId;
     private String name;
     private List<Group> groups;
 }

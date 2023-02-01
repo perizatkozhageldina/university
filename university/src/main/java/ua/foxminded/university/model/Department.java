@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Department {
-    private int id;
+    private int departmentId;
     private String name;
     private List<Specialization> specializations;
     private List<Teacher> teachers;

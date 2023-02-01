@@ -11,7 +11,8 @@ public class App {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         
         AudienceJdbcDAO dao = context.getBean(AudienceJdbcDAO.class);
-        dao.add(Audience.builder().id(1).room(555).capacity(1200).build());
+        dao.deleteById(100);
+        dao.add(Audience.builder().audienceId(100).room(555).capacity(1200).build());
         context.close();
     }
 }

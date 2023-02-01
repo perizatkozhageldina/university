@@ -2,6 +2,8 @@ package ua.foxminded.university.dao;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,20 +13,20 @@ import ua.foxminded.university.model.Group;
 
 @Component
 public class GroupJdbcDAO implements GenericDAO<Group> {
-    private JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM group";
     private static final String SELECT_ONE = "SELECT * FROM group WHERE group_id=?";
     private static final String INSERT = "INSERT INTO group VALUES(?, ?, ?, ?)";
     private static final String DELETE = "DELETE FROM group WHERE group_id=?";
 
     @Autowired
-    public GroupJdbcDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public GroupJdbcDAO(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
     public void add(Group group) {
-        jdbcTemplate.update(INSERT, group.getId(), group.getName(), group.getCourses(), group.getStudents());
+        jdbcTemplate.update(INSERT, group.getGroupId(), group.getName(), group.getCourses(), group.getStudents());
     }
 
     @Override

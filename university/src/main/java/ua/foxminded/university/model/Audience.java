@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Audience {
-    private int id;
+    private int audienceId;
     private int room;
     private int capacity;
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Group {
-    private int id;
+    private int groupId;
     private String name;
     private List<Course> courses;
     private List<Student> students;

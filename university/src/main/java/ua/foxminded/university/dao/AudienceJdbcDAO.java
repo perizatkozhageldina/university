@@ -2,6 +2,8 @@ package ua.foxminded.university.dao;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,15 +13,15 @@ import ua.foxminded.university.model.Audience;
 
 @Component
 public class AudienceJdbcDAO implements GenericDAO<Audience> {
-    private JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM audience";
     private static final String SELECT_ONE = "SELECT * FROM audience WHERE audience_id = ?";
     private static final String INSERT = "INSERT INTO audience VALUES(?, ?, ?)";
     private static final String DELETE = "DELETE FROM audience WHERE audience_id = ?";
     
     @Autowired
-    public AudienceJdbcDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public AudienceJdbcDAO(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
     
     @Override
@@ -29,7 +31,7 @@ public class AudienceJdbcDAO implements GenericDAO<Audience> {
     
     @Override
     public void add(Audience audience) {
-        jdbcTemplate.update(INSERT, audience.getId(), audience.getRoom(), audience.getCapacity());
+        jdbcTemplate.update(INSERT, audience.getAudienceId(), audience.getRoom(), audience.getCapacity());
     }
 
     @Override

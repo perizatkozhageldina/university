@@ -2,6 +2,8 @@ package ua.foxminded.university.dao;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,20 +13,20 @@ import ua.foxminded.university.model.Lecture;
 
 @Component
 public class LectureJdbcDAO implements GenericDAO<Lecture> {
-    private JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM lecture";
     private static final String SELECT_ONE = "SELECT * FROM lecture WHERE lecture_id=?";
     private static final String INSERT = "INSERT INTO lecture VALUES(?, ?, ?, ?, ?)";
     private static final String DELETE = "DELETE FROM lecture WHERE lecture_id=?";
 
     @Autowired
-    public LectureJdbcDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public LectureJdbcDAO(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
     public void add(Lecture lecture) {
-        jdbcTemplate.update(INSERT, lecture.getId(), lecture.getTheme(), lecture.getStartTime(), lecture.getEndTime(), lecture.getAudience());
+        jdbcTemplate.update(INSERT, lecture.getLectureId(), lecture.getTheme(), lecture.getStartTime(), lecture.getEndTime(), lecture.getAudience());
     }
 
     @Override

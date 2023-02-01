@@ -2,25 +2,26 @@ package ua.foxminded.university.dao;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import ua.foxminded.university.model.Course;
 
 @Component
 public class CourseJdbcDAO implements GenericDAO<Course> {
-    private JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM course";
     private static final String SELECT_ONE = "SELECT * FROM course WHERE course_id = ?";
     private static final String INSERT = "INSERT INTO course VALUES(?, ?, ?, ?, ?, ?)";
     private static final String DELETE = "DELETE FROM course WHERE course_id = ?";
 
     @Autowired
-    public CourseJdbcDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public CourseJdbcDAO(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class CourseJdbcDAO implements GenericDAO<Course> {
 
     @Override
     public void add(Course course) {
-        jdbcTemplate.update(INSERT, course.getId(), course.getName(),
+        jdbcTemplate.update(INSERT, course.getCourseId(), course.getName(),
                 course.getDescription(), course.getCreditHours(), course.getLectures(), course.getTeacher());
     }
 

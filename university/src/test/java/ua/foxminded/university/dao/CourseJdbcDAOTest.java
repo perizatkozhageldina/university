@@ -18,9 +18,9 @@ class CourseJdbcDAOTest {
     @Test
     @Sql("src/test/resources/testSchema.sql")
     void test() {
-        Course course = Course.builder().id(7).creditHours(777).build();
+        Course course = Course.builder().courseId(7).creditHours(777).build();
         dao.add(course);
-        Course ccc = dao.getById(course.getId());
+        Course ccc = dao.getById(course.getCourseId());
         assertEquals(course, ccc);
     }
 

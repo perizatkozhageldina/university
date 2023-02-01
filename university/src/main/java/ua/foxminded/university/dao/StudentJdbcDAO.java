@@ -2,6 +2,8 @@ package ua.foxminded.university.dao;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,20 +13,20 @@ import ua.foxminded.university.model.Student;
 
 @Component
 public class StudentJdbcDAO implements GenericDAO<Student> {
-    private JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM student";
     private static final String SELECT_ONE = "SELECT * FROM student WHERE student_id=?";
     private static final String INSERT = "INSERT INTO student VALUES(?, ?, ?, ?, ?, ?)";
     private static final String DELETE = "DELETE FROM student WHERE student_id=?";
 
     @Autowired
-    public StudentJdbcDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public StudentJdbcDAO(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
     public void add(Student student) {
-        jdbcTemplate.update(INSERT, student.getId(), student.getName(), student.getSurname(), student.getEmail(), student.getBirthDate(), student.getGender());
+        jdbcTemplate.update(INSERT, student.getPersonId(), student.getName(), student.getSurname(), student.getEmail(), student.getBirthDate(), student.getGender());
     }
 
     @Override
