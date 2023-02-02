@@ -1,13 +1,16 @@
 package ua.foxminded.university.model;
 
-import java.time.LocalDate;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class Student extends Person {
-
-    @Builder
-    private Student(int id, String name, String surname, LocalDate birthDate, String email, Gender gender) {
-        super(id, name, surname, birthDate, email, gender);
-    }
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
+public class Student {
+    private long studentId;
+    private int academicYear;
+    private Group group;
 }
