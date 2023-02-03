@@ -27,7 +27,7 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
 
     @Override
     public void add(Student student) {
-        jdbcTemplate.update(INSERT, student.getStudentId(), student.getAcademicYear(), student.getGroup());
+        jdbcTemplate.update(INSERT, student.getStudentId(), student.getAcademicYear(), student.getGroupId());
     }
 
     @Override

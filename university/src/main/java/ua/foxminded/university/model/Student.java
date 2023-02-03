@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class Student {
     private long studentId;
     private int academicYear;
-    private Group group;
+    private int groupId;
 }

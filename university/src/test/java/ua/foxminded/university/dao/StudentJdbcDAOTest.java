@@ -13,14 +13,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.model.Group;
 import ua.foxminded.university.model.Student;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class StudentJdbcDAOTest {
-    private static final Student expectedStudent1 = Student.builder().studentId(101).academicYear(1).build();
-    private static final Student expectedStudent2 = Student.builder().studentId(102).academicYear(3).build();    
-    private static final Student expectedStudent3 = Student.builder().studentId(103).academicYear(2).build();
+    private static final Student expectedStudent1 = Student.builder().studentId(101).academicYear(1).groupId(1).build();
+    private static final Student expectedStudent2 = Student.builder().studentId(102).groupId(5).build();    
+    private static final Student expectedStudent3 = Student.builder().studentId(103).academicYear(2).groupId(3).build();
     
     @Autowired
     private StudentJdbcDAO dao;
