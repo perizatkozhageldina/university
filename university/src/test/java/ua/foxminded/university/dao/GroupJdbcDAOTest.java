@@ -18,9 +18,9 @@ import ua.foxminded.university.model.Group;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class GroupJdbcDAOTest {
-    private static final Group expectedGroup1 = Group.builder().groupId(101).studentCount(20).build();
-    private static final Group expectedGroup2 = Group.builder().groupId(102).studentCount(25).build();    
-    private static final Group expectedGroup3 = Group.builder().groupId(103).studentCount(27).build();
+    private static final Group expectedGroup1 = Group.builder().groupId(101).name("GROUP1").build();
+    private static final Group expectedGroup2 = Group.builder().groupId(102).name("GROUP2").build();    
+    private static final Group expectedGroup3 = Group.builder().groupId(103).name("GROUP3").build();
     
     @Autowired
     private GroupJdbcDAO dao;

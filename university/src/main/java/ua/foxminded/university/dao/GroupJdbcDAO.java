@@ -27,7 +27,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
 
     @Override
     public void add(Group group) {
-        jdbcTemplate.update(INSERT, group.getGroupId(), group.getStudentCount());
+        jdbcTemplate.update(INSERT, group.getGroupId(), group.getName());
     }
 
     @Override
