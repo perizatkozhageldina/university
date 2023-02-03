@@ -13,7 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ua.foxminded.university.config.AppConfig;
-import ua.foxminded.university.model.Group;
 import ua.foxminded.university.model.Student;
 
 @ExtendWith(SpringExtension.class)
