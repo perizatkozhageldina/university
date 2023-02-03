@@ -2,62 +2,65 @@ package ua.foxminded.university.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.model.Course;
 
-@ContextConfiguration(classes = CourseJdbcDAO.class) 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = AppConfig.class)
 class CourseJdbcDAOTest {
-    private static final Course expectedCourse = Course.builder().courseId(1234).hours(1200).build();
-
+    private static final Course expectedCourse1 = Course.builder().courseId(101).hours(36).build();
+    private static final Course expectedCourse2 = Course.builder().courseId(102).hours(48).build();    
+    private static final Course expectedCourse3 = Course.builder().courseId(103).hours(60).build();
+    
     @Autowired
-    CourseJdbcDAO dao;
+    private CourseJdbcDAO dao;
+
+    @Test
+    @Sql("classpath:testSchema.sql")
+    void shouldAddCourse_whenAddMethodCalled() {
+        dao.add(expectedCourse1);
+        Course actualCourse = dao.getById(expectedCourse1.getCourseId());
+        assertEquals(expectedCourse1, actualCourse);        
+    }
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddRoom_whenAddMethodCalled() {
-        dao.add(expectedCourse);
-        Course actualCourse = dao.getById(expectedCourse.getCourseId());
-        assertEquals(expectedCourse, actualCourse);        
+    void shouldDeleteCourse_whenDeleteMethodCalled() {
+        dao.add(expectedCourse1);
+        dao.deleteById(expectedCourse1.getCourseId());
+        Course actualCourse = dao.getById(expectedCourse1.getCourseId());
+        assertNull(actualCourse);    
     }
     
-//    @Test
-//    @Sql("classpath:testSchema.sql")
-//    void shouldDeleteRoom_whenDeleteMethodCalled() {
-//        Room room = Room.builder().roomId(102).capacity(1200).build();
-//        dao.add(room);
-//        dao.deleteById(room.getRoomId());
-//        Room actualRoom = dao.getById(room.getRoomId());
-//        assertEquals(null, actualRoom);        
-//    }
-//    
-//    @Test
-//    @Sql("classpath:testSchema.sql")
-//    void shouldGetAudience_whenGetByIdMethodCalled() {
-//        Room expectedRoom = Room.builder().roomId(102).capacity(1200).build();
-//        dao.add(expectedRoom);
-//        Room actualRoom = dao.getById(expectedRoom.getRoomId());
-//        assertEquals(expectedRoom, actualRoom);        
-//    }
-//    
-//    @Test
-//    @Sql("classpath:testSchema.sql")
-//    void shouldGettAllAudiences_whenGetAllMethodCalled() {
-//        List<Room> expectedRooms = new ArrayList<>();
-//        Room room1 = Room.builder().roomId(101).capacity(1100).build();
-//        Room room2 = Room.builder().roomId(102).capacity(1200).build();
-//        Room room3 = Room.builder().roomId(103).capacity(1300).build();
-//        expectedRooms.add(room1);
-//        expectedRooms.add(room2);
-//        expectedRooms.add(room3);
-//        dao.add(room1);
-//        dao.add(room2);
-//        dao.add(room3);
-//        List<Room> actualRooms = dao.getAll();
-//        assertEquals(expectedRooms, actualRooms);        
-//    }
-
+    @Test
+    @Sql("classpath:testSchema.sql")
+    void shouldGetCourse_whenGetByIdMethodCalled() {
+        dao.add(expectedCourse1);
+        Course actualCourse = dao.getById(expectedCourse1.getCourseId());
+        assertEquals(expectedCourse1, actualCourse);        
+    }
+    
+    @Test
+    @Sql("classpath:testSchema.sql")
+    void shouldGettAllCourses_whenGetAllMethodCalled() {
+        List<Course> expectedCourses = new ArrayList<>();
+        expectedCourses.add(expectedCourse1);
+        expectedCourses.add(expectedCourse2);
+        expectedCourses.add(expectedCourse3);
+        dao.add(expectedCourse1);
+        dao.add(expectedCourse2);
+        dao.add(expectedCourse3);
+        List<Course> actualCourses = dao.getAll();
+        assertEquals(expectedCourses, actualCourses);        
+    }
 }
