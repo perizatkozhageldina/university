@@ -7,24 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ua.foxminded.university.dao.GroupJdbcDAO;
 import ua.foxminded.university.model.Group;
 
-public class GroupService {
+public class GroupService implements GenericService<Group> {
 
     @Autowired
     private GroupJdbcDAO dao;
     
-    public void addCourse(Group group) {
+    public void add(Group group) {
         dao.add(group);
     }
     
-    public void deleteGroup(Group group) {
-        dao.deleteById(group.getGroupId());
+    public void deleteById(int id) {
+        dao.deleteById(id);
     }
     
-    public Group getGroupById(int id) {
+    public Group getById(int id) {
         return dao.getById(id);
     }
     
-    public List<Group> getAllGroups() {
+    public List<Group> getAll() {
         return dao.getAll();
     }
 }

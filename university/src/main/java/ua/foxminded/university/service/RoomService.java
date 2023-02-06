@@ -7,24 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ua.foxminded.university.dao.RoomJdbcDAO;
 import ua.foxminded.university.model.Room;
 
-public class RoomService {
+public class RoomService implements GenericService<Room> {
 
     @Autowired
     private RoomJdbcDAO dao;
     
-    public void addRoom(Room room) {
+    public void add(Room room) {
         dao.add(room);
     }
     
-    public void deleteRoom(Room room) {
-        dao.deleteById(room.getRoomId());
+    public void deleteById(int id) {
+        dao.deleteById(id);
     }
     
-    public Room getRoomById(int id) {
+    public Room getById(int id) {
         return dao.getById(id);
     }
     
-    public List<Room> getAllRooms() {
+    public List<Room> getAll() {
         return dao.getAll();
     }
 }

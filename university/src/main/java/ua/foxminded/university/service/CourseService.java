@@ -7,24 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ua.foxminded.university.dao.CourseJdbcDAO;
 import ua.foxminded.university.model.Course;
 
-public class CourseService {
+public class CourseService implements GenericService<Course>{
     
     @Autowired
     private CourseJdbcDAO dao;
     
-    public void addCourse(Course course) {
+    public void add(Course course) {
         dao.add(course);
     }
     
-    public void deleteCourse(Course course) {
-        dao.deleteById(course.getCourseId());
+    public void deleteById(int id) {
+        dao.deleteById(id);
     }
     
-    public Course getCourseById(int id) {
+    public Course getById(int id) {
         return dao.getById(id);
     }
     
-    public List<Course> getAllCourses() {
+    public List<Course> getAll() {
         return dao.getAll();
     }
 }

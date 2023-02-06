@@ -7,24 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ua.foxminded.university.dao.LectureJdbcDAO;
 import ua.foxminded.university.model.Lecture;
 
-public class LectureService {
+public class LectureService implements GenericService<Lecture> {
 
     @Autowired
     private LectureJdbcDAO dao;
     
-    public void addLecture(Lecture lecture) {
+    public void add(Lecture lecture) {
         dao.add(lecture);
     }
     
-    public void deleteLecture(Lecture lecture) {
-        dao.deleteById(lecture.getLectureId());
+    public void deleteById(int id) {
+        dao.deleteById(id);
     }
     
-    public Lecture getLectureById(int id) {
+    public Lecture getById(int id) {
         return dao.getById(id);
     }
     
-    public List<Lecture> getAllLectures() {
+    public List<Lecture> getAll() {
         return dao.getAll();
     }
 }
