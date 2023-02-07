@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @ComponentScan("ua.foxminded.university")
 @PropertySource("classpath:application.properties")
 public class AppConfig {
-
+ 
     @Autowired
     public Environment environment;
 
