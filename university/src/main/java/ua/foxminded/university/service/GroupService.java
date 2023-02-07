@@ -3,10 +3,12 @@ package ua.foxminded.university.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ua.foxminded.university.dao.GroupJdbcDAO;
 import ua.foxminded.university.model.Group;
 
+@Component
 public class GroupService implements GenericService<Group> {
 
     @Autowired

@@ -3,10 +3,12 @@ package ua.foxminded.university.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ua.foxminded.university.dao.StudentJdbcDAO;
 import ua.foxminded.university.model.Student;
 
+@Component
 public class StudentService implements GenericService<Student> {
 
     @Autowired
