@@ -18,11 +18,11 @@ public class StudentService implements GenericService<Student> {
         dao.add(student);
     }
     
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         dao.deleteById(id);
     }
     
-    public Student getById(int id) {
+    public Student getById(long id) {
         return dao.getById(id);
     }
     

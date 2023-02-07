@@ -18,11 +18,11 @@ public class GroupService implements GenericService<Group> {
         dao.add(group);
     }
     
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         dao.deleteById(id);
     }
     
-    public Group getById(int id) {
+    public Group getById(long id) {
         return dao.getById(id);
     }
     

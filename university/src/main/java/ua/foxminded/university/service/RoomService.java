@@ -18,11 +18,11 @@ public class RoomService implements GenericService<Room> {
         dao.add(room);
     }
     
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         dao.deleteById(id);
     }
     
-    public Room getById(int id) {
+    public Room getById(long id) {
         return dao.getById(id);
     }
     

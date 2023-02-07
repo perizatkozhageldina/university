@@ -18,11 +18,11 @@ public class LectureService implements GenericService<Lecture> {
         dao.add(lecture);
     }
     
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         dao.deleteById(id);
     }
     
-    public Lecture getById(int id) {
+    public Lecture getById(long id) {
         return dao.getById(id);
     }
     
