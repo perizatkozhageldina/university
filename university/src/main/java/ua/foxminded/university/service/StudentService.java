@@ -9,10 +9,13 @@ import ua.foxminded.university.dao.StudentJdbcDAO;
 import ua.foxminded.university.model.Student;
 
 @Service
-public class StudentService implements GenericService<Student> {
+public class StudentService {
+    private StudentJdbcDAO dao;
 
     @Autowired
-    private StudentJdbcDAO dao;
+    public StudentService(StudentJdbcDAO dao) {
+        this.dao = dao;
+    }
     
     public void add(Student student) {
         dao.add(student);

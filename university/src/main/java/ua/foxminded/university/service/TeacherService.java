@@ -9,10 +9,13 @@ import ua.foxminded.university.dao.TeacherJdbcDAO;
 import ua.foxminded.university.model.Teacher;
 
 @Service
-public class TeacherService implements GenericService<Teacher> {
+public class TeacherService {
+    private TeacherJdbcDAO dao;
 
     @Autowired
-    private TeacherJdbcDAO dao;
+    public TeacherService(TeacherJdbcDAO dao) {
+        this.dao = dao;
+    }
     
     public void add(Teacher teacher) {
         dao.add(teacher);

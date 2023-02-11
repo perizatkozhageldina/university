@@ -9,21 +9,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import ua.foxminded.university.dao.LectureJdbcDAO;
 import ua.foxminded.university.model.Lecture;
 
 class LectureServiceTest {
+    private LectureService service;
     @Mock 
     Lecture lecture = Mockito.mock(Lecture.class);    
     @Mock
-    LectureJdbcDAO dao = Mockito.mock(LectureJdbcDAO.class);    
-    LectureService service = new LectureService();
+    LectureJdbcDAO dao = Mockito.mock(LectureJdbcDAO.class);        
     
     @BeforeEach
     void init() {
-        ReflectionTestUtils.setField(service, "dao", dao);
+        service = new LectureService(dao);
     }    
 
     @Test

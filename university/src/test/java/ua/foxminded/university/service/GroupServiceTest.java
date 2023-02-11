@@ -9,21 +9,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import ua.foxminded.university.dao.GroupJdbcDAO;
 import ua.foxminded.university.model.Group;
 
 class GroupServiceTest {
+    private GroupService service;
     @Mock 
     Group group = Mockito.mock(Group.class);    
     @Mock
-    GroupJdbcDAO dao = Mockito.mock(GroupJdbcDAO.class);    
-    GroupService service = new GroupService();
+    GroupJdbcDAO dao = Mockito.mock(GroupJdbcDAO.class);   
     
     @BeforeEach
     void init() {
-        ReflectionTestUtils.setField(service, "dao", dao);
+        service = new GroupService(dao);
     }    
 
     @Test

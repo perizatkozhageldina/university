@@ -14,7 +14,7 @@ import ua.foxminded.university.model.Lecture;
 
 @Component
 public class LectureJdbcDAO implements GenericDAO<Lecture> {
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM lecture";
     private static final String SELECT_ONE = "SELECT * FROM lecture WHERE lectureId=?";
     private static final String INSERT = "INSERT INTO lecture VALUES(?, ?)";

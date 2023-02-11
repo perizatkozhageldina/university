@@ -9,10 +9,13 @@ import ua.foxminded.university.dao.RoomJdbcDAO;
 import ua.foxminded.university.model.Room;
 
 @Service
-public class RoomService implements GenericService<Room> {
+public class RoomService {
+    private RoomJdbcDAO dao;
 
     @Autowired
-    private RoomJdbcDAO dao;
+    public RoomService(RoomJdbcDAO dao) {
+        this.dao = dao;
+    }
     
     public void add(Room room) {
         dao.add(room);

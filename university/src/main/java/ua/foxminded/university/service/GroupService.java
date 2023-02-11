@@ -9,10 +9,14 @@ import ua.foxminded.university.dao.GroupJdbcDAO;
 import ua.foxminded.university.model.Group;
 
 @Service
-public class GroupService implements GenericService<Group> {
+public class GroupService {
+    private GroupJdbcDAO dao;
 
     @Autowired
-    private GroupJdbcDAO dao;
+    public GroupService(GroupJdbcDAO dao) {
+        this.dao = dao;
+    }
+    
     
     public void add(Group group) {
         dao.add(group);
