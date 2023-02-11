@@ -5,12 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
-public class Student {
-    private long studentId;
-    private int academicYear;
-    private int groupId;
+public class Room {
+    private long roomId;
+    private int capacity;
 }
