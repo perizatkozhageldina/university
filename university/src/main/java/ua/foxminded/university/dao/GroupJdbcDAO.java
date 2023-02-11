@@ -14,7 +14,7 @@ import ua.foxminded.university.model.Group;
 
 @Component
 public class GroupJdbcDAO implements GenericDAO<Group> {
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM groups";
     private static final String SELECT_ONE = "SELECT * FROM groups WHERE groupId=?";
     private static final String INSERT = "INSERT INTO groups VALUES(?, ?)";
