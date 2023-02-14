@@ -27,7 +27,7 @@ class RoomJdbcDAOTest {
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddRoom_whenAddMethodCalled() {
+    void shouldAddRoom_whenAddMethodCalled() throws DAOException {
         dao.add(expectedRoom1);
         Room actualRoom = dao.getById(expectedRoom1.getRoomId());
         assertEquals(expectedRoom1, actualRoom);        
@@ -35,7 +35,7 @@ class RoomJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteRoom_whenDeleteMethodCalled() {
+    void shouldDeleteRoom_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedRoom1);
         dao.deleteById(expectedRoom1.getRoomId());
         Room actualRoom = dao.getById(expectedRoom1.getRoomId());
@@ -44,7 +44,7 @@ class RoomJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetAudience_whenGetByIdMethodCalled() {
+    void shouldGetAudience_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedRoom1);
         Room actualRoom = dao.getById(expectedRoom1.getRoomId());
         assertEquals(expectedRoom1, actualRoom);        
@@ -52,7 +52,7 @@ class RoomJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllAudiences_whenGetAllMethodCalled() {
+    void shouldGettAllAudiences_whenGetAllMethodCalled() throws DAOException {
         List<Room> expectedRooms = new ArrayList<>();
         expectedRooms.add(expectedRoom1);
         expectedRooms.add(expectedRoom2);

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import ua.foxminded.university.dao.DAOException;
 import ua.foxminded.university.dao.LectureJdbcDAO;
 import ua.foxminded.university.model.Lecture;
 
@@ -26,25 +27,25 @@ class LectureServiceTest {
     }    
 
     @Test
-    void shouldCallDaoAdd_whenServiceAddMethodCalled() {
+    void shouldCallDaoAdd_whenServiceAddMethodCalled() throws DAOException {
         service.add(lecture);
         verify(dao, times(1)).add(lecture);
     }
 
     @Test
-    void shouldCallDaoGetAll_whenServiceGetAllMethodCalled() {
+    void shouldCallDaoGetAll_whenServiceGetAllMethodCalled() throws DAOException {
         service.getAll();
         verify(dao, times(1)).getAll();
     }
     
     @Test
-    void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() {
+    void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() throws DAOException {
         service.getById(anyInt());
         verify(dao, times(1)).getById(anyLong());
     }
     
     @Test
-    void shouldCallDaoDelete_whenServiceDeleteMethodCalled() {
+    void shouldCallDaoDelete_whenServiceDeleteMethodCalled() throws DAOException {
         service.deleteById(anyLong());
         verify(dao, times(1)).deleteById(anyLong());
     }
