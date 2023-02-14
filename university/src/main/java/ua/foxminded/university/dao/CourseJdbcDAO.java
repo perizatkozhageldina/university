@@ -5,7 +5,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -26,32 +26,45 @@ public class CourseJdbcDAO implements GenericDAO<Course> {
     }
 
     @Override
-    public List<Course> getAll() {
+    public List<Course> getAll() throws DAOException {
         try {
             return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Course.class));
-        } catch (EmptyResultDataAccessException e) {
-            return null;
+        } catch (DataAccessException e) {
+            String msg = "Couldn't get all courses";
+            throw new DAOException(msg, e);
+        }        
+    }
+
+    @Override
+    public void add(Course course) throws DAOException {
+        try {
+            jdbcTemplate.update(INSERT, course.getCourseId(), course.getLevel(),
+                    course.getHours());
+        } catch (DataAccessException e) {
+            String msg = "Couldn't add " + course;
+            throw new DAOException(msg, e);
         }
     }
 
     @Override
-    public void add(Course course) {
-        jdbcTemplate.update(INSERT, course.getCourseId(), course.getLevel(),
-                course.getHours());
+    public void deleteById(long id) throws DAOException {
+        try {
+            jdbcTemplate.update(DELETE, id);
+        } catch (DataAccessException e) {
+            String msg = "Couldn't delete course with id = " + id;
+            throw new DAOException(msg, e);
+        }
+
     }
 
     @Override
-    public void deleteById(long id) {
-        jdbcTemplate.update(DELETE, id);
-    }
-
-    @Override
-    public Course getById(long id) {
+    public Course getById(long id) throws DAOException {
         try {
             return jdbcTemplate.queryForObject(SELECT_ONE,
                     new BeanPropertyRowMapper<>(Course.class), id);
-        } catch (EmptyResultDataAccessException e) {
-            return null;
+        } catch (DataAccessException e) {
+            String msg = "Couldn't get course with id = " + id;
+            throw new DAOException(msg, e);
         }
     }
 }

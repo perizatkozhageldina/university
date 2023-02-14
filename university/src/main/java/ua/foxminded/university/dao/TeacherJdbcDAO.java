@@ -5,6 +5,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,27 +27,43 @@ public class TeacherJdbcDAO implements GenericDAO<Teacher> {
     }
 
     @Override
-    public void add(Teacher teacher) {
-        jdbcTemplate.update(INSERT, teacher.getTeacherId(), teacher.getCategory(), teacher.getHours());
-    }
-
-    @Override
-    public void deleteById(long id) {
-        jdbcTemplate.update(DELETE, id);
-    }
-
-    @Override
-    public Teacher getById(long id) {
+    public void add(Teacher teacher) throws DAOException {
         try {
-            return jdbcTemplate.queryForObject(SELECT_ONE,
-                    new BeanPropertyRowMapper<>(Teacher.class), id);
-        } catch (EmptyResultDataAccessException e) {
-            return null;
+            jdbcTemplate.update(INSERT, teacher.getTeacherId(), teacher.getCategory(), teacher.getHours());
+        } catch (DataAccessException e) {
+            String msg = "Couldn't add " + teacher;
+            throw new DAOException(msg, e);
         }
     }
 
     @Override
-    public List<Teacher> getAll() {
-        return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Teacher.class));
+    public void deleteById(long id) throws DAOException {
+        try {
+            jdbcTemplate.update(DELETE, id);
+        } catch (DataAccessException e) {
+            String msg = "Couldn't delete teacher with id " + id;
+            throw new DAOException(msg, e);
+        }
+    }
+
+    @Override
+    public Teacher getById(long id) throws DAOException {
+        try {
+            return jdbcTemplate.queryForObject(SELECT_ONE,
+                    new BeanPropertyRowMapper<>(Teacher.class), id);
+        } catch (DataAccessException e) {
+            String msg = "Couldn't get teacher with id " + id;
+            throw new DAOException(msg, e);
+        }
+    }
+
+    @Override
+    public List<Teacher> getAll() throws DAOException {
+        try {
+            return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Teacher.class));
+        } catch (DataAccessException e) {
+            String msg = "Couldn't get all teachers";
+            throw new DAOException(msg, e);
+        }
     }
 }
