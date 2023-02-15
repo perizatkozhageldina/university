@@ -27,7 +27,7 @@ class GroupJdbcDAOTest {
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddGroup_whenAddMethodCalled() {
+    void shouldAddGroup_whenAddMethodCalled() throws DAOException {
         dao.add(expectedGroup1);
         Group actualGroup = dao.getById(expectedGroup1.getGroupId());
         assertEquals(expectedGroup1, actualGroup);        
@@ -35,7 +35,7 @@ class GroupJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteGroup_whenDeleteMethodCalled() {
+    void shouldDeleteGroup_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedGroup1);
         dao.deleteById(expectedGroup1.getGroupId());
         Group actualGroup = dao.getById(expectedGroup1.getGroupId());
@@ -44,7 +44,7 @@ class GroupJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetGroup_whenGetByIdMethodCalled() {
+    void shouldGetGroup_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedGroup1);
         Group actualGroup = dao.getById(expectedGroup1.getGroupId());
         assertEquals(expectedGroup1, actualGroup);        
@@ -52,7 +52,7 @@ class GroupJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllGroups_whenGetAllMethodCalled() {
+    void shouldGettAllGroups_whenGetAllMethodCalled() throws DAOException {
         List<Group> expectedGroups = new ArrayList<>();
         expectedGroups.add(expectedGroup1);
         expectedGroups.add(expectedGroup2);

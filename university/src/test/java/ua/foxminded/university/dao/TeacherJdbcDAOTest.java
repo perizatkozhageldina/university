@@ -27,7 +27,7 @@ class TeacherJdbcDAOTest {
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddTeacher_whenAddMethodCalled() {
+    void shouldAddTeacher_whenAddMethodCalled() throws DAOException {
         dao.add(expectedTeacher1);
         Teacher actualTeacher = dao.getById(expectedTeacher1.getTeacherId());
         assertEquals(expectedTeacher1, actualTeacher);        
@@ -35,7 +35,7 @@ class TeacherJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteTeacher_whenDeleteMethodCalled() {
+    void shouldDeleteTeacher_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedTeacher1);
         dao.deleteById(expectedTeacher1.getTeacherId());
         Teacher actualTeacher = dao.getById(expectedTeacher1.getTeacherId());
@@ -44,7 +44,7 @@ class TeacherJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetTeacher_whenGetByIdMethodCalled() {
+    void shouldGetTeacher_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedTeacher1);
         Teacher actualTeacher = dao.getById(expectedTeacher1.getTeacherId());
         assertEquals(expectedTeacher1, actualTeacher);        
@@ -52,7 +52,7 @@ class TeacherJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllTeachers_whenGetAllMethodCalled() {
+    void shouldGettAllTeachers_whenGetAllMethodCalled() throws DAOException {
         List<Teacher> expectedTeachers = new ArrayList<>();
         expectedTeachers.add(expectedTeacher1);
         expectedTeachers.add(expectedTeacher2);

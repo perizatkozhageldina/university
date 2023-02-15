@@ -3,15 +3,15 @@ package ua.foxminded.university;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import ua.foxminded.university.config.AppConfig;
-import ua.foxminded.university.model.Room;
-import ua.foxminded.university.service.RoomService;
+import ua.foxminded.university.model.Course;
+import ua.foxminded.university.service.CourseService;
 
 public class App {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        RoomService service = context.getBean(RoomService.class);        
+        CourseService service = context.getBean(CourseService.class);        
         service.deleteById(145);
-        service.add(Room.builder().roomId(145).capacity(25).build());
+        service.add(Course.builder().courseId(145).hours(24).build());
         context.close();
     }
 }

@@ -27,7 +27,7 @@ class LectureJdbcDAOTest {
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddLecture_whenAddMethodCalled() {
+    void shouldAddLecture_whenAddMethodCalled() throws DAOException {
         dao.add(expectedLecture1);
         Lecture actualLecture = dao.getById(expectedLecture1.getLectureId());
         assertEquals(expectedLecture1, actualLecture);        
@@ -35,7 +35,7 @@ class LectureJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteLecture_whenDeleteMethodCalled() {
+    void shouldDeleteLecture_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedLecture1);
         dao.deleteById(expectedLecture1.getLectureId());
         Lecture actualLecture = dao.getById(expectedLecture1.getLectureId());
@@ -44,7 +44,7 @@ class LectureJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetLecture_whenGetByIdMethodCalled() {
+    void shouldGetLecture_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedLecture1);
         Lecture actualLecture = dao.getById(expectedLecture1.getLectureId());
         assertEquals(expectedLecture1, actualLecture);        
@@ -52,7 +52,7 @@ class LectureJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllLectures_whenGetAllMethodCalled() {
+    void shouldGettAllLectures_whenGetAllMethodCalled() throws DAOException {
         List<Lecture> expectedLectures = new ArrayList<>();
         expectedLectures.add(expectedLecture1);
         expectedLectures.add(expectedLecture2);
