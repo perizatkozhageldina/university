@@ -1,5 +1,6 @@
 package ua.foxminded.university.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,9 +13,9 @@ import ua.foxminded.university.dao.GroupJdbcDAO;
 import ua.foxminded.university.model.Group;
 
 @Service
-public class GroupService {
-    private GroupJdbcDAO dao;
+public class GroupService {    
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupService.class);
+    private GroupJdbcDAO dao;
 
     @Autowired
     public GroupService(GroupJdbcDAO dao) {
@@ -38,22 +39,20 @@ public class GroupService {
     }
 
     public Group getById(long id) {
-        Group group = null;
         try {
-            group = dao.getById(id);
+            return dao.getById(id);
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return null;
         }
-        return group;
     }
 
     public List<Group> getAll() {
-        List<Group> groups = null;
         try {
-            dao.getAll();
+            return dao.getAll();
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return Collections.emptyList();
         }
-        return groups;
     }
 }

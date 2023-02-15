@@ -1,5 +1,6 @@
 package ua.foxminded.university.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,9 +13,9 @@ import ua.foxminded.university.dao.RoomJdbcDAO;
 import ua.foxminded.university.model.Room;
 
 @Service
-public class RoomService {
-    private RoomJdbcDAO dao;
+public class RoomService {    
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomService.class);
+    private RoomJdbcDAO dao;
 
     @Autowired
     public RoomService(RoomJdbcDAO dao) {
@@ -38,22 +39,20 @@ public class RoomService {
     }
 
     public Room getById(long id) {
-        Room room = null;
         try {
-            room = dao.getById(id);
+            return dao.getById(id);
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return null;
         }
-        return room;
     }
 
     public List<Room> getAll() {
-        List<Room> rooms = null;
         try {
-            rooms = dao.getAll();
+            return dao.getAll();
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return Collections.emptyList();
         }
-        return rooms;
     }
 }

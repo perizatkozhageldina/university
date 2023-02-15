@@ -30,8 +30,7 @@ public class LectureJdbcDAO implements GenericDAO<Lecture> {
         try {
             jdbcTemplate.update(INSERT, lecture.getLectureId(), lecture.getNumber());
         } catch (DataAccessException e) {
-            String msg = "Couldn't add " + lecture;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't add " + lecture, e);
         }
     }
 
@@ -40,8 +39,7 @@ public class LectureJdbcDAO implements GenericDAO<Lecture> {
         try {
             jdbcTemplate.update(DELETE, id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't delete lecture with id " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't delete lecture with id " + id, e);
         }
     }
 
@@ -51,8 +49,7 @@ public class LectureJdbcDAO implements GenericDAO<Lecture> {
             return jdbcTemplate.queryForObject(SELECT_ONE,
                     new BeanPropertyRowMapper<>(Lecture.class), id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't get lecture with id " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get lecture with id " + id, e);
         }
     }
 
@@ -61,8 +58,7 @@ public class LectureJdbcDAO implements GenericDAO<Lecture> {
         try {
             return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Lecture.class));
         } catch (DataAccessException e) {
-            String msg = "Couldn't get all lectures";
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get all lectures", e);
         }
     }
 }

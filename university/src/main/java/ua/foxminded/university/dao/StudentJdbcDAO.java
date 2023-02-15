@@ -6,7 +6,6 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -31,8 +30,7 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
         try {
         jdbcTemplate.update(INSERT, student.getStudentId(), student.getAcademicYear(), student.getGroupId());
         } catch (DataAccessException e) {
-            String msg = "Couldn't add " + student;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't add " + student, e);
         }
     }
 
@@ -41,8 +39,7 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
         try {
         jdbcTemplate.update(DELETE, id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't delete student with id " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't delete student with id " + id, e);
         }
     }
 
@@ -52,8 +49,7 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
             return jdbcTemplate.queryForObject(SELECT_ONE,
                     new BeanPropertyRowMapper<>(Student.class), id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't get student with id " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get student with id " + id, e);
         }
     }
 
@@ -62,8 +58,7 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
         try {
         return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Student.class));
         } catch (DataAccessException e) {
-            String msg = "Couldn't get all students";
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get all students", e);
         }
     }
 }

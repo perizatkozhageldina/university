@@ -30,8 +30,7 @@ public class CourseJdbcDAO implements GenericDAO<Course> {
         try {
             return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Course.class));
         } catch (DataAccessException e) {
-            String msg = "Couldn't get all courses";
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get all courses", e);
         }        
     }
 
@@ -41,8 +40,7 @@ public class CourseJdbcDAO implements GenericDAO<Course> {
             jdbcTemplate.update(INSERT, course.getCourseId(), course.getLevel(),
                     course.getHours());
         } catch (DataAccessException e) {
-            String msg = "Couldn't add " + course;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't add " + course, e);
         }
     }
 
@@ -51,8 +49,7 @@ public class CourseJdbcDAO implements GenericDAO<Course> {
         try {
             jdbcTemplate.update(DELETE, id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't delete course with id = " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't delete course with id = " + id, e);
         }
 
     }
@@ -63,8 +60,7 @@ public class CourseJdbcDAO implements GenericDAO<Course> {
             return jdbcTemplate.queryForObject(SELECT_ONE,
                     new BeanPropertyRowMapper<>(Course.class), id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't get course with id = " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get course with id = " + id, e);
         }
     }
 }

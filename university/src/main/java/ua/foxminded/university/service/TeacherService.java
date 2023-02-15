@@ -1,5 +1,6 @@
 package ua.foxminded.university.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,9 +13,9 @@ import ua.foxminded.university.dao.TeacherJdbcDAO;
 import ua.foxminded.university.model.Teacher;
 
 @Service
-public class TeacherService {
-    private TeacherJdbcDAO dao;
+public class TeacherService {    
     private static final Logger LOGGER = LoggerFactory.getLogger(TeacherService.class);
+    private TeacherJdbcDAO dao;
 
     @Autowired
     public TeacherService(TeacherJdbcDAO dao) {
@@ -38,22 +39,20 @@ public class TeacherService {
     }
 
     public Teacher getById(long id) {
-        Teacher teacher = null;
         try {
-            teacher = dao.getById(id);
+            return dao.getById(id);
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return null;
         }
-        return teacher;
     }
 
     public List<Teacher> getAll() {
-        List<Teacher> teachers = null;
         try {
-            teachers = dao.getAll();
+            return dao.getAll();
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return Collections.emptyList();
         }
-        return teachers;
     }
 }

@@ -11,7 +11,8 @@ public class App {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         CourseService service = context.getBean(CourseService.class);        
         service.deleteById(145);
-        service.add(Course.builder().courseId(140).hours(24).build());
+        service.add(Course.builder().courseId(145).hours(24).build());
+        System.out.println(service.getById(145));
         context.close();
     }
 }

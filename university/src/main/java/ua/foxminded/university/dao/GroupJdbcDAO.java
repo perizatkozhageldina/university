@@ -30,8 +30,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
         try {
             jdbcTemplate.update(INSERT, group.getGroupId(), group.getName());
         } catch (DataAccessException e) {
-            String msg = "Couldn't add " + group;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't add " + group, e);
         }
     }
 
@@ -40,8 +39,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
         try {
             jdbcTemplate.update(DELETE, id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't delete group  with id " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't delete group  with id " + id, e);
         }
     }
 
@@ -51,8 +49,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
             return jdbcTemplate.queryForObject(SELECT_ONE,
                     new BeanPropertyRowMapper<>(Group.class), id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't get group with id " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get group with id " + id, e);
         }
     }
 
@@ -61,8 +58,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
         try {
             return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Group.class));
         } catch (DataAccessException e) {
-            String msg = "Couldn't get all groups";
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get all groups", e);
         }
     }
 }

@@ -6,7 +6,6 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -31,8 +30,7 @@ public class RoomJdbcDAO implements GenericDAO<Room> {
         try {
             return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Room.class));
         } catch (DataAccessException e) {
-            String msg = "Couldn't get all rooms";
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get all rooms", e);
         }
     }
 
@@ -41,8 +39,7 @@ public class RoomJdbcDAO implements GenericDAO<Room> {
         try {
             jdbcTemplate.update(INSERT, room.getRoomId(), room.getCapacity());
         } catch (DataAccessException e) {
-            String msg = "Couldn't add " + room;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't add " + room, e);
         }
     }
 
@@ -51,8 +48,7 @@ public class RoomJdbcDAO implements GenericDAO<Room> {
         try {
             jdbcTemplate.update(DELETE, id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't delete room with id " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't delete room with id " + id, e);
         }
     }
 
@@ -61,8 +57,7 @@ public class RoomJdbcDAO implements GenericDAO<Room> {
         try {
             return jdbcTemplate.queryForObject(SELECT_ONE, new BeanPropertyRowMapper<>(Room.class), id);
         } catch (DataAccessException e) {
-            String msg = "Couldn't get room with id " + id;
-            throw new DAOException(msg, e);
+            throw new DAOException("Couldn't get room with id " + id, e);
         }
     }
 }
