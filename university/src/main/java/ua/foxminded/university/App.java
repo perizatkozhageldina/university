@@ -12,7 +12,6 @@ public class App {
         CourseService service = context.getBean(CourseService.class);        
         service.deleteById(145);
         service.add(Course.builder().courseId(145).hours(24).build());
-        System.out.println(service.getById(145));
         context.close();
     }
 }
