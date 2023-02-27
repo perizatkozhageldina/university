@@ -18,9 +18,9 @@ import ua.foxminded.university.model.Lecture;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class LectureJdbcDAOTest {
-    private static final Lecture expectedLecture1 = Lecture.builder().lectureId(101).number(1).build();
-    private static final Lecture expectedLecture2 = Lecture.builder().lectureId(102).number(2).build();    
-    private static final Lecture expectedLecture3 = Lecture.builder().lectureId(103).number(3).build();
+    private static final Lecture expectedLecture1 = Lecture.builder().id(101).number(1).build();
+    private static final Lecture expectedLecture2 = Lecture.builder().id(102).number(2).build();    
+    private static final Lecture expectedLecture3 = Lecture.builder().id(103).number(3).build();
     
     @Autowired
     private LectureJdbcDAO dao;
@@ -29,7 +29,7 @@ class LectureJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldAddLecture_whenAddMethodCalled() throws DAOException {
         dao.add(expectedLecture1);
-        Lecture actualLecture = dao.getById(expectedLecture1.getLectureId());
+        Lecture actualLecture = dao.getById(expectedLecture1.getId());
         assertEquals(expectedLecture1, actualLecture);        
     }
     
@@ -37,8 +37,8 @@ class LectureJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldDeleteLecture_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedLecture1);
-        dao.deleteById(expectedLecture1.getLectureId());
-        Lecture actualLecture = dao.getById(expectedLecture1.getLectureId());
+        dao.deleteById(expectedLecture1.getId());
+        Lecture actualLecture = dao.getById(expectedLecture1.getId());
         assertNull(actualLecture);    
     }
     
@@ -46,7 +46,7 @@ class LectureJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldGetLecture_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedLecture1);
-        Lecture actualLecture = dao.getById(expectedLecture1.getLectureId());
+        Lecture actualLecture = dao.getById(expectedLecture1.getId());
         assertEquals(expectedLecture1, actualLecture);        
     }
     

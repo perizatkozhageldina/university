@@ -16,9 +16,9 @@ import ua.foxminded.university.model.Room;
 public class RoomJdbcDAO implements GenericDAO<Room> {
     private JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM room";
-    private static final String SELECT_ONE = "SELECT * FROM room WHERE roomId = ?";
+    private static final String SELECT_ONE = "SELECT * FROM room WHERE id = ?";
     private static final String INSERT = "INSERT INTO room VALUES(?, ?)";
-    private static final String DELETE = "DELETE FROM room WHERE roomId = ?";
+    private static final String DELETE = "DELETE FROM room WHERE id = ?";
 
     @Autowired
     public RoomJdbcDAO(DataSource dataSource) {
@@ -37,7 +37,7 @@ public class RoomJdbcDAO implements GenericDAO<Room> {
     @Override
     public void add(Room room) throws DAOException {
         try {
-            jdbcTemplate.update(INSERT, room.getRoomId(), room.getCapacity());
+            jdbcTemplate.update(INSERT, room.getId(), room.getCapacity());
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't add " + room, e);
         }

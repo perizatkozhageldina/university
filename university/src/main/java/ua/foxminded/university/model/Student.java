@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Student {
-    private long studentId;
+    private long id;
     private int academicYear;
     private int groupId;
 }

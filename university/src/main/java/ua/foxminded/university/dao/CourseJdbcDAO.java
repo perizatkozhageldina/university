@@ -16,9 +16,9 @@ import ua.foxminded.university.model.Course;
 public class CourseJdbcDAO implements GenericDAO<Course> {
     private JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM course";
-    private static final String SELECT_ONE = "SELECT * FROM course WHERE courseId = ?";
+    private static final String SELECT_ONE = "SELECT * FROM course WHERE id = ?";
     private static final String INSERT = "INSERT INTO course VALUES(?, ?, ?)";
-    private static final String DELETE = "DELETE FROM course WHERE courseId = ?";
+    private static final String DELETE = "DELETE FROM course WHERE id = ?";
 
     @Autowired
     public CourseJdbcDAO(DataSource dataSource) {
@@ -37,7 +37,7 @@ public class CourseJdbcDAO implements GenericDAO<Course> {
     @Override
     public void add(Course course) throws DAOException {
         try {
-            jdbcTemplate.update(INSERT, course.getCourseId(), course.getLevel(),
+            jdbcTemplate.update(INSERT, course.getId(), course.getLevel(),
                     course.getHours());
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't add " + course, e);

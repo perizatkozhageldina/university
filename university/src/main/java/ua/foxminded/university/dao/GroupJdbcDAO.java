@@ -16,9 +16,9 @@ import ua.foxminded.university.model.Group;
 public class GroupJdbcDAO implements GenericDAO<Group> {
     private JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM groups";
-    private static final String SELECT_ONE = "SELECT * FROM groups WHERE groupId=?";
+    private static final String SELECT_ONE = "SELECT * FROM groups WHERE id=?";
     private static final String INSERT = "INSERT INTO groups VALUES(?, ?)";
-    private static final String DELETE = "DELETE FROM groups WHERE groupId=?";
+    private static final String DELETE = "DELETE FROM groups WHERE id=?";
 
     @Autowired
     public GroupJdbcDAO(DataSource dataSource) {
@@ -28,7 +28,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
     @Override
     public void add(Group group) throws DAOException {
         try {
-            jdbcTemplate.update(INSERT, group.getGroupId(), group.getName());
+            jdbcTemplate.update(INSERT, group.getId(), group.getName());
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't add " + group, e);
         }

@@ -18,9 +18,9 @@ import ua.foxminded.university.model.Room;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class RoomJdbcDAOTest {
-    private static final Room expectedRoom1 = Room.builder().roomId(101).capacity(1100).build();
-    private static final Room expectedRoom2 = Room.builder().roomId(102).capacity(1200).build();    
-    private static final Room expectedRoom3 = Room.builder().roomId(103).capacity(1300).build();
+    private static final Room expectedRoom1 = Room.builder().id(101).capacity(1100).build();
+    private static final Room expectedRoom2 = Room.builder().id(102).capacity(1200).build();    
+    private static final Room expectedRoom3 = Room.builder().id(103).capacity(1300).build();
     
     @Autowired
     private RoomJdbcDAO dao;
@@ -29,7 +29,7 @@ class RoomJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldAddRoom_whenAddMethodCalled() throws DAOException {
         dao.add(expectedRoom1);
-        Room actualRoom = dao.getById(expectedRoom1.getRoomId());
+        Room actualRoom = dao.getById(expectedRoom1.getId());
         assertEquals(expectedRoom1, actualRoom);        
     }
     
@@ -37,8 +37,8 @@ class RoomJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldDeleteRoom_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedRoom1);
-        dao.deleteById(expectedRoom1.getRoomId());
-        Room actualRoom = dao.getById(expectedRoom1.getRoomId());
+        dao.deleteById(expectedRoom1.getId());
+        Room actualRoom = dao.getById(expectedRoom1.getId());
         assertNull(actualRoom);    
     }
     
@@ -46,7 +46,7 @@ class RoomJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldGetAudience_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedRoom1);
-        Room actualRoom = dao.getById(expectedRoom1.getRoomId());
+        Room actualRoom = dao.getById(expectedRoom1.getId());
         assertEquals(expectedRoom1, actualRoom);        
     }
     

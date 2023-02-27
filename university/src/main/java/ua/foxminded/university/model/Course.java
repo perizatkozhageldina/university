@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Course {
-    private long courseId;
+    private long id;
     private int level;
     private int hours;
 }

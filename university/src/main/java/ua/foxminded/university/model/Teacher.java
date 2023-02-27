@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Teacher {
-    private long teacherId;
+    private long id;
     private String category;
     private int hours;
 }

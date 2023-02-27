@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Group {
-    private long groupId;
+    private long id;
     private String name;
 }

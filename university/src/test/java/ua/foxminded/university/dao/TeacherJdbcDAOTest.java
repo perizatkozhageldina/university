@@ -18,9 +18,9 @@ import ua.foxminded.university.model.Teacher;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class TeacherJdbcDAOTest {
-    private static final Teacher expectedTeacher1 = Teacher.builder().teacherId(101).hours(36).build();
-    private static final Teacher expectedTeacher2 = Teacher.builder().teacherId(102).hours(48).build();    
-    private static final Teacher expectedTeacher3 = Teacher.builder().teacherId(103).hours(60).build();
+    private static final Teacher expectedTeacher1 = Teacher.builder().id(101).hours(36).build();
+    private static final Teacher expectedTeacher2 = Teacher.builder().id(102).hours(48).build();    
+    private static final Teacher expectedTeacher3 = Teacher.builder().id(103).hours(60).build();
     
     @Autowired
     private TeacherJdbcDAO dao;
@@ -29,7 +29,7 @@ class TeacherJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldAddTeacher_whenAddMethodCalled() throws DAOException {
         dao.add(expectedTeacher1);
-        Teacher actualTeacher = dao.getById(expectedTeacher1.getTeacherId());
+        Teacher actualTeacher = dao.getById(expectedTeacher1.getId());
         assertEquals(expectedTeacher1, actualTeacher);        
     }
     
@@ -37,8 +37,8 @@ class TeacherJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldDeleteTeacher_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedTeacher1);
-        dao.deleteById(expectedTeacher1.getTeacherId());
-        Teacher actualTeacher = dao.getById(expectedTeacher1.getTeacherId());
+        dao.deleteById(expectedTeacher1.getId());
+        Teacher actualTeacher = dao.getById(expectedTeacher1.getId());
         assertNull(actualTeacher);    
     }
     
@@ -46,7 +46,7 @@ class TeacherJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldGetTeacher_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedTeacher1);
-        Teacher actualTeacher = dao.getById(expectedTeacher1.getTeacherId());
+        Teacher actualTeacher = dao.getById(expectedTeacher1.getId());
         assertEquals(expectedTeacher1, actualTeacher);        
     }
     

@@ -16,9 +16,9 @@ import ua.foxminded.university.model.Student;
 public class StudentJdbcDAO implements GenericDAO<Student> {
     private JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL = "SELECT * FROM student";
-    private static final String SELECT_ONE = "SELECT * FROM student WHERE studentId=?";
+    private static final String SELECT_ONE = "SELECT * FROM student WHERE id=?";
     private static final String INSERT = "INSERT INTO student VALUES(?, ?, ?)";
-    private static final String DELETE = "DELETE FROM student WHERE studentId=?";
+    private static final String DELETE = "DELETE FROM student WHERE id=?";
 
     @Autowired
     public StudentJdbcDAO(DataSource dataSource) {
@@ -28,7 +28,7 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
     @Override
     public void add(Student student) throws DAOException {
         try {
-        jdbcTemplate.update(INSERT, student.getStudentId(), student.getAcademicYear(), student.getGroupId());
+        jdbcTemplate.update(INSERT, student.getId(), student.getAcademicYear(), student.getGroupId());
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't add " + student, e);
         }
