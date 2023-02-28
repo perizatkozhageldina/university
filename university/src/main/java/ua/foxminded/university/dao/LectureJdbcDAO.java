@@ -19,6 +19,7 @@ public class LectureJdbcDAO implements GenericDAO<Lecture> {
     private static final String SELECT_ONE = "SELECT * FROM lecture WHERE id=?";
     private static final String INSERT = "INSERT INTO lecture VALUES(?, ?)";
     private static final String DELETE = "DELETE FROM lecture WHERE id=?";
+    private static final String UPDATE = "UPDATE lecture set number = ? WHERE id = ?";
 
     @Autowired
     public LectureJdbcDAO(DataSource dataSource) {
@@ -59,6 +60,15 @@ public class LectureJdbcDAO implements GenericDAO<Lecture> {
             return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Lecture.class));
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't get all lectures", e);
+        }
+    }
+
+    @Override
+    public void update(Lecture lecture) throws DAOException {
+        try {
+            jdbcTemplate.update(UPDATE, lecture.getNumber(), lecture.getId());
+        } catch (DataAccessException e) {
+            throw new DAOException("Couldn't update " + lecture, e);
         }
     }
 }

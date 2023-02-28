@@ -159,26 +159,51 @@ table.table .avatar {
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link" href="/">Home</a>
-      <a class="nav-item nav-link" href="/courses">Courses</a>
-      <a class="nav-item nav-link" href="/groups">Groups</a>
-      <a class="nav-item nav-link active" href="/lectures">Lectures<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="/rooms">Rooms</a>
-      <a class="nav-item nav-link" href="/students">Students</a>
-      <a class="nav-item nav-link" href="/lectures">Teachers</a>
+      <a class="nav-item nav-link" href="/university/courses">Courses</a>
+      <a class="nav-item nav-link" href="/university/groups">Groups</a>
+      <a class="nav-item nav-link active" href="/university/lectures">Lectures<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/university/rooms">Rooms</a>
+      <a class="nav-item nav-link" href="/university/students">Students</a>
+      <a class="nav-item nav-link" href="/university/teachers">Teachers</a>
     </div>
   </div>
 </nav>
-
-
-
-MAIN PAGE
-
-
-
-
-
-
-
+	<div class="container-xl">
+		<div class="table-responsive">
+			<div class="table-wrapper">
+				<div class="table-title">
+					<div class="row">
+						<div class="col-sm-6">
+							<h2>
+								Manage <b>Lectures</b>
+							</h2>
+						</div>
+						<div class="col-sm-6">
+							<a href="lectures/add" class="btn btn-success" ><i class="material-icons">&#xE147;</i> <span>Add New Lecture</span></a>
+						</div>
+					</div>
+				</div>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="lecture : ${lectures}">
+							<td th:text="${lecture.id}"></td>
+							<td th:text="${lecture.number}"></td>
+							<td><a th:href="@{/lectures/{id}/edit(id=${lecture.id})}" class="edit"><i class="material-icons"
+									data-toggle="tooltip" title="Edit">&#xE254;</i></a> 
+								<a th:href="@{/lectures/{id}/delete(id=${lecture.id})}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

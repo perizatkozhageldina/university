@@ -29,6 +29,14 @@ public class RoomService {
             LOGGER.error(e.getMessage());
         }
     }
+    
+    public void update(Room room) {
+        try {
+            dao.update(room);
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
 
     public void deleteById(long id) {
         try {

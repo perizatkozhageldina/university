@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Add Course</title>
+<title>Add Lecture</title>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet"
@@ -48,9 +48,9 @@ form {
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="/university/courses">Courses<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/university/courses">Courses</a>
       <a class="nav-item nav-link" href="/university/groups">Groups</a>
-      <a class="nav-item nav-link" href="/university/lectures">Lectures</a>
+      <a class="nav-item nav-link active" href="/university/lectures">Lectures<span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" href="/university/rooms">Rooms</a>
       <a class="nav-item nav-link" href="/university/students">Students</a>
       <a class="nav-item nav-link" href="/university/teachers">Teachers</a>
@@ -58,21 +58,17 @@ form {
   </div>
 </nav>
 <div class="container">
-	<form action="#" th:action="@{/courses/save}" th:object="${course}" method="post">
+	<form action="#" th:action="@{/lectures/save}" th:object="${lecture}" method="post">
   <div class="form-group">
     <label for="id">Id</label>
     <input type="number" class="form-control" id="id" th:field="*{id}" placeholder="Enter id">
   </div>
   <div class="form-group">
-    <label for="level">Level</label>
-    <input type="number" class="form-control" id="level" th:field="*{level}" placeholder="Level">
-  </div>
-  <div class="form-group">
-    <label for="hours">Hours</label>
-    <input type="number" class="form-control" id="hours" th:field="*{hours}" placeholder="Hours">
+    <label for="number">Number</label>
+    <input type="number" class="form-control" id="number" th:field="*{number}" placeholder="Number">
   </div>
   <button type="submit" class="btn btn-success">Submit</button>
-  <a class="btn btn-danger" href="/university/courses" role="button">Cancel</a>
+  <a class="btn btn-danger" href="/university/lectures" role="button">Cancel</a>
 </form>
  </div>
 </body>

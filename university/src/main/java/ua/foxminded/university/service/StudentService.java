@@ -29,6 +29,14 @@ public class StudentService {
             LOGGER.error(e.getMessage());
         }
     }
+    
+    public void update(Student student) {
+        try {
+            dao.update(student);
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
 
     public void deleteById(long id) {
         try {

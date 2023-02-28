@@ -19,6 +19,7 @@ public class RoomJdbcDAO implements GenericDAO<Room> {
     private static final String SELECT_ONE = "SELECT * FROM room WHERE id = ?";
     private static final String INSERT = "INSERT INTO room VALUES(?, ?)";
     private static final String DELETE = "DELETE FROM room WHERE id = ?";
+    private static final String UPDATE = "UPDATE room set capacity = ? WHERE id = ?";
 
     @Autowired
     public RoomJdbcDAO(DataSource dataSource) {
@@ -58,6 +59,15 @@ public class RoomJdbcDAO implements GenericDAO<Room> {
             return jdbcTemplate.queryForObject(SELECT_ONE, new BeanPropertyRowMapper<>(Room.class), id);
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't get room with id " + id, e);
+        }
+    }
+
+    @Override
+    public void update(Room room) throws DAOException {
+        try {
+            jdbcTemplate.update(UPDATE, room.getCapacity(), room.getId());
+        } catch (DataAccessException e) {
+            throw new DAOException("Couldn't update " + room, e);
         }
     }
 }

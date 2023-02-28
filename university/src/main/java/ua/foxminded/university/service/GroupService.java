@@ -29,6 +29,14 @@ public class GroupService {
             LOGGER.error(e.getMessage());
         }
     }
+    
+    public void update(Group group) {
+        try {
+            dao.update(group);
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
 
     public void deleteById(long id) {
         try {

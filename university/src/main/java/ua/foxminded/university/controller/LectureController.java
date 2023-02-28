@@ -11,50 +11,50 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ua.foxminded.university.model.Group;
-import ua.foxminded.university.service.GroupService;
+import ua.foxminded.university.model.Lecture;
+import ua.foxminded.university.service.LectureService;
 
 @Controller
-@RequestMapping("/groups")
-public class GroupController {
+@RequestMapping("/lectures")
+public class LectureController {
     @Autowired
-    private GroupService service;
+    private LectureService service;
 
     @GetMapping("")
     public String list(Model model) {
-        List<Group> groups = service.getAll();
-        model.addAttribute("groups", groups);
-        return "group/index";
+        List<Lecture> lectures = service.getAll();
+        model.addAttribute("lectures", lectures);
+        return "lecture/index";
     }
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("group", new Group());
-        return "group/add";
+        model.addAttribute("lecture", new Lecture());
+        return "lecture/add";
     }
 
     @PostMapping("save")
-    public String save(@ModelAttribute("group") Group group) {
-        service.add(group);
-        return "redirect:/groups";
+    public String save(@ModelAttribute("lecture") Lecture lecture) {
+        service.add(lecture);
+        return "redirect:/lectures";
     }
     
     @PostMapping("update")
-    public String update(@ModelAttribute("group") Group group) {
-        service.update(group);
-        return "redirect:/groups";
+    public String update(@ModelAttribute("lecture") Lecture lecture) {
+        service.update(lecture);
+        return "redirect:/lectures";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Group group = service.getById(id);
-        model.addAttribute("group", group);
-        return "group/edit";
+        Lecture lecture = service.getById(id);
+        model.addAttribute("lecture", lecture);
+        return "lecture/edit";
     }
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable("id") Long id) {
         service.deleteById(id);
-        return "redirect:/groups";
+        return "redirect:/lectures";
     }
 }

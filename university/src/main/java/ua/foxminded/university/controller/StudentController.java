@@ -11,50 +11,50 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ua.foxminded.university.model.Group;
-import ua.foxminded.university.service.GroupService;
+import ua.foxminded.university.model.Student;
+import ua.foxminded.university.service.StudentService;
 
 @Controller
-@RequestMapping("/groups")
-public class GroupController {
+@RequestMapping("/students")
+public class StudentController {
     @Autowired
-    private GroupService service;
+    private StudentService service;
 
     @GetMapping("")
     public String list(Model model) {
-        List<Group> groups = service.getAll();
-        model.addAttribute("groups", groups);
-        return "group/index";
+        List<Student> students = service.getAll();
+        model.addAttribute("students", students);
+        return "student/index";
     }
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("group", new Group());
-        return "group/add";
+        model.addAttribute("student", new Student());
+        return "student/add";
     }
 
     @PostMapping("save")
-    public String save(@ModelAttribute("group") Group group) {
-        service.add(group);
-        return "redirect:/groups";
+    public String save(@ModelAttribute("student") Student student) {
+        service.add(student);
+        return "redirect:/students";
     }
     
     @PostMapping("update")
-    public String update(@ModelAttribute("group") Group group) {
-        service.update(group);
-        return "redirect:/groups";
+    public String update(@ModelAttribute("student") Student student) {
+        service.update(student);
+        return "redirect:/students";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Group group = service.getById(id);
-        model.addAttribute("group", group);
-        return "group/edit";
+        Student student = service.getById(id);
+        model.addAttribute("student", student);
+        return "student/edit";
     }
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable("id") Long id) {
         service.deleteById(id);
-        return "redirect:/groups";
+        return "redirect:/students";
     }
 }

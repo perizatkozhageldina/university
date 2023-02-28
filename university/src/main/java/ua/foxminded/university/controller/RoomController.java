@@ -11,50 +11,50 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ua.foxminded.university.model.Group;
-import ua.foxminded.university.service.GroupService;
+import ua.foxminded.university.model.Room;
+import ua.foxminded.university.service.RoomService;
 
 @Controller
-@RequestMapping("/groups")
-public class GroupController {
+@RequestMapping("/rooms")
+public class RoomController {
     @Autowired
-    private GroupService service;
+    private RoomService service;
 
     @GetMapping("")
     public String list(Model model) {
-        List<Group> groups = service.getAll();
-        model.addAttribute("groups", groups);
-        return "group/index";
+        List<Room> rooms = service.getAll();
+        model.addAttribute("rooms", rooms);
+        return "room/index";
     }
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("group", new Group());
-        return "group/add";
+        model.addAttribute("room", new Room());
+        return "room/add";
     }
 
     @PostMapping("save")
-    public String save(@ModelAttribute("group") Group group) {
-        service.add(group);
-        return "redirect:/groups";
+    public String save(@ModelAttribute("room") Room room) {
+        service.add(room);
+        return "redirect:/rooms";
     }
     
     @PostMapping("update")
-    public String update(@ModelAttribute("group") Group group) {
-        service.update(group);
-        return "redirect:/groups";
+    public String update(@ModelAttribute("room") Room room) {
+        service.update(room);
+        return "redirect:/rooms";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Group group = service.getById(id);
-        model.addAttribute("group", group);
-        return "group/edit";
+        Room room = service.getById(id);
+        model.addAttribute("room", room);
+        return "room/edit";
     }
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable("id") Long id) {
         service.deleteById(id);
-        return "redirect:/groups";
+        return "redirect:/rooms";
     }
 }

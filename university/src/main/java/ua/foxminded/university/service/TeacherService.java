@@ -29,6 +29,14 @@ public class TeacherService {
             LOGGER.error(e.getMessage());
         }
     }
+    
+    public void update(Teacher teacher) {
+        try {
+            dao.update(teacher);
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
 
     public void deleteById(long id) {
         try {

@@ -29,6 +29,14 @@ public class LectureService {
             LOGGER.error(e.getMessage());
         }
     }
+    
+    public void update(Lecture lecture) {
+        try {
+            dao.update(lecture);
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
 
     public void deleteById(long id) {
         try {
