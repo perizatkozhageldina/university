@@ -9,5 +9,5 @@ CREATE TABLE course(id SERIAL PRIMARY KEY, level integer, hours integer);
 CREATE TABLE groups(id SERIAL PRIMARY KEY, name VARCHAR);
 CREATE TABLE lecture(id SERIAL PRIMARY KEY, number integer);
 CREATE TABLE room(id SERIAL PRIMARY KEY, capacity integer);
-CREATE TABLE student(id SERIAL PRIMARY KEY, academicYear integer, groupId integer, CONSTRAINT fk_group FOREIGN KEY(id) REFERENCES groups(id));
+CREATE TABLE student(id SERIAL PRIMARY KEY, academicYear integer, groupId integer, CONSTRAINT fk_group FOREIGN KEY(groupId) REFERENCES groups(id));
 CREATE TABLE teacher(id SERIAL PRIMARY KEY, category varchar, hours integer);
