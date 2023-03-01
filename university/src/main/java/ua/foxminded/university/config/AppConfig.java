@@ -47,6 +47,13 @@ public class AppConfig implements WebMvcConfigurer {
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
+    
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/styles/css/**")
+                .addResourceLocations("classpath:/static/css/");
+    }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
