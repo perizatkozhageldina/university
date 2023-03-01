@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Edit Student</title>
+<title>Home Page</title>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet"
@@ -28,33 +28,18 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link" href="/university">Home</a>
+      <a class="nav-item nav-link active" href="/university">Home<span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" href="/university/courses">Courses</a>
       <a class="nav-item nav-link" href="/university/groups">Groups</a>
       <a class="nav-item nav-link" href="/university/lectures">Lectures</a>
       <a class="nav-item nav-link" href="/university/rooms">Rooms</a>
-      <a class="nav-item nav-link active" href="/university/students">Students<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/university/students">Students</a>
       <a class="nav-item nav-link" href="/university/teachers">Teachers</a>
     </div>
   </div>
 </nav>
-<div class="container">
-	<form action="#" th:action="@{/students/update}" th:object="${student}" method="post">
-  <div class="form-group">
-    <label for="id">Id</label>
-    <input type="text" class="form-control" id="id" th:field="*{id}" readonly>
-  </div>
-  <div class="form-group">
-    <label for="academicYear">Academic Year</label>
-    <input type="number" class="form-control" id="academicYear" th:field="*{academicYear}" placeholder="Academic Year">
-  </div>
-  <div class="form-group">
-    <label for="groupId">Group Id</label>
-    <input type="number" class="form-control" id="groupId" th:field="*{groupId}" placeholder="Group Id">
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-  <a class="btn btn-danger" href="/university/students" role="button">Cancel</a>
-</form>
-</div>
+	<div class="container-xl">
+		It's MAIN PAGE
+	</div>
 </body>
 </html>
