@@ -15,7 +15,7 @@ import ua.foxminded.university.model.Student;
 @Component
 public class StudentJdbcDAO implements GenericDAO<Student> {
     private JdbcTemplate jdbcTemplate;
-    private static final String SELECT_ALL = "SELECT * FROM student";
+    private static final String SELECT_ALL = "SELECT * FROM student order by id asc";
     private static final String SELECT_ONE = "SELECT * FROM student WHERE id=?";
     private static final String INSERT = "INSERT INTO student VALUES(?, ?, ?)";
     private static final String DELETE = "DELETE FROM student WHERE id=?";

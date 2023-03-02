@@ -38,8 +38,8 @@
     </div>
   </div>
 </nav>
-<div class="container">
-	<form action="#" th:action="@{/courses/update}" th:object="${course}" method="post">
+<div class="container">]
+	<form class="editForm" th:method="PATCH" th:action="@{/courses/update}" th:object="${course}">
   <div class="form-group">
     <label for="id">Id</label>
     <input type="text" class="form-control" id="id" th:field="*{id}" readonly>

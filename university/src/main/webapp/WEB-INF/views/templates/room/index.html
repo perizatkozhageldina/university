@@ -65,9 +65,13 @@
 						<tr th:each="room : ${rooms}">
 							<td th:text="${room.id}"></td>
 							<td th:text="${room.capacity}"></td>
-							<td><a th:href="@{/rooms/{id}/edit(id=${room.id})}" class="edit"><i class="material-icons"
-									data-toggle="tooltip" title="Edit">&#xE254;</i></a> 
-								<a th:href="@{/rooms/{id}/delete(id=${room.id})}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+							<td class="deleteCell">
+								<form th:action="@{/rooms/{id}/edit(id=${room.id})}" th:method="GET">
+   									<button class="editButton" type="submit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+								</form>
+								<form th:action="@{/rooms/{id}/delete(id=${room.id})}" th:method="DELETE">
+   									<button class="deleteButton" type="submit"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
+								</form>
 							</td>
 						</tr>
 					</tbody>

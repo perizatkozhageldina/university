@@ -65,9 +65,13 @@
 						<tr th:each="group : ${groups}">
 							<td th:text="${group.id}"></td>
 							<td th:text="${group.name}"></td>
-							<td><a th:href="@{/groups/{id}/edit(id=${group.id})}" class="edit"><i class="material-icons"
-									data-toggle="tooltip" title="Edit">&#xE254;</i></a> 
-								<a th:href="@{/groups/{id}/delete(id=${group.id})}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+							<td class="deleteCell">
+								<form th:action="@{/groups/{id}/edit(id=${group.id})}" th:method="GET">
+   									<button class="editButton" type="submit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+								</form>
+								<form th:action="@{/groups/{id}/delete(id=${group.id})}" th:method="DELETE">
+   									<button class="deleteButton" type="submit"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
+								</form>
 							</td>
 						</tr>
 					</tbody>

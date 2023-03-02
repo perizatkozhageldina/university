@@ -5,7 +5,7 @@ body {
 	font-size: 13px;
 }
 
-form {
+.editForm {
 	border: 1px solid #435d7d;
 	padding: 20px;
 	width: 500px;
@@ -112,18 +112,6 @@ table.table td a {
 	outline: none !important;
 }
 
-table.table td a:hover {
-	color: #2196F3;
-}
-
-table.table td a.edit {
-	color: #FFC107;
-}
-
-table.table td a.delete {
-	color: #F44336;
-}
-
 table.table td i {
 	font-size: 19px;
 }
@@ -138,4 +126,22 @@ table.table .avatar {
 	float: left;
 	margin-top: 10px;
 	font-size: 13px;
+}
+
+.deleteCell {
+	display: flex;
+}
+
+.deleteButton {
+	color: #F44336;
+	background: none;
+	padding: 0px;
+	border: none;
+}
+
+.editButton {
+	color: #FFC107;
+	background: none;
+	padding: 0px;
+	border: none;
 }

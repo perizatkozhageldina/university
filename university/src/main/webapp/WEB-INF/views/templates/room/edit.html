@@ -39,7 +39,7 @@
   </div>
 </nav>
 <div class="container">
-	<form action="#" th:action="@{/rooms/update}" th:object="${room}" method="post">
+	<form class="editForm" th:method="PATCH" th:action="@{/rooms/update}" th:object="${room}">
   <div class="form-group">
     <label for="id">Id</label>
     <input type="text" class="form-control" id="id" th:field="*{id}" readonly>

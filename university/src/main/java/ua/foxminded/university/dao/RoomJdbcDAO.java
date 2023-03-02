@@ -15,7 +15,7 @@ import ua.foxminded.university.model.Room;
 @Component
 public class RoomJdbcDAO implements GenericDAO<Room> {
     private JdbcTemplate jdbcTemplate;
-    private static final String SELECT_ALL = "SELECT * FROM room";
+    private static final String SELECT_ALL = "SELECT * FROM room order by id asc";
     private static final String SELECT_ONE = "SELECT * FROM room WHERE id = ?";
     private static final String INSERT = "INSERT INTO room VALUES(?, ?)";
     private static final String DELETE = "DELETE FROM room WHERE id = ?";

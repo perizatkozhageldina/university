@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +19,14 @@ import ua.foxminded.university.service.LectureService;
 @Controller
 @RequestMapping("/lectures")
 public class LectureController {
-    @Autowired
     private LectureService service;
+    
+    @Autowired
+    public LectureController(LectureService service) {
+        this.service = service;
+    }
 
-    @GetMapping("")
+    @GetMapping
     public String list(Model model) {
         List<Lecture> lectures = service.getAll();
         model.addAttribute("lectures", lectures);
@@ -39,7 +45,7 @@ public class LectureController {
         return "redirect:/lectures";
     }
     
-    @PostMapping("update")
+    @PatchMapping("update")
     public String update(@ModelAttribute("lecture") Lecture lecture) {
         service.update(lecture);
         return "redirect:/lectures";
@@ -52,7 +58,7 @@ public class LectureController {
         return "lecture/edit";
     }
 
-    @GetMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public String delete(@PathVariable("id") Long id) {
         service.deleteById(id);
         return "redirect:/lectures";

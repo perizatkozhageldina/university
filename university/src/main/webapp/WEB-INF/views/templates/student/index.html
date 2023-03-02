@@ -67,9 +67,13 @@
 							<td th:text="${student.id}"></td>
 							<td th:text="${student.academicYear}"></td>
 							<td th:text="${student.groupId}"></td>
-							<td><a th:href="@{/students/{id}/edit(id=${student.id})}" class="edit"><i class="material-icons"
-									data-toggle="tooltip" title="Edit">&#xE254;</i></a> 
-								<a th:href="@{/students/{id}/delete(id=${student.id})}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+							<td class="deleteCell">
+								<form th:action="@{/students/{id}/edit(id=${student.id})}" th:method="GET">
+   									<button class="editButton" type="submit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+								</form>
+								<form th:action="@{/students/{id}/delete(id=${student.id})}" th:method="DELETE">
+   									<button class="deleteButton" type="submit"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
+								</form>
 							</td>
 						</tr>
 					</tbody>
