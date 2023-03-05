@@ -10,15 +10,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.service.CourseService;
 
-@WebMvcTest(CourseController.class)
 class CourseControllerTest {
 
     private MockMvc mockMvc;
