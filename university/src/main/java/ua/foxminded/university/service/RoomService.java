@@ -22,27 +22,33 @@ public class RoomService {
         this.dao = dao;
     }
 
-    public void add(Room room) {
+    public boolean add(Room room) {
         try {
             dao.add(room);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return true;
         }
     }
     
-    public void update(Room room) {
+    public boolean update(Room room) {
         try {
             dao.update(room);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return true;
         }
     }
 
-    public void deleteById(long id) {
+    public boolean deleteById(long id) {
         try {
             dao.deleteById(id);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return true;
         }
     }
 

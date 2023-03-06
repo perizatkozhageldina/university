@@ -22,27 +22,33 @@ public class StudentService {
         this.dao = dao;
     }
 
-    public void add(Student student) {
+    public boolean add(Student student) {
         try {
             dao.add(student);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return true;
         }
     }
     
-    public void update(Student student) {
+    public boolean update(Student student) {
         try {
             dao.update(student);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return true;
         }
     }
 
-    public void deleteById(long id) {
+    public boolean deleteById(long id) {
         try {
             dao.deleteById(id);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return true;
         }
     }
 

@@ -25,60 +25,60 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ua.foxminded.university.config.AppConfig;
-import ua.foxminded.university.model.Course;
-import ua.foxminded.university.service.CourseService;
+import ua.foxminded.university.model.Teacher;
+import ua.foxminded.university.service.TeacherService;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 @WebAppConfiguration
-class CourseControllerTest {
-    private static final String INDEX_PATH = "/courses";
-    private static final String ADD_PATH = "/courses/add";
-    private static final String SAVE_PATH = "/courses/save";
-    private static final String UPDATE_PATH = "/courses/update";
-    private static final String EDIT_PATH = "/courses/{id}/edit";
-    private static final String DELETE_PATH = "/courses/{id}/delete";
-    private static final String INDEX_VIEW = "course/index";
-    private static final String ADD_VIEW = "course/add";
-    private static final String EDIT_VIEW = "course/edit";
-    private static final String REDIRECT_VIEW = "redirect:/courses";
-    private static final String INDEX_ATTRIBUTE = "courses";
-    private static final String COURSE_ATTRIBUTE = "course";
-    private static final String COURSE_PARAM = "Course";
+class TeacherControllerTest {
+    private static final String INDEX_PATH = "/teachers";
+    private static final String ADD_PATH = "/teachers/add";
+    private static final String SAVE_PATH = "/teachers/save";
+    private static final String UPDATE_PATH = "/teachers/update";
+    private static final String EDIT_PATH = "/teachers/{id}/edit";
+    private static final String DELETE_PATH = "/teachers/{id}/delete";
+    private static final String INDEX_VIEW = "teacher/index";
+    private static final String ADD_VIEW = "teacher/add";
+    private static final String EDIT_VIEW = "teacher/edit";
+    private static final String REDIRECT_VIEW = "redirect:/teachers";
+    private static final String INDEX_ATTRIBUTE = "teachers";
+    private static final String TEACHER_ATTRIBUTE = "teacher";
+    private static final String TEACHER_PARAM = "Teacher";
     
     private MockMvc mockMvc;
 
     @Mock
-    private CourseService mockService;
+    private TeacherService mockService;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(new CourseController(mockService))
+        mockMvc = MockMvcBuilders.standaloneSetup(new TeacherController(mockService))
                 .build();
     }
 
     @Test
     void shouldReturnIndexView_whenListMethodExecuted() throws Exception {
-        List<Course> groupList = Arrays.asList(
-                Course.builder()
+        List<Teacher> teacherList = Arrays.asList(
+                Teacher.builder()
                         .id(1L)
-                        .level(1)
+                        .category("Junior")
                         .hours(12)
                         .build(),
-                Course.builder()
+                Teacher.builder()
                         .id(2L)
-                        .level(2)
+                        .category("Middle")
                         .hours(24)
                         .build(),
-                Course.builder()
+                Teacher.builder()
                         .id(3L)
-                        .level(3)
+                        .category("Senior")
                         .hours(36)
                         .build());
 
         Mockito.when(mockService.getAll())
-                .thenReturn(groupList);
+                .thenReturn(teacherList);
 
         mockMvc.perform(get(INDEX_PATH))
                 .andExpect(status().isOk())
@@ -88,83 +88,85 @@ class CourseControllerTest {
 
     @Test
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
-        Course course = Course.builder()
+        Teacher teacher = Teacher.builder()
                 .id(1L)
-                .level(1)
+                .category("Junior")
                 .hours(12)
                 .build();
         
-        Mockito.when(mockService.add(course))
+        Mockito.when(mockService.add(teacher))
                 .thenReturn(true);
 
         mockMvc.perform(get(ADD_PATH))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_VIEW))
-                .andExpect(model().attributeExists(COURSE_ATTRIBUTE));
+                .andExpect(model().attributeExists(TEACHER_ATTRIBUTE));
     }
     
     @Test
     void shouldReturnSaveView_whenSaveMethodExecuted() throws Exception {
-        Course course = Course.builder()
+        Teacher teacher = Teacher.builder()
                 .id(1L)
-                .level(1)
+                .category("Junior")
                 .hours(12)
                 .build();
-        String encoded = URLEncoder.encode(course.toString(), "UTF-8");
         
-        Mockito.when(mockService.add(course))
+        String encoded = URLEncoder.encode(teacher.toString(), "UTF-8");
+        
+        Mockito.when(mockService.add(teacher))
         .thenReturn(true);
         
         mockMvc.perform(post(SAVE_PATH)
-        .param(COURSE_PARAM, encoded))
+        .param(TEACHER_PARAM, encoded))
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name(REDIRECT_VIEW));
     }
     
     @Test
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
-        Course course = Course.builder()
+        Teacher teacher = Teacher.builder()
                 .id(1L)
-                .level(1)
+                .category("Junior")
                 .hours(12)
                 .build();
-        String encoded = URLEncoder.encode(course.toString(), "UTF-8");
         
-        Mockito.when(mockService.update(course))
+        String encoded = URLEncoder.encode(teacher.toString(), "UTF-8");
+        
+        Mockito.when(mockService.update(teacher))
         .thenReturn(true);
         
         mockMvc.perform(patch(UPDATE_PATH)
-                .param(COURSE_PARAM, encoded))
+                .param(TEACHER_PARAM, encoded))
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name(REDIRECT_VIEW));
     }
     
     @Test
     void shouldReturnEditView_whenEditMethodExecuted() throws Exception {
-        Course course = Course.builder()
+        Teacher teacher = Teacher.builder()
                 .id(1L)
-                .level(1)
+                .category("Junior")
                 .hours(12)
                 .build();
         
-        Mockito.when(mockService.getById(course.getId()))
-        .thenReturn(course);
+        Mockito.when(mockService.getById(teacher.getId()))
+        .thenReturn(teacher);
         
         mockMvc.perform(get(EDIT_PATH, "1"))
         .andExpect(status().isOk())
         .andExpect(view().name(EDIT_VIEW))
-        .andExpect(model().attributeExists(COURSE_ATTRIBUTE));
+        .andExpect(model().attributeExists(TEACHER_ATTRIBUTE));
     }
     
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
-        Course course = Course.builder()
+        Teacher teacher = Teacher.builder()
                 .id(1L)
-                .level(1)
+                .category("Junior")
                 .hours(12)
                 .build();
         
-        Mockito.when(mockService.deleteById(course.getId()))
+        Mockito.when(mockService.deleteById(teacher.getId()))
         .thenReturn(true);
         
         mockMvc.perform(delete(DELETE_PATH, "1"))
