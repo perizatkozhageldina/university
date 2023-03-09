@@ -22,19 +22,33 @@ public class GroupService {
         this.dao = dao;
     }
 
-    public void add(Group group) {
+    public boolean add(Group group) {
         try {
             dao.add(group);
+            return true;
+        } catch (DAOException e) {            
+            LOGGER.error(e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean update(Group group) {
+        try {
+            dao.update(group);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return false;
         }
     }
 
-    public void deleteById(long id) {
+    public boolean deleteById(long id) {
         try {
             dao.deleteById(id);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return true;
         }
     }
 

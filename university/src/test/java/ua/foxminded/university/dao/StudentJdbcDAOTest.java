@@ -18,9 +18,9 @@ import ua.foxminded.university.model.Student;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class StudentJdbcDAOTest {
-    private static final Student expectedStudent1 = Student.builder().studentId(101).academicYear(1).groupId(1).build();
-    private static final Student expectedStudent2 = Student.builder().studentId(102).groupId(5).build();    
-    private static final Student expectedStudent3 = Student.builder().studentId(103).academicYear(2).groupId(3).build();
+    private static final Student expectedStudent1 = Student.builder().id(101).academicYear(1).groupId(1).build();
+    private static final Student expectedStudent2 = Student.builder().id(102).groupId(5).build();    
+    private static final Student expectedStudent3 = Student.builder().id(103).academicYear(2).groupId(3).build();
     
     @Autowired
     private StudentJdbcDAO dao;
@@ -30,7 +30,7 @@ class StudentJdbcDAOTest {
     @Sql("classpath:insertGroups.sql")
     void shouldAddStudent_whenAddMethodCalled() throws DAOException {
         dao.add(expectedStudent1);
-        Student actualStudent = dao.getById(expectedStudent1.getStudentId());
+        Student actualStudent = dao.getById(expectedStudent1.getId());
         assertEquals(expectedStudent1, actualStudent);        
     }
     
@@ -39,8 +39,8 @@ class StudentJdbcDAOTest {
     @Sql("classpath:insertGroups.sql")
     void shouldDeleteStudent_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedStudent1);
-        dao.deleteById(expectedStudent1.getStudentId());
-        Student actualStudent = dao.getById(expectedStudent1.getStudentId());
+        dao.deleteById(expectedStudent1.getId());
+        Student actualStudent = dao.getById(expectedStudent1.getId());
         assertNull(actualStudent);    
     }
     
@@ -49,7 +49,7 @@ class StudentJdbcDAOTest {
     @Sql("classpath:insertGroups.sql")
     void shouldGetStudent_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedStudent1);
-        Student actualStudent = dao.getById(expectedStudent1.getStudentId());
+        Student actualStudent = dao.getById(expectedStudent1.getId());
         assertEquals(expectedStudent1, actualStudent);        
     }
     

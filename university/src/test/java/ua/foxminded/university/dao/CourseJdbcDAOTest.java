@@ -18,9 +18,9 @@ import ua.foxminded.university.model.Course;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class CourseJdbcDAOTest {
-    private static final Course expectedCourse1 = Course.builder().courseId(101).hours(36).build();
-    private static final Course expectedCourse2 = Course.builder().courseId(102).hours(48).build();    
-    private static final Course expectedCourse3 = Course.builder().courseId(103).hours(60).build();
+    private static final Course expectedCourse1 = Course.builder().id(101).hours(36).build();
+    private static final Course expectedCourse2 = Course.builder().id(102).hours(48).build();    
+    private static final Course expectedCourse3 = Course.builder().id(103).hours(60).build();
     
     @Autowired
     private CourseJdbcDAO dao;
@@ -29,7 +29,7 @@ class CourseJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldAddCourse_whenAddMethodCalled() throws DAOException {
         dao.add(expectedCourse1);
-        Course actualCourse = dao.getById(expectedCourse1.getCourseId());
+        Course actualCourse = dao.getById(expectedCourse1.getId());
         assertEquals(expectedCourse1, actualCourse);        
     }
     
@@ -37,8 +37,8 @@ class CourseJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldDeleteCourse_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedCourse1);
-        dao.deleteById(expectedCourse1.getCourseId());
-        Course actualCourse = dao.getById(expectedCourse1.getCourseId());
+        dao.deleteById(expectedCourse1.getId());
+        Course actualCourse = dao.getById(expectedCourse1.getId());
         assertNull(actualCourse);    
     }
     
@@ -46,7 +46,7 @@ class CourseJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldGetCourse_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedCourse1);
-        Course actualCourse = dao.getById(expectedCourse1.getCourseId());
+        Course actualCourse = dao.getById(expectedCourse1.getId());
         assertEquals(expectedCourse1, actualCourse);        
     }
     

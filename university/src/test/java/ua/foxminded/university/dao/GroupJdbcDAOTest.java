@@ -18,9 +18,9 @@ import ua.foxminded.university.model.Group;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class GroupJdbcDAOTest {
-    private static final Group expectedGroup1 = Group.builder().groupId(101).name("GROUP1").build();
-    private static final Group expectedGroup2 = Group.builder().groupId(102).name("GROUP2").build();    
-    private static final Group expectedGroup3 = Group.builder().groupId(103).name("GROUP3").build();
+    private static final Group expectedGroup1 = Group.builder().id(101).name("GROUP1").build();
+    private static final Group expectedGroup2 = Group.builder().id(102).name("GROUP2").build();    
+    private static final Group expectedGroup3 = Group.builder().id(103).name("GROUP3").build();
     
     @Autowired
     private GroupJdbcDAO dao;
@@ -29,7 +29,7 @@ class GroupJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldAddGroup_whenAddMethodCalled() throws DAOException {
         dao.add(expectedGroup1);
-        Group actualGroup = dao.getById(expectedGroup1.getGroupId());
+        Group actualGroup = dao.getById(expectedGroup1.getId());
         assertEquals(expectedGroup1, actualGroup);        
     }
     
@@ -37,8 +37,8 @@ class GroupJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldDeleteGroup_whenDeleteMethodCalled() throws DAOException {
         dao.add(expectedGroup1);
-        dao.deleteById(expectedGroup1.getGroupId());
-        Group actualGroup = dao.getById(expectedGroup1.getGroupId());
+        dao.deleteById(expectedGroup1.getId());
+        Group actualGroup = dao.getById(expectedGroup1.getId());
         assertNull(actualGroup);    
     }
     
@@ -46,7 +46,7 @@ class GroupJdbcDAOTest {
     @Sql("classpath:testSchema.sql")
     void shouldGetGroup_whenGetByIdMethodCalled() throws DAOException {
         dao.add(expectedGroup1);
-        Group actualGroup = dao.getById(expectedGroup1.getGroupId());
+        Group actualGroup = dao.getById(expectedGroup1.getId());
         assertEquals(expectedGroup1, actualGroup);        
     }
     

@@ -15,10 +15,11 @@ import ua.foxminded.university.model.Student;
 @Component
 public class StudentJdbcDAO implements GenericDAO<Student> {
     private JdbcTemplate jdbcTemplate;
-    private static final String SELECT_ALL = "SELECT * FROM student";
-    private static final String SELECT_ONE = "SELECT * FROM student WHERE studentId=?";
+    private static final String SELECT_ALL = "SELECT * FROM student order by id asc";
+    private static final String SELECT_ONE = "SELECT * FROM student WHERE id=?";
     private static final String INSERT = "INSERT INTO student VALUES(?, ?, ?)";
-    private static final String DELETE = "DELETE FROM student WHERE studentId=?";
+    private static final String DELETE = "DELETE FROM student WHERE id=?";
+    private static final String UPDATE = "UPDATE student set academicYear = ?, groupId = ? WHERE id = ?";
 
     @Autowired
     public StudentJdbcDAO(DataSource dataSource) {
@@ -28,7 +29,7 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
     @Override
     public void add(Student student) throws DAOException {
         try {
-        jdbcTemplate.update(INSERT, student.getStudentId(), student.getAcademicYear(), student.getGroupId());
+        jdbcTemplate.update(INSERT, student.getId(), student.getAcademicYear(), student.getGroupId());
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't add " + student, e);
         }
@@ -60,5 +61,14 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't get all students", e);
         }
+    }
+
+    @Override
+    public void update(Student student) throws DAOException {
+        try {
+            jdbcTemplate.update(UPDATE, student.getAcademicYear(), student.getGroupId(), student.getId());
+            } catch (DataAccessException e) {
+                throw new DAOException("Couldn't update " + student, e);
+            }
     }
 }

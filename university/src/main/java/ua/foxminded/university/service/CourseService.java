@@ -22,19 +22,33 @@ public class CourseService {
         this.dao = dao;
     }
 
-    public void add(Course course) {
+    public boolean add(Course course) {
         try {
             dao.add(course);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return true;
+        }
+    }
+    
+    public boolean update(Course course) {
+        try {
+            dao.update(course);
+            return true;
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+            return true;
         }
     }
 
-    public void deleteById(long id) {
+    public boolean deleteById(long id) {
         try {
             dao.deleteById(id);
+            return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
+            return true;
         }
     }
 

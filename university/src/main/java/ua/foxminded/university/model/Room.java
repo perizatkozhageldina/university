@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Room {
-    private long roomId;
+    private long id;
     private int capacity;
 }

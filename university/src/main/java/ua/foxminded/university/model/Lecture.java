@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Lecture {
-    private long lectureId;
+    private long id;
     private int number;    
 }

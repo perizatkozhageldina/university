@@ -15,10 +15,11 @@ import ua.foxminded.university.model.Group;
 @Component
 public class GroupJdbcDAO implements GenericDAO<Group> {
     private JdbcTemplate jdbcTemplate;
-    private static final String SELECT_ALL = "SELECT * FROM groups";
-    private static final String SELECT_ONE = "SELECT * FROM groups WHERE groupId=?";
+    private static final String SELECT_ALL = "SELECT * FROM groups order by id asc";
+    private static final String SELECT_ONE = "SELECT * FROM groups WHERE id=?";
     private static final String INSERT = "INSERT INTO groups VALUES(?, ?)";
-    private static final String DELETE = "DELETE FROM groups WHERE groupId=?";
+    private static final String DELETE = "DELETE FROM groups WHERE id=?";
+    private static final String UPDATE = "UPDATE groups set name = ? WHERE id = ?";
 
     @Autowired
     public GroupJdbcDAO(DataSource dataSource) {
@@ -28,7 +29,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
     @Override
     public void add(Group group) throws DAOException {
         try {
-            jdbcTemplate.update(INSERT, group.getGroupId(), group.getName());
+            jdbcTemplate.update(INSERT, group.getId(), group.getName());
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't add " + group, e);
         }
@@ -59,6 +60,15 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
             return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Group.class));
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't get all groups", e);
+        }
+    }
+
+    @Override
+    public void update(Group group) throws DAOException {
+        try {
+            jdbcTemplate.update(UPDATE, group.getName(), group.getId());
+        } catch (DataAccessException e) {
+            throw new DAOException("Couldn't update " + group, e);
         }
     }
 }

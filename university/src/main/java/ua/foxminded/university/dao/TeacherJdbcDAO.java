@@ -15,10 +15,11 @@ import ua.foxminded.university.model.Teacher;
 @Component
 public class TeacherJdbcDAO implements GenericDAO<Teacher> {
     private JdbcTemplate jdbcTemplate;
-    private static final String SELECT_ALL = "SELECT * FROM teacher";
-    private static final String SELECT_ONE = "SELECT * FROM teacher WHERE teacherId=?";
+    private static final String SELECT_ALL = "SELECT * FROM teacher order by id asc";
+    private static final String SELECT_ONE = "SELECT * FROM teacher WHERE id=?";
     private static final String INSERT = "INSERT INTO teacher VALUES(?, ?, ?)";
-    private static final String DELETE = "DELETE FROM teacher WHERE teacherId=?";
+    private static final String DELETE = "DELETE FROM teacher WHERE id=?";
+    private static final String UPDATE = "UPDATE teacher set category = ?, hours = ? WHERE id = ?";
 
     @Autowired
     public TeacherJdbcDAO(DataSource dataSource) {
@@ -28,7 +29,7 @@ public class TeacherJdbcDAO implements GenericDAO<Teacher> {
     @Override
     public void add(Teacher teacher) throws DAOException {
         try {
-            jdbcTemplate.update(INSERT, teacher.getTeacherId(), teacher.getCategory(), teacher.getHours());
+            jdbcTemplate.update(INSERT, teacher.getId(), teacher.getCategory(), teacher.getHours());
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't add " + teacher, e);
         }
@@ -59,6 +60,15 @@ public class TeacherJdbcDAO implements GenericDAO<Teacher> {
             return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Teacher.class));
         } catch (DataAccessException e) {
             throw new DAOException("Couldn't get all teachers", e);
+        }
+    }
+
+    @Override
+    public void update(Teacher teacher) throws DAOException {
+        try {
+            jdbcTemplate.update(UPDATE, teacher.getCategory(), teacher.getHours(), teacher.getId());
+        } catch (DataAccessException e) {
+            throw new DAOException("Couldn't update " + teacher, e);
         }
     }
 }
