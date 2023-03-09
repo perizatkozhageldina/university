@@ -16,33 +16,36 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<a class="navbar-brand" href="/university">University</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-			aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+			aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-				<a class="nav-item nav-link" href="/university">Home</a> 
+				<a class="nav-item nav-link" href="/university">Home</a>
 				<a class="nav-item nav-link" href="/university/courses">Courses</a>
-				<a class="nav-item nav-link" href="/university/groups">Groups</a> 
-				<a class="nav-item nav-link active" href="/university/lectures">Lectures<span class="sr-only">(current)</span></a> 
+				<a class="nav-item nav-link" href="/university/groups">Groups</a>
+				<a class="nav-item nav-link active" href="/university/lectures">
+					Lectures<span class="sr-only">(current)</span>
+				</a>
 				<a class="nav-item nav-link" href="/university/rooms">Rooms</a>
-				<a class="nav-item nav-link" href="/university/students">Students</a> 
+				<a class="nav-item nav-link" href="/university/students">Students</a>
 				<a class="nav-item nav-link" href="/university/teachers">Teachers</a>
 			</div>
 		</div>
 	</nav>
 	<div class="container">
-		]
 		<form class="editForm" th:method="PATCH" th:action="@{/courses/update}" th:object="${course}">
 			<div class="form-group">
 				<label for="id">Id</label> <input type="text" class="form-control" id="id" th:field="*{id}" readonly>
 			</div>
 			<div class="form-group">
-				<label for="level">Level</label> <input type="number" class="form-control" id="level" th:field="*{level}" placeholder="Level">
+				<label for="level">Level</label> <input type="number" class="form-control" id="level" th:field="*{level}"
+					placeholder="Level">
 			</div>
 			<div class="form-group">
-				<label for="hours">Hours</label> <input type="number" class="form-control" id="hours" th:field="*{hours}" placeholder="Hours">
+				<label for="hours">Hours</label> <input type="number" class="form-control" id="hours" th:field="*{hours}"
+					placeholder="Hours">
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 			<a class="btn btn-danger" href="/university/courses" role="button">Cancel</a>
