@@ -2,73 +2,51 @@ package ua.foxminded.university.dao;
 
 import java.util.List;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import ua.foxminded.university.model.Teacher;
 
-@Component
+@Repository
+@Transactional
 public class TeacherJdbcDAO implements GenericDAO<Teacher> {
-    private JdbcTemplate jdbcTemplate;
-    private static final String SELECT_ALL = "SELECT * FROM teacher order by id asc";
-    private static final String SELECT_ONE = "SELECT * FROM teacher WHERE id=?";
-    private static final String INSERT = "INSERT INTO teacher VALUES(?, ?, ?)";
-    private static final String DELETE = "DELETE FROM teacher WHERE id=?";
-    private static final String UPDATE = "UPDATE teacher set category = ?, hours = ? WHERE id = ?";
 
-    @Autowired
-    public TeacherJdbcDAO(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
+	@PersistenceContext
+    EntityManager entityManager;
 
     @Override
     public void add(Teacher teacher) throws DAOException {
-        try {
-            jdbcTemplate.update(INSERT, teacher.getId(), teacher.getCategory(), teacher.getHours());
-        } catch (DataAccessException e) {
-            throw new DAOException("Couldn't add " + teacher, e);
-        }
+        entityManager.merge(teacher);
     }
 
     @Override
     public void deleteById(long id) throws DAOException {
-        try {
-            jdbcTemplate.update(DELETE, id);
-        } catch (DataAccessException e) {
-            throw new DAOException("Couldn't delete teacher with id " + id, e);
-        }
+        entityManager.remove(getById(id));
     }
 
     @Override
     public Teacher getById(long id) throws DAOException {
-        try {
-            return jdbcTemplate.queryForObject(SELECT_ONE,
-                    new BeanPropertyRowMapper<>(Teacher.class), id);
-        } catch (DataAccessException e) {
-            throw new DAOException("Couldn't get teacher with id " + id, e);
-        }
+        return entityManager.find(Teacher.class, id);
     }
 
     @Override
     public List<Teacher> getAll() throws DAOException {
-        try {
-            return jdbcTemplate.query(SELECT_ALL, new BeanPropertyRowMapper<>(Teacher.class));
-        } catch (DataAccessException e) {
-            throw new DAOException("Couldn't get all teachers", e);
-        }
-    }
+    	CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Teacher> cq = cb.createQuery(Teacher.class);
+	    Root<Teacher> rootEntry = cq.from(Teacher.class);
+	    CriteriaQuery<Teacher> all = cq.select(rootEntry);
+	    TypedQuery<Teacher> allQuery = entityManager.createQuery(all);
+	    return allQuery.getResultList();    }
 
     @Override
     public void update(Teacher teacher) throws DAOException {
-        try {
-            jdbcTemplate.update(UPDATE, teacher.getCategory(), teacher.getHours(), teacher.getId());
-        } catch (DataAccessException e) {
-            throw new DAOException("Couldn't update " + teacher, e);
-        }
+    	entityManager.merge(teacher);
     }
 }

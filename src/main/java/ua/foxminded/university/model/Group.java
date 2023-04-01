@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name="groups")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
