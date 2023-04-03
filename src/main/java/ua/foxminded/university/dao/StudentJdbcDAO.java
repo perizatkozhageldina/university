@@ -23,7 +23,7 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
 
     @Override
     public void add(Student student) throws DAOException {
-        entityManager.merge(student);
+        entityManager.persist(student);
     }
 
     @Override
@@ -42,6 +42,7 @@ public class StudentJdbcDAO implements GenericDAO<Student> {
 	    CriteriaQuery<Student> cq = cb.createQuery(Student.class);
 	    Root<Student> rootEntry = cq.from(Student.class);
 	    CriteriaQuery<Student> all = cq.select(rootEntry);
+	    cq.orderBy(cb.asc(rootEntry.get("id")));
 	    TypedQuery<Student> allQuery = entityManager.createQuery(all);
 	    return allQuery.getResultList();    }
 

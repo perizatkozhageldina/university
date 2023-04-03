@@ -37,6 +37,10 @@
 	<div class="container">
 		<form class="editForm" action="#" th:action="@{/lectures/save}" th:object="${lecture}" method="post">
 			<div class="form-group">
+				<label for="name">Name</label> <input type="text" class="form-control" id="name" th:field="*{name}"
+					placeholder="Name">
+			</div>
+			<div class="form-group">
 				<label for="number">Number</label> <input type="number" class="form-control" id="number" th:field="*{number}"
 					placeholder="Number">
 			</div>

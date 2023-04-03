@@ -37,11 +37,19 @@
 	<div class="container">
 		<form class="editForm" action="#" th:action="@{/students/save}" th:object="${student}" method="post">
 			<div class="form-group">
+				<label for="name">Name</label> <input type="text" class="form-control" id="name" th:field="*{name}"
+					placeholder="Name">
+			</div>
+			<div class="form-group">
+				<label for="surname">Surname</label> <input type="text" class="form-control" id="surname" th:field="*{surname}"
+					placeholder="Surname">
+			</div>
+			<div class="form-group">
 				<label for="academicYear">Academic Year</label> <input type="number" class="form-control" id="academicYear"
 					th:field="*{academicYear}" placeholder="Academic Year">
 			</div>
 			<div class="form-group">
-				<label for="groupId">Group Id</label> <input type="number" class="form-control" id="groupId" th:field="*{groupId}"
+				<label for="groupId">Group</label> <input type="number" class="form-control" id="groupId" th:field="*{groupId}"
 					placeholder="Group Id">
 			</div>
 			<button type="submit" class="btn btn-success">Submit</button>

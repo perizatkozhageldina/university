@@ -22,7 +22,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
 
     @Override
     public void add(Group group) throws DAOException {
-        entityManager.merge(group);
+        entityManager.persist(group);
     }
 
     @Override
@@ -41,6 +41,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
 	    CriteriaQuery<Group> cq = cb.createQuery(Group.class);
 	    Root<Group> rootEntry = cq.from(Group.class);
 	    CriteriaQuery<Group> all = cq.select(rootEntry);
+	    cq.orderBy(cb.asc(rootEntry.get("id")));
 	    TypedQuery<Group> allQuery = entityManager.createQuery(all);
 	    return allQuery.getResultList();    }
 

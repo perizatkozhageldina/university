@@ -54,14 +54,15 @@
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>Id</th>
+							<th>Name</th>
 							<th>Number</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="lecture : ${lectures}">
-							<td th:text="${lecture.id}"></td>
+							<td th:text="${lecture.id}" th:hidden="true" ></td>
+							<td th:text="${lecture.name}"></td>
 							<td th:text="${lecture.number}"></td>
 							<td class="deleteCell">
 								<form th:action="@{/lectures/{id}/edit(id=${lecture.id})}" th:method="GET">

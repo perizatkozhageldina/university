@@ -61,7 +61,7 @@
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>Id</th>
+							<th>Name</th>
 							<th>Level</th>
 							<th>Hours</th>
 							<th>Actions</th>
@@ -69,7 +69,8 @@
 					</thead>
 					<tbody>
 						<tr th:each="course : ${courses}">
-							<td th:text="${course.id}"></td>
+							<td th:text="${course.id}" th:hidden="true" ></td>
+							<td th:text="${course.name}"></td>
 							<td th:text="${course.level}"></td>
 							<td th:text="${course.hours}"></td>
 							<td class="deleteCell">

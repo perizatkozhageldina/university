@@ -23,7 +23,7 @@ public class RoomJdbcDAO implements GenericDAO<Room> {
 
     @Override
     public void add(Room room) throws DAOException {
-        entityManager.merge(room);
+        entityManager.persist(room);
     }
 
     @Override
@@ -42,6 +42,7 @@ public class RoomJdbcDAO implements GenericDAO<Room> {
 	    CriteriaQuery<Room> cq = cb.createQuery(Room.class);
 	    Root<Room> rootEntry = cq.from(Room.class);
 	    CriteriaQuery<Room> all = cq.select(rootEntry);
+	    cq.orderBy(cb.asc(rootEntry.get("id")));
 	    TypedQuery<Room> allQuery = entityManager.createQuery(all);
 	    return allQuery.getResultList();    }
 

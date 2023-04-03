@@ -37,6 +37,10 @@
 	<div class="container">
 		<form class="editForm" action="#" th:action="@{/courses/save}" th:object="${course}" method="post">
 			<div class="form-group">
+				<label for="name">Name</label> <input type="text" class="form-control" id="name" th:field="*{name}"
+					placeholder="Name">
+			</div>
+			<div class="form-group">
 				<label for="level">Level</label> <input type="number" class="form-control" id="level" th:field="*{level}"
 					placeholder="Level">
 			</div>
