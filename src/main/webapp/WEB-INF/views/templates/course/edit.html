@@ -37,8 +37,7 @@
 	<div class="container">
 		<form class="editForm" th:method="PATCH" th:action="@{/courses/update}" th:object="${course}">
 			<div class="form-group">
-				<label for="id"></label> <input type="number" class="form-control" id="id" th:field="*{id}"
-					th:hidden="true">
+				<label for="id"></label>Id<input type="number" class="form-control" id="id" th:field="*{id}" th:readonly="true">
 			</div>
 			<div class="form-group">
 				<label for="name">Name</label> <input type="text" class="form-control" id="name" th:field="*{name}"
