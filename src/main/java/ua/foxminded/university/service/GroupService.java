@@ -48,7 +48,7 @@ public class GroupService {
             return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
-            return true;
+            return false;
         }
     }
 

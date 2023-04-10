@@ -28,7 +28,7 @@ public class LectureService {
             return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
-            return true;
+            return false;
         }
     }
     
@@ -38,7 +38,7 @@ public class LectureService {
             return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
-            return true;
+            return false;
         }
     }
 
@@ -48,7 +48,7 @@ public class LectureService {
             return true;
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
-            return true;
+            return false;
         }
     }
 
