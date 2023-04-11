@@ -19,35 +19,36 @@ import ua.foxminded.university.model.Room;
 public class RoomJdbcDAO implements GenericDAO<Room> {
 
 	@PersistenceContext
-    EntityManager entityManager;
+	EntityManager entityManager;
 
-    @Override
-    public void add(Room room) throws DAOException {
-        entityManager.persist(room);
-    }
+	@Override
+	public void add(Room room) throws DAOException {
+		entityManager.persist(room);
+	}
 
-    @Override
-    public void deleteById(long id) throws DAOException {
-        entityManager.remove(getById(id));
-    }
+	@Override
+	public void deleteById(long id) throws DAOException {
+		entityManager.remove(getById(id));
+	}
 
-    @Override
-    public Room getById(long id) throws DAOException {
-        return entityManager.find(Room.class, id);
-    }
+	@Override
+	public Room getById(long id) throws DAOException {
+		return entityManager.find(Room.class, id);
+	}
 
-    @Override
-    public List<Room> getAll() throws DAOException {
-    	CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-	    CriteriaQuery<Room> cq = cb.createQuery(Room.class);
-	    Root<Room> rootEntry = cq.from(Room.class);
-	    CriteriaQuery<Room> all = cq.select(rootEntry);
-	    cq.orderBy(cb.asc(rootEntry.get("id")));
-	    TypedQuery<Room> allQuery = entityManager.createQuery(all);
-	    return allQuery.getResultList();    }
+	@Override
+	public List<Room> getAll() throws DAOException {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Room> query = builder.createQuery(Room.class);
+		Root<Room> rootEntry = query.from(Room.class);
+		CriteriaQuery<Room> queryList = query.select(rootEntry);
+		query.orderBy(builder.asc(rootEntry.get("id")));
+		TypedQuery<Room> typedQueryList = entityManager.createQuery(queryList);
+		return typedQueryList.getResultList();
+	}
 
-    @Override
-    public void update(Room room) throws DAOException {
-    	entityManager.merge(room);
-    }
+	@Override
+	public void update(Room room) throws DAOException {
+		entityManager.merge(room);
+	}
 }

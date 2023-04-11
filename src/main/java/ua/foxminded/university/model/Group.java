@@ -12,14 +12,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="groups")
+@Table(name = "groups")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 public class Group {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	private String name;
 }

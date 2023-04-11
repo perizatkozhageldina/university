@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Student {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	private String name;
 	private String surname;
-    private int academicYear;
-    private int groupId;
+	private int academicYear;
+	private int groupId;
 }

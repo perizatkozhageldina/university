@@ -16,37 +16,38 @@ import ua.foxminded.university.model.Group;
 @Repository
 @Transactional
 public class GroupJdbcDAO implements GenericDAO<Group> {
-	
-    @PersistenceContext
-    EntityManager entityManager;
 
-    @Override
-    public void add(Group group) throws DAOException {
-        entityManager.persist(group);
-    }
+	@PersistenceContext
+	EntityManager entityManager;
 
-    @Override
-    public void deleteById(long id) throws DAOException {
-        entityManager.remove(getById(id));
-    }
+	@Override
+	public void add(Group group) throws DAOException {
+		entityManager.persist(group);
+	}
 
-    @Override
-    public Group getById(long id) throws DAOException {
-        return entityManager.find(Group.class, id);
-    }
+	@Override
+	public void deleteById(long id) throws DAOException {
+		entityManager.remove(getById(id));
+	}
 
-    @Override
-    public List<Group> getAll() throws DAOException {
-    	CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-	    CriteriaQuery<Group> cq = cb.createQuery(Group.class);
-	    Root<Group> rootEntry = cq.from(Group.class);
-	    CriteriaQuery<Group> all = cq.select(rootEntry);
-	    cq.orderBy(cb.asc(rootEntry.get("id")));
-	    TypedQuery<Group> allQuery = entityManager.createQuery(all);
-	    return allQuery.getResultList();    }
+	@Override
+	public Group getById(long id) throws DAOException {
+		return entityManager.find(Group.class, id);
+	}
 
-    @Override
-    public void update(Group group) throws DAOException {
-    	entityManager.merge(group);
-    }
+	@Override
+	public List<Group> getAll() throws DAOException {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Group> query = builder.createQuery(Group.class);
+		Root<Group> rootEntry = query.from(Group.class);
+		CriteriaQuery<Group> queryList = query.select(rootEntry);
+		query.orderBy(builder.asc(rootEntry.get("id")));
+		TypedQuery<Group> typedQueryList = entityManager.createQuery(queryList);
+		return typedQueryList.getResultList();
+	}
+
+	@Override
+	public void update(Group group) throws DAOException {
+		entityManager.merge(group);
+	}
 }

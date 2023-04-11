@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class Room {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	private String name;
-    private int capacity;
+	private int capacity;
 }

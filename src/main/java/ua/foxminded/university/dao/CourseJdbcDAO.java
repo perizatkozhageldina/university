@@ -17,39 +17,39 @@ import ua.foxminded.university.model.Course;
 @Repository
 @Transactional
 public class CourseJdbcDAO implements GenericDAO<Course> {
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
-    
-	@Override
-    public void add(Course course) throws DAOException {
-        entityManager.persist(course);
-    }
 
 	@Override
-    public List<Course> getAll() throws DAOException {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-	    CriteriaQuery<Course> cq = cb.createQuery(Course.class);
-	    Root<Course> rootEntry = cq.from(Course.class);
-	    CriteriaQuery<Course> all = cq.select(rootEntry);
-	    cq.orderBy(cb.asc(rootEntry.get("id")));
-	    TypedQuery<Course> allQuery = entityManager.createQuery(all);
-	    return allQuery.getResultList();
-    }
-	
-	@Override
-    public void deleteById(long id) throws DAOException {
-    	entityManager.remove(getById(id));
+	public void add(Course course) throws DAOException {
+		entityManager.persist(course);
+	}
 
-    }
-	
 	@Override
-    public Course getById(long id) throws DAOException {
-        return entityManager.find(Course.class, id);
-    }
-    
+	public List<Course> getAll() throws DAOException {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Course> query = builder.createQuery(Course.class);
+		Root<Course> rootEntry = query.from(Course.class);
+		CriteriaQuery<Course> queryList = query.select(rootEntry);
+		query.orderBy(builder.asc(rootEntry.get("id")));
+		TypedQuery<Course> typedQueryList = entityManager.createQuery(queryList);
+		return typedQueryList.getResultList();
+	}
+
 	@Override
-    public void update(Course course) throws DAOException {
-    	entityManager.merge(course);
-    }
+	public void deleteById(long id) throws DAOException {
+		entityManager.remove(getById(id));
+
+	}
+
+	@Override
+	public Course getById(long id) throws DAOException {
+		return entityManager.find(Course.class, id);
+	}
+
+	@Override
+	public void update(Course course) throws DAOException {
+		entityManager.merge(course);
+	}
 }

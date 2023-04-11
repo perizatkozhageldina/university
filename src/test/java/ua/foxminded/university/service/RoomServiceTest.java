@@ -17,9 +17,9 @@ import ua.foxminded.university.model.Room;
 class RoomServiceTest {
     private RoomService service;
     @Mock 
-    Room room = Mockito.mock(Room.class);    
+    private Room room = Mockito.mock(Room.class);    
     @Mock
-    RoomJdbcDAO dao = Mockito.mock(RoomJdbcDAO.class);        
+    private RoomJdbcDAO dao = Mockito.mock(RoomJdbcDAO.class);        
     
     @BeforeEach
     void init() {

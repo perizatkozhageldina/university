@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Teacher {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	private String name;
 	private String surname;
-    private String category;
-    private int hours;
+	private String category;
+	private int hours;
 }

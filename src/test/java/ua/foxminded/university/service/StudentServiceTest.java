@@ -17,9 +17,9 @@ import ua.foxminded.university.model.Student;
 class StudentServiceTest {
     private StudentService service;
     @Mock 
-    Student student = Mockito.mock(Student.class);    
+    private Student student = Mockito.mock(Student.class);    
     @Mock
-    StudentJdbcDAO dao = Mockito.mock(StudentJdbcDAO.class);    
+    private StudentJdbcDAO dao = Mockito.mock(StudentJdbcDAO.class);    
     
     @BeforeEach
     void init() {

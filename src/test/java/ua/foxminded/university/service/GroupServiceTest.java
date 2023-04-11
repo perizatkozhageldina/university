@@ -17,9 +17,9 @@ import ua.foxminded.university.model.Group;
 class GroupServiceTest {
     private GroupService service;
     @Mock 
-    Group group = Mockito.mock(Group.class);    
+    private Group group = Mockito.mock(Group.class);    
     @Mock
-    GroupJdbcDAO dao = Mockito.mock(GroupJdbcDAO.class);   
+    private GroupJdbcDAO dao = Mockito.mock(GroupJdbcDAO.class);   
     
     @BeforeEach
     void init() {

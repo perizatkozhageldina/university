@@ -3,6 +3,7 @@ package ua.foxminded.university.service;
 import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.service.spi.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class GroupService {
         this.dao = dao;
     }
 
-    public boolean add(Group group) {
+    public boolean add(Group group) throws ServiceException {
         try {
             dao.add(group);
             return true;
@@ -32,7 +33,7 @@ public class GroupService {
         }
     }
     
-    public boolean update(Group group) {
+    public boolean update(Group group) throws ServiceException {
         try {
             dao.update(group);
             return true;
@@ -42,7 +43,7 @@ public class GroupService {
         }
     }
 
-    public boolean deleteById(long id) {
+    public boolean deleteById(long id) throws ServiceException {
         try {
             dao.deleteById(id);
             return true;
@@ -52,7 +53,7 @@ public class GroupService {
         }
     }
 
-    public Group getById(long id) {
+    public Group getById(long id) throws ServiceException {
         try {
             return dao.getById(id);
         } catch (DAOException e) {
@@ -61,7 +62,7 @@ public class GroupService {
         }
     }
 
-    public List<Group> getAll() {
+    public List<Group> getAll() throws ServiceException {
         try {
             return dao.getAll();
         } catch (DAOException e) {
