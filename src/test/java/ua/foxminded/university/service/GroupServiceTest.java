@@ -15,38 +15,38 @@ import ua.foxminded.university.repository.RepositoryException;
 import ua.foxminded.university.repository.GroupJdbcRepository;
 
 class GroupServiceTest {
-    private GroupService service;
-    @Mock 
-    private Group group = Mockito.mock(Group.class);    
-    @Mock
-    private GroupJdbcRepository dao = Mockito.mock(GroupJdbcRepository.class);   
-    
-    @BeforeEach
-    void init() {
-        service = new GroupService(dao);
-    }    
+	private GroupService service;
+	@Mock
+	private Group group = Mockito.mock(Group.class);
+	@Mock
+	private GroupJdbcRepository dao = Mockito.mock(GroupJdbcRepository.class);
 
-    @Test
-    void shouldCallDaoAdd_whenServiceAddMethodCalled() throws RepositoryException {
-        service.add(group);
-        verify(dao, times(1)).add(group);
-    }
+	@BeforeEach
+	void init() {
+		service = new GroupService(dao);
+	}
 
-    @Test
-    void shouldCallDaoGetAll_whenServiceGetAllMethodCalled() throws RepositoryException {
-        service.getAll();
-        verify(dao, times(1)).getAll();
-    }
-    
-    @Test
-    void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() throws RepositoryException {
-        service.getById(anyInt());
-        verify(dao, times(1)).getById(anyLong());
-    }
-    
-    @Test
-    void shouldCallDaoDelete_whenServiceDeleteMethodCalled() throws RepositoryException {
-        service.deleteById(anyLong());
-        verify(dao, times(1)).deleteById(anyLong());
-    }
+	@Test
+	void shouldCallDaoAdd_whenServiceAddMethodCalled() throws RepositoryException {
+		service.add(group);
+		verify(dao, times(1)).add(group);
+	}
+
+	@Test
+	void shouldCallDaoGetAll_whenServiceGetAllMethodCalled() throws RepositoryException {
+		service.getAll();
+		verify(dao, times(1)).getAll();
+	}
+
+	@Test
+	void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() throws RepositoryException {
+		service.getById(anyInt());
+		verify(dao, times(1)).getById(anyLong());
+	}
+
+	@Test
+	void shouldCallDaoDelete_whenServiceDeleteMethodCalled() throws RepositoryException {
+		service.deleteById(anyLong());
+		verify(dao, times(1)).deleteById(anyLong());
+	}
 }

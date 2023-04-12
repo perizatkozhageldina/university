@@ -19,48 +19,48 @@ import ua.foxminded.university.service.RoomService;
 @Controller
 @RequestMapping("/rooms")
 public class RoomController {
-    private RoomService service;
-    
-    @Autowired
-    public RoomController(RoomService service) {
-        this.service = service;
-    }
+	private RoomService service;
 
-    @GetMapping
-    public String list(Model model) {
-        List<Room> rooms = service.getAll();
-        model.addAttribute("rooms", rooms);
-        return "room/index";
-    }
+	@Autowired
+	public RoomController(RoomService service) {
+		this.service = service;
+	}
 
-    @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("room", new Room());
-        return "room/add";
-    }
+	@GetMapping
+	public String list(Model model) {
+		List<Room> rooms = service.getAll();
+		model.addAttribute("rooms", rooms);
+		return "room/index";
+	}
 
-    @PostMapping("save")
-    public String save(@ModelAttribute("room") Room room) {
-        service.add(room);
-        return "redirect:/rooms";
-    }
-    
-    @PatchMapping("update")
-    public String update(@ModelAttribute("room") Room room) {
-        service.update(room);
-        return "redirect:/rooms";
-    }
+	@GetMapping("/add")
+	public String add(Model model) {
+		model.addAttribute("room", new Room());
+		return "room/add";
+	}
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        Room room = service.getById(id);
-        model.addAttribute("room", room);
-        return "room/edit";
-    }
+	@PostMapping("save")
+	public String save(@ModelAttribute("room") Room room) {
+		service.add(room);
+		return "redirect:/rooms";
+	}
 
-    @DeleteMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
-        service.deleteById(id);
-        return "redirect:/rooms";
-    }
+	@PatchMapping("update")
+	public String update(@ModelAttribute("room") Room room) {
+		service.update(room);
+		return "redirect:/rooms";
+	}
+
+	@GetMapping("/{id}/edit")
+	public String edit(@PathVariable("id") Long id, Model model) {
+		Room room = service.getById(id);
+		model.addAttribute("room", room);
+		return "room/edit";
+	}
+
+	@DeleteMapping("/{id}/delete")
+	public String delete(@PathVariable("id") Long id) {
+		service.deleteById(id);
+		return "redirect:/rooms";
+	}
 }

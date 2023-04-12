@@ -19,48 +19,48 @@ import ua.foxminded.university.service.GroupService;
 @Controller
 @RequestMapping("/groups")
 public class GroupController {
-    private GroupService service;
-    
-    @Autowired
-    public GroupController(GroupService service) {
-        this.service = service;
-    }
+	private GroupService service;
 
-    @GetMapping
-    public String list(Model model) {
-        List<Group> groups = service.getAll();
-        model.addAttribute("groups", groups);
-        return "group/index";
-    }
+	@Autowired
+	public GroupController(GroupService service) {
+		this.service = service;
+	}
 
-    @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("group", new Group());
-        return "group/add";
-    }
+	@GetMapping
+	public String list(Model model) {
+		List<Group> groups = service.getAll();
+		model.addAttribute("groups", groups);
+		return "group/index";
+	}
 
-    @PostMapping("save")
-    public String save(@ModelAttribute("group") Group group) {
-        service.add(group);
-        return "redirect:/groups";
-    }
-    
-    @PatchMapping("update")
-    public String update(@ModelAttribute("group") Group group) {
-        service.update(group);
-        return "redirect:/groups";
-    }
+	@GetMapping("/add")
+	public String add(Model model) {
+		model.addAttribute("group", new Group());
+		return "group/add";
+	}
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        Group group = service.getById(id);
-        model.addAttribute("group", group);
-        return "group/edit";
-    }
+	@PostMapping("save")
+	public String save(@ModelAttribute("group") Group group) {
+		service.add(group);
+		return "redirect:/groups";
+	}
 
-    @DeleteMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
-        service.deleteById(id);
-        return "redirect:/groups";
-    }
+	@PatchMapping("update")
+	public String update(@ModelAttribute("group") Group group) {
+		service.update(group);
+		return "redirect:/groups";
+	}
+
+	@GetMapping("/{id}/edit")
+	public String edit(@PathVariable("id") Long id, Model model) {
+		Group group = service.getById(id);
+		model.addAttribute("group", group);
+		return "group/edit";
+	}
+
+	@DeleteMapping("/{id}/delete")
+	public String delete(@PathVariable("id") Long id) {
+		service.deleteById(id);
+		return "redirect:/groups";
+	}
 }

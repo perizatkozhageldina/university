@@ -19,48 +19,48 @@ import ua.foxminded.university.service.CourseService;
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
-    private CourseService service;
-    
-    @Autowired
-    public CourseController(CourseService service) {
-        this.service = service;
-    }
+	private CourseService service;
 
-    @GetMapping
-    public String list(Model model) {
-        List<Course> courses = service.getAll();
-        model.addAttribute("courses", courses);
-        return "course/index";
-    }
+	@Autowired
+	public CourseController(CourseService service) {
+		this.service = service;
+	}
 
-    @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("course", new Course());
-        return "course/add";
-    }
+	@GetMapping
+	public String list(Model model) {
+		List<Course> courses = service.getAll();
+		model.addAttribute("courses", courses);
+		return "course/index";
+	}
 
-    @PostMapping("save")
-    public String save(@ModelAttribute("course") Course course) {
-        service.add(course);
-        return "redirect:/courses";
-    }
-    
-    @PatchMapping("update")
-    public String update(@ModelAttribute("course") Course course) {
-        service.update(course);
-        return "redirect:/courses";
-    }
+	@GetMapping("/add")
+	public String add(Model model) {
+		model.addAttribute("course", new Course());
+		return "course/add";
+	}
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        Course course = service.getById(id);
-        model.addAttribute("course", course);
-        return "course/edit";
-    }
+	@PostMapping("save")
+	public String save(@ModelAttribute("course") Course course) {
+		service.add(course);
+		return "redirect:/courses";
+	}
 
-    @DeleteMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
-        service.deleteById(id);
-        return "redirect:/courses";
-    }
+	@PatchMapping("update")
+	public String update(@ModelAttribute("course") Course course) {
+		service.update(course);
+		return "redirect:/courses";
+	}
+
+	@GetMapping("/{id}/edit")
+	public String edit(@PathVariable("id") Long id, Model model) {
+		Course course = service.getById(id);
+		model.addAttribute("course", course);
+		return "course/edit";
+	}
+
+	@DeleteMapping("/{id}/delete")
+	public String delete(@PathVariable("id") Long id) {
+		service.deleteById(id);
+		return "redirect:/courses";
+	}
 }
