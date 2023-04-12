@@ -19,7 +19,7 @@ import ua.foxminded.university.model.Student;
 public class StudentJdbcRepository implements GenericRepository<Student> {
 
 	@PersistenceContext
-	private EntityManager entityManager;
+	public EntityManager entityManager;
 
 	@Override
 	public void add(Student student) throws RepositoryException {

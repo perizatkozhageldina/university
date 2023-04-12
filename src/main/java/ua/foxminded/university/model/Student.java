@@ -22,5 +22,5 @@ public class Student {
 	private String name;
 	private String surname;
 	private int academicYear;
-	private int groupId;
+	private Integer groupId;
 }
