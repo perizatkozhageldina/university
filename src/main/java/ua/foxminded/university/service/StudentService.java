@@ -9,17 +9,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ua.foxminded.university.dao.DAOException;
-import ua.foxminded.university.dao.StudentJdbcDAO;
 import ua.foxminded.university.model.Student;
+import ua.foxminded.university.repository.RepositoryException;
+import ua.foxminded.university.repository.StudentJdbcRepository;
 
 @Service
 public class StudentService {    
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
-    private StudentJdbcDAO dao;
+    private StudentJdbcRepository dao;
 
     @Autowired
-    public StudentService(StudentJdbcDAO dao) {
+    public StudentService(StudentJdbcRepository dao) {
         this.dao = dao;
     }
 
@@ -27,7 +27,7 @@ public class StudentService {
         try {
             dao.add(student);
             return true;
-        } catch (DAOException e) {
+        } catch (RepositoryException e) {
             LOGGER.error(e.getMessage());
             return false;
         }
@@ -37,7 +37,7 @@ public class StudentService {
         try {
             dao.update(student);
             return true;
-        } catch (DAOException e) {
+        } catch (RepositoryException e) {
             LOGGER.error(e.getMessage());
             return false;
         }
@@ -47,7 +47,7 @@ public class StudentService {
         try {
             dao.deleteById(id);
             return true;
-        } catch (DAOException e) {
+        } catch (RepositoryException e) {
             LOGGER.error(e.getMessage());
             return false;
         }
@@ -56,7 +56,7 @@ public class StudentService {
     public Student getById(long id) throws ServiceException {
         try {
             return dao.getById(id);
-        } catch (DAOException e) {
+        } catch (RepositoryException e) {
             LOGGER.error(e.getMessage());
             return null;
         }
@@ -65,7 +65,7 @@ public class StudentService {
     public List<Student> getAll() throws ServiceException {
         try {
             return dao.getAll();
-        } catch (DAOException e) {
+        } catch (RepositoryException e) {
             LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }

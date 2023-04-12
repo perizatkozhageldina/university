@@ -14,6 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.model.Lecture;
+import ua.foxminded.university.repository.RepositoryException;
+import ua.foxminded.university.repository.LectureJdbcRepository;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -23,11 +25,11 @@ class LectureJdbcDAOTest {
     private static final Lecture expectedLecture3 = Lecture.builder().id(103).number(3).build();
     
     @Autowired
-    private LectureJdbcDAO dao;
+    private LectureJdbcRepository dao;
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddLecture_whenAddMethodCalled() throws DAOException {
+    void shouldAddLecture_whenAddMethodCalled() throws RepositoryException {
         dao.add(expectedLecture1);
         Lecture actualLecture = dao.getById(expectedLecture1.getId());
         assertEquals(expectedLecture1, actualLecture);        
@@ -35,7 +37,7 @@ class LectureJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteLecture_whenDeleteMethodCalled() throws DAOException {
+    void shouldDeleteLecture_whenDeleteMethodCalled() throws RepositoryException {
         dao.add(expectedLecture1);
         dao.deleteById(expectedLecture1.getId());
         Lecture actualLecture = dao.getById(expectedLecture1.getId());
@@ -44,7 +46,7 @@ class LectureJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetLecture_whenGetByIdMethodCalled() throws DAOException {
+    void shouldGetLecture_whenGetByIdMethodCalled() throws RepositoryException {
         dao.add(expectedLecture1);
         Lecture actualLecture = dao.getById(expectedLecture1.getId());
         assertEquals(expectedLecture1, actualLecture);        
@@ -52,7 +54,7 @@ class LectureJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllLectures_whenGetAllMethodCalled() throws DAOException {
+    void shouldGettAllLectures_whenGetAllMethodCalled() throws RepositoryException {
         List<Lecture> expectedLectures = new ArrayList<>();
         expectedLectures.add(expectedLecture1);
         expectedLectures.add(expectedLecture2);

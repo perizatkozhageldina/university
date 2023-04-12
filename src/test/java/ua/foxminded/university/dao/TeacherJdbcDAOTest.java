@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.model.Teacher;
+import ua.foxminded.university.repository.RepositoryException;
+import ua.foxminded.university.repository.TeacherJdbcRepository;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -23,11 +25,11 @@ class TeacherJdbcDAOTest {
     private static final Teacher expectedTeacher3 = Teacher.builder().id(103).hours(60).build();
     
     @Autowired
-    private TeacherJdbcDAO dao;
+    private TeacherJdbcRepository dao;
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddTeacher_whenAddMethodCalled() throws DAOException {
+    void shouldAddTeacher_whenAddMethodCalled() throws RepositoryException {
         dao.add(expectedTeacher1);
         Teacher actualTeacher = dao.getById(expectedTeacher1.getId());
         assertEquals(expectedTeacher1, actualTeacher);        
@@ -35,7 +37,7 @@ class TeacherJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteTeacher_whenDeleteMethodCalled() throws DAOException {
+    void shouldDeleteTeacher_whenDeleteMethodCalled() throws RepositoryException {
         dao.add(expectedTeacher1);
         dao.deleteById(expectedTeacher1.getId());
         Teacher actualTeacher = dao.getById(expectedTeacher1.getId());
@@ -44,7 +46,7 @@ class TeacherJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetTeacher_whenGetByIdMethodCalled() throws DAOException {
+    void shouldGetTeacher_whenGetByIdMethodCalled() throws RepositoryException {
         dao.add(expectedTeacher1);
         Teacher actualTeacher = dao.getById(expectedTeacher1.getId());
         assertEquals(expectedTeacher1, actualTeacher);        
@@ -52,7 +54,7 @@ class TeacherJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllTeachers_whenGetAllMethodCalled() throws DAOException {
+    void shouldGettAllTeachers_whenGetAllMethodCalled() throws RepositoryException {
         List<Teacher> expectedTeachers = new ArrayList<>();
         expectedTeachers.add(expectedTeacher1);
         expectedTeachers.add(expectedTeacher2);

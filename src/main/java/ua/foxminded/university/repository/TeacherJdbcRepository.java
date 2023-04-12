@@ -1,4 +1,4 @@
-package ua.foxminded.university.dao;
+package ua.foxminded.university.repository;
 
 import java.util.List;
 
@@ -16,28 +16,28 @@ import ua.foxminded.university.model.Teacher;
 
 @Repository
 @Transactional
-public class TeacherJdbcDAO implements GenericDAO<Teacher> {
+public class TeacherJdbcRepository implements GenericRepository<Teacher> {
 
 	@PersistenceContext
-	EntityManager entityManager;
+	private EntityManager entityManager;
 
 	@Override
-	public void add(Teacher teacher) throws DAOException {
+	public void add(Teacher teacher) throws RepositoryException {
 		entityManager.persist(teacher);
 	}
 
 	@Override
-	public void deleteById(long id) throws DAOException {
+	public void deleteById(long id) throws RepositoryException {
 		entityManager.remove(getById(id));
 	}
 
 	@Override
-	public Teacher getById(long id) throws DAOException {
+	public Teacher getById(long id) throws RepositoryException {
 		return entityManager.find(Teacher.class, id);
 	}
 
 	@Override
-	public List<Teacher> getAll() throws DAOException {
+	public List<Teacher> getAll() throws RepositoryException {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Teacher> query = builder.createQuery(Teacher.class);
 		Root<Teacher> rootEntry = query.from(Teacher.class);
@@ -48,7 +48,7 @@ public class TeacherJdbcDAO implements GenericDAO<Teacher> {
 	}
 
 	@Override
-	public void update(Teacher teacher) throws DAOException {
+	public void update(Teacher teacher) throws RepositoryException {
 		entityManager.merge(teacher);
 	}
 }

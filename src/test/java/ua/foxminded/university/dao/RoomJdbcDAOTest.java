@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.model.Room;
+import ua.foxminded.university.repository.RepositoryException;
+import ua.foxminded.university.repository.RoomJdbcRepository;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -23,11 +25,11 @@ class RoomJdbcDAOTest {
     private static final Room expectedRoom3 = Room.builder().id(103).capacity(1300).build();
     
     @Autowired
-    private RoomJdbcDAO dao;
+    private RoomJdbcRepository dao;
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddRoom_whenAddMethodCalled() throws DAOException {
+    void shouldAddRoom_whenAddMethodCalled() throws RepositoryException {
         dao.add(expectedRoom1);
         Room actualRoom = dao.getById(expectedRoom1.getId());
         assertEquals(expectedRoom1, actualRoom);        
@@ -35,7 +37,7 @@ class RoomJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteRoom_whenDeleteMethodCalled() throws DAOException {
+    void shouldDeleteRoom_whenDeleteMethodCalled() throws RepositoryException {
         dao.add(expectedRoom1);
         dao.deleteById(expectedRoom1.getId());
         Room actualRoom = dao.getById(expectedRoom1.getId());
@@ -44,7 +46,7 @@ class RoomJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetAudience_whenGetByIdMethodCalled() throws DAOException {
+    void shouldGetAudience_whenGetByIdMethodCalled() throws RepositoryException {
         dao.add(expectedRoom1);
         Room actualRoom = dao.getById(expectedRoom1.getId());
         assertEquals(expectedRoom1, actualRoom);        
@@ -52,7 +54,7 @@ class RoomJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllAudiences_whenGetAllMethodCalled() throws DAOException {
+    void shouldGettAllAudiences_whenGetAllMethodCalled() throws RepositoryException {
         List<Room> expectedRooms = new ArrayList<>();
         expectedRooms.add(expectedRoom1);
         expectedRooms.add(expectedRoom2);

@@ -14,6 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.model.Course;
+import ua.foxminded.university.repository.CourseJdbcRepository;
+import ua.foxminded.university.repository.RepositoryException;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -23,11 +25,11 @@ class CourseJdbcDAOTest {
     private static final Course expectedCourse3 = Course.builder().id(103).hours(60).build();
     
     @Autowired
-    private CourseJdbcDAO dao;
+    private CourseJdbcRepository dao;
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddCourse_whenAddMethodCalled() throws DAOException {
+    void shouldAddCourse_whenAddMethodCalled() throws RepositoryException {
         dao.add(expectedCourse1);
         Course actualCourse = dao.getById(expectedCourse1.getId());
         assertEquals(expectedCourse1, actualCourse);        
@@ -35,7 +37,7 @@ class CourseJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteCourse_whenDeleteMethodCalled() throws DAOException {
+    void shouldDeleteCourse_whenDeleteMethodCalled() throws RepositoryException {
         dao.add(expectedCourse1);
         dao.deleteById(expectedCourse1.getId());
         Course actualCourse = dao.getById(expectedCourse1.getId());
@@ -44,7 +46,7 @@ class CourseJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetCourse_whenGetByIdMethodCalled() throws DAOException {
+    void shouldGetCourse_whenGetByIdMethodCalled() throws RepositoryException {
         dao.add(expectedCourse1);
         Course actualCourse = dao.getById(expectedCourse1.getId());
         assertEquals(expectedCourse1, actualCourse);        
@@ -52,7 +54,7 @@ class CourseJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllCourses_whenGetAllMethodCalled() throws DAOException {
+    void shouldGettAllCourses_whenGetAllMethodCalled() throws RepositoryException {
         List<Course> expectedCourses = new ArrayList<>();
         expectedCourses.add(expectedCourse1);
         expectedCourses.add(expectedCourse2);

@@ -1,4 +1,4 @@
-package ua.foxminded.university.dao;
+package ua.foxminded.university.repository;
 
 import java.util.List;
 
@@ -15,28 +15,28 @@ import ua.foxminded.university.model.Group;
 
 @Repository
 @Transactional
-public class GroupJdbcDAO implements GenericDAO<Group> {
+public class GroupJdbcRepository implements GenericRepository<Group> {
 
 	@PersistenceContext
-	EntityManager entityManager;
+	private EntityManager entityManager;
 
 	@Override
-	public void add(Group group) throws DAOException {
+	public void add(Group group) throws RepositoryException {
 		entityManager.persist(group);
 	}
 
 	@Override
-	public void deleteById(long id) throws DAOException {
+	public void deleteById(long id) throws RepositoryException {
 		entityManager.remove(getById(id));
 	}
 
 	@Override
-	public Group getById(long id) throws DAOException {
+	public Group getById(long id) throws RepositoryException {
 		return entityManager.find(Group.class, id);
 	}
 
 	@Override
-	public List<Group> getAll() throws DAOException {
+	public List<Group> getAll() throws RepositoryException {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Group> query = builder.createQuery(Group.class);
 		Root<Group> rootEntry = query.from(Group.class);
@@ -47,7 +47,7 @@ public class GroupJdbcDAO implements GenericDAO<Group> {
 	}
 
 	@Override
-	public void update(Group group) throws DAOException {
+	public void update(Group group) throws RepositoryException {
 		entityManager.merge(group);
 	}
 }

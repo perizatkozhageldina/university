@@ -14,6 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.model.Group;
+import ua.foxminded.university.repository.RepositoryException;
+import ua.foxminded.university.repository.GroupJdbcRepository;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -23,11 +25,11 @@ class GroupJdbcDAOTest {
     private static final Group expectedGroup3 = Group.builder().id(103).name("GROUP3").build();
     
     @Autowired
-    private GroupJdbcDAO dao;
+    private GroupJdbcRepository dao;
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddGroup_whenAddMethodCalled() throws DAOException {
+    void shouldAddGroup_whenAddMethodCalled() throws RepositoryException {
         dao.add(expectedGroup1);
         Group actualGroup = dao.getById(expectedGroup1.getId());
         assertEquals(expectedGroup1, actualGroup);        
@@ -35,7 +37,7 @@ class GroupJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteGroup_whenDeleteMethodCalled() throws DAOException {
+    void shouldDeleteGroup_whenDeleteMethodCalled() throws RepositoryException {
         dao.add(expectedGroup1);
         dao.deleteById(expectedGroup1.getId());
         Group actualGroup = dao.getById(expectedGroup1.getId());
@@ -44,7 +46,7 @@ class GroupJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetGroup_whenGetByIdMethodCalled() throws DAOException {
+    void shouldGetGroup_whenGetByIdMethodCalled() throws RepositoryException {
         dao.add(expectedGroup1);
         Group actualGroup = dao.getById(expectedGroup1.getId());
         assertEquals(expectedGroup1, actualGroup);        
@@ -52,7 +54,7 @@ class GroupJdbcDAOTest {
     
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllGroups_whenGetAllMethodCalled() throws DAOException {
+    void shouldGettAllGroups_whenGetAllMethodCalled() throws RepositoryException {
         List<Group> expectedGroups = new ArrayList<>();
         expectedGroups.add(expectedGroup1);
         expectedGroups.add(expectedGroup2);

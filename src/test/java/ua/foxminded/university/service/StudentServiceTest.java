@@ -10,16 +10,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import ua.foxminded.university.dao.DAOException;
-import ua.foxminded.university.dao.StudentJdbcDAO;
 import ua.foxminded.university.model.Student;
+import ua.foxminded.university.repository.RepositoryException;
+import ua.foxminded.university.repository.StudentJdbcRepository;
 
 class StudentServiceTest {
     private StudentService service;
     @Mock 
     private Student student = Mockito.mock(Student.class);    
     @Mock
-    private StudentJdbcDAO dao = Mockito.mock(StudentJdbcDAO.class);    
+    private StudentJdbcRepository dao = Mockito.mock(StudentJdbcRepository.class);    
     
     @BeforeEach
     void init() {
@@ -27,25 +27,25 @@ class StudentServiceTest {
     }    
 
     @Test
-    void shouldCallDaoAdd_whenServiceAddMethodCalled() throws DAOException {
+    void shouldCallDaoAdd_whenServiceAddMethodCalled() throws RepositoryException {
         service.add(student);
         verify(dao, times(1)).add(student);
     }
 
     @Test
-    void shouldCallDaoGetAll_whenServiceGetAllMethodCalled() throws DAOException {
+    void shouldCallDaoGetAll_whenServiceGetAllMethodCalled() throws RepositoryException {
         service.getAll();
         verify(dao, times(1)).getAll();
     }
     
     @Test
-    void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() throws DAOException {
+    void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() throws RepositoryException {
         service.getById(anyInt());
         verify(dao, times(1)).getById(anyLong());
     }
     
     @Test
-    void shouldCallDaoDelete_whenServiceDeleteMethodCalled() throws DAOException {
+    void shouldCallDaoDelete_whenServiceDeleteMethodCalled() throws RepositoryException {
         service.deleteById(anyLong());
         verify(dao, times(1)).deleteById(anyLong());
     }
