@@ -36,14 +36,13 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 public class AppConfig implements WebMvcConfigurer {
 
 	private final ApplicationContext applicationContext;
+	private Environment environment;
 
 	@Autowired
-	public AppConfig(ApplicationContext applicationContext) {
+	public AppConfig(ApplicationContext applicationContext, Environment environment) {
 		this.applicationContext = applicationContext;
+		this.environment = environment;
 	}
-
-	@Autowired
-	Environment env;
 
 	@Bean
 	public SpringResourceTemplateResolver templateResolver() {
@@ -77,10 +76,10 @@ public class AppConfig implements WebMvcConfigurer {
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(env.getRequiredProperty("db.driver"));
-		dataSource.setUrl(env.getRequiredProperty("db.url"));
-		dataSource.setUsername(env.getRequiredProperty("db.username"));
-		dataSource.setPassword(env.getRequiredProperty("db.password"));
+		dataSource.setDriverClassName(environment.getRequiredProperty("db.driver"));
+		dataSource.setUrl(environment.getRequiredProperty("db.url"));
+		dataSource.setUsername(environment.getRequiredProperty("db.username"));
+		dataSource.setPassword(environment.getRequiredProperty("db.password"));
 		return dataSource;
 	}
 
