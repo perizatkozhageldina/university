@@ -20,7 +20,7 @@ import ua.foxminded.university.service.RoomService;
 @RequestMapping("/rooms")
 public class RoomController {
     private RoomService service;
-    
+
     @Autowired
     public RoomController(RoomService service) {
         this.service = service;
@@ -44,7 +44,7 @@ public class RoomController {
         service.add(room);
         return "redirect:/rooms";
     }
-    
+
     @PatchMapping("update")
     public String update(@ModelAttribute("room") Room room) {
         service.update(room);

@@ -1,5 +1,7 @@
 <configuration debug="true">
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender
+        name="STDOUT"
+        class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>DENY</onMatch>
@@ -10,7 +12,7 @@
         </encoder>
     </appender>
 
-	<root level="error">
-		<appender-ref ref="STDOUT" />
-	</root>
+    <root level="error">
+        <appender-ref ref="STDOUT" />
+    </root>
 </configuration>

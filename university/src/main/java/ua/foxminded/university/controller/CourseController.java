@@ -20,7 +20,7 @@ import ua.foxminded.university.service.CourseService;
 @RequestMapping("/courses")
 public class CourseController {
     private CourseService service;
-    
+
     @Autowired
     public CourseController(CourseService service) {
         this.service = service;
@@ -44,7 +44,7 @@ public class CourseController {
         service.add(course);
         return "redirect:/courses";
     }
-    
+
     @PatchMapping("update")
     public String update(@ModelAttribute("course") Course course) {
         service.update(course);

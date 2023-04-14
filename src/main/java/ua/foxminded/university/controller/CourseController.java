@@ -24,7 +24,7 @@ public class CourseController {
 	@Autowired
 	public CourseController(CourseService service) {
 		this.service = service;
-	}
+    }
 
 	@GetMapping
 	public String list(Model model) {

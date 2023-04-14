@@ -20,7 +20,7 @@ import ua.foxminded.university.service.GroupService;
 @RequestMapping("/groups")
 public class GroupController {
     private GroupService service;
-    
+
     @Autowired
     public GroupController(GroupService service) {
         this.service = service;
@@ -44,7 +44,7 @@ public class GroupController {
         service.add(group);
         return "redirect:/groups";
     }
-    
+
     @PatchMapping("update")
     public String update(@ModelAttribute("group") Group group) {
         service.update(group);

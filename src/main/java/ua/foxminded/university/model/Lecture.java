@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Lecture {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	private String name;
-	private int number;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String name;
+    private int number;
 }

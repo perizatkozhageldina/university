@@ -35,78 +35,78 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class AppConfig implements WebMvcConfigurer {
 
-	private final ApplicationContext applicationContext;
-	private Environment environment;
+    private final ApplicationContext applicationContext;
+    private Environment environment;
 
-	@Autowired
-	public AppConfig(ApplicationContext applicationContext, Environment environment) {
-		this.applicationContext = applicationContext;
-		this.environment = environment;
-	}
+    @Autowired
+    public AppConfig(ApplicationContext applicationContext, Environment environment) {
+        this.applicationContext = applicationContext;
+        this.environment = environment;
+    }
 
-	@Bean
-	public SpringResourceTemplateResolver templateResolver() {
-		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-		templateResolver.setApplicationContext(applicationContext);
-		templateResolver.setPrefix("/WEB-INF/views/templates/");
-		templateResolver.setSuffix(".html");
-		return templateResolver;
-	}
+    @Bean
+    public SpringResourceTemplateResolver templateResolver() {
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setApplicationContext(applicationContext);
+        templateResolver.setPrefix("/WEB-INF/views/templates/");
+        templateResolver.setSuffix(".html");
+        return templateResolver;
+    }
 
-	@Bean
-	public SpringTemplateEngine templateEngine() {
-		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(templateResolver());
-		templateEngine.setEnableSpringELCompiler(true);
-		return templateEngine;
-	}
+    @Bean
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setEnableSpringELCompiler(true);
+        return templateEngine;
+    }
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/styles/css/**").addResourceLocations("classpath:/static/css/");
-	}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/styles/css/**").addResourceLocations("classpath:/static/css/");
+    }
 
-	@Override
-	public void configureViewResolvers(ViewResolverRegistry registry) {
-		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-		resolver.setTemplateEngine(templateEngine());
-		registry.viewResolver(resolver);
-	}
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+        resolver.setTemplateEngine(templateEngine());
+        registry.viewResolver(resolver);
+    }
 
-	@Bean
-	public DataSource dataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(environment.getRequiredProperty("db.driver"));
-		dataSource.setUrl(environment.getRequiredProperty("db.url"));
-		dataSource.setUsername(environment.getRequiredProperty("db.username"));
-		dataSource.setPassword(environment.getRequiredProperty("db.password"));
-		return dataSource;
-	}
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(environment.getRequiredProperty("db.driver"));
+        dataSource.setUrl(environment.getRequiredProperty("db.url"));
+        dataSource.setUsername(environment.getRequiredProperty("db.username"));
+        dataSource.setPassword(environment.getRequiredProperty("db.password"));
+        return dataSource;
+    }
 
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(dataSource());
-		em.setPackagesToScan("ua.foxminded.university");
-		em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-		em.setJpaProperties(hibernateProperties());
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource());
+        em.setPackagesToScan("ua.foxminded.university");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        em.setJpaProperties(hibernateProperties());
 
-		return em;
-	}
+        return em;
+    }
 
-	@Bean
-	public PlatformTransactionManager transactionManager() {
-		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-		return transactionManager;
-	}
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        return transactionManager;
+    }
 
-	private Properties hibernateProperties() {
-		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "update");
-		properties.setProperty("hibernate.show_sql", "true");
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		properties.setProperty("javax.persistence.validation.mode", "NONE");
-		return properties;
-	}
+    private Properties hibernateProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.show_sql", "true");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.setProperty("javax.persistence.validation.mode", "NONE");
+        return properties;
+    }
 }

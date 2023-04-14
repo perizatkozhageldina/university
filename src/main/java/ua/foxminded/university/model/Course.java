@@ -16,10 +16,10 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Course {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	private String name;
-	private int level;
-	private int hours;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String name;
+    private int level;
+    private int hours;
 }

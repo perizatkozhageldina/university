@@ -19,48 +19,48 @@ import ua.foxminded.university.service.LectureService;
 @Controller
 @RequestMapping("/lectures")
 public class LectureController {
-	private LectureService service;
+    private LectureService service;
 
-	@Autowired
-	public LectureController(LectureService service) {
-		this.service = service;
-	}
+    @Autowired
+    public LectureController(LectureService service) {
+        this.service = service;
+    }
 
-	@GetMapping
-	public String list(Model model) {
-		List<Lecture> lectures = service.getAll();
-		model.addAttribute("lectures", lectures);
-		return "lecture/index";
-	}
+    @GetMapping
+    public String list(Model model) {
+        List<Lecture> lectures = service.getAll();
+        model.addAttribute("lectures", lectures);
+        return "lecture/index";
+    }
 
-	@GetMapping("/add")
-	public String add(Model model) {
-		model.addAttribute("lecture", new Lecture());
-		return "lecture/add";
-	}
+    @GetMapping("/add")
+    public String add(Model model) {
+        model.addAttribute("lecture", new Lecture());
+        return "lecture/add";
+    }
 
-	@PostMapping("save")
-	public String save(@ModelAttribute("lecture") Lecture lecture) {
-		service.add(lecture);
-		return "redirect:/lectures";
-	}
+    @PostMapping("save")
+    public String save(@ModelAttribute("lecture") Lecture lecture) {
+        service.add(lecture);
+        return "redirect:/lectures";
+    }
 
-	@PatchMapping("update")
-	public String update(@ModelAttribute("lecture") Lecture lecture) {
-		service.update(lecture);
-		return "redirect:/lectures";
-	}
+    @PatchMapping("update")
+    public String update(@ModelAttribute("lecture") Lecture lecture) {
+        service.update(lecture);
+        return "redirect:/lectures";
+    }
 
-	@GetMapping("/{id}/edit")
-	public String edit(@PathVariable("id") Long id, Model model) {
-		Lecture lecture = service.getById(id);
-		model.addAttribute("lecture", lecture);
-		return "lecture/edit";
-	}
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        Lecture lecture = service.getById(id);
+        model.addAttribute("lecture", lecture);
+        return "lecture/edit";
+    }
 
-	@DeleteMapping("/{id}/delete")
-	public String delete(@PathVariable("id") Long id) {
-		service.deleteById(id);
-		return "redirect:/lectures";
-	}
+    @DeleteMapping("/{id}/delete")
+    public String delete(@PathVariable("id") Long id) {
+        service.deleteById(id);
+        return "redirect:/lectures";
+    }
 }

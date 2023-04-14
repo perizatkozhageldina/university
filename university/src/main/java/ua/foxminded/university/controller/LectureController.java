@@ -20,7 +20,7 @@ import ua.foxminded.university.service.LectureService;
 @RequestMapping("/lectures")
 public class LectureController {
     private LectureService service;
-    
+
     @Autowired
     public LectureController(LectureService service) {
         this.service = service;
@@ -44,7 +44,7 @@ public class LectureController {
         service.add(lecture);
         return "redirect:/lectures";
     }
-    
+
     @PatchMapping("update")
     public String update(@ModelAttribute("lecture") Lecture lecture) {
         service.update(lecture);

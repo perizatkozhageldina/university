@@ -19,48 +19,48 @@ import ua.foxminded.university.service.TeacherService;
 @Controller
 @RequestMapping("/teachers")
 public class TeacherController {
-	private TeacherService service;
+    private TeacherService service;
 
-	@Autowired
-	public TeacherController(TeacherService service) {
-		this.service = service;
-	}
+    @Autowired
+    public TeacherController(TeacherService service) {
+        this.service = service;
+    }
 
-	@GetMapping
-	public String list(Model model) {
-		List<Teacher> teachers = service.getAll();
-		model.addAttribute("teachers", teachers);
-		return "teacher/index";
-	}
+    @GetMapping
+    public String list(Model model) {
+        List<Teacher> teachers = service.getAll();
+        model.addAttribute("teachers", teachers);
+        return "teacher/index";
+    }
 
-	@GetMapping("/add")
-	public String add(Model model) {
-		model.addAttribute("teacher", new Teacher());
-		return "teacher/add";
-	}
+    @GetMapping("/add")
+    public String add(Model model) {
+        model.addAttribute("teacher", new Teacher());
+        return "teacher/add";
+    }
 
-	@PostMapping("save")
-	public String save(@ModelAttribute("teacher") Teacher teacher) {
-		service.add(teacher);
-		return "redirect:/teachers";
-	}
+    @PostMapping("save")
+    public String save(@ModelAttribute("teacher") Teacher teacher) {
+        service.add(teacher);
+        return "redirect:/teachers";
+    }
 
-	@PatchMapping("update")
-	public String update(@ModelAttribute("teacher") Teacher teacher) {
-		service.update(teacher);
-		return "redirect:/teachers";
-	}
+    @PatchMapping("update")
+    public String update(@ModelAttribute("teacher") Teacher teacher) {
+        service.update(teacher);
+        return "redirect:/teachers";
+    }
 
-	@GetMapping("/{id}/edit")
-	public String edit(@PathVariable("id") Long id, Model model) {
-		Teacher teacher = service.getById(id);
-		model.addAttribute("teacher", teacher);
-		return "teacher/edit";
-	}
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        Teacher teacher = service.getById(id);
+        model.addAttribute("teacher", teacher);
+        return "teacher/edit";
+    }
 
-	@DeleteMapping("/{id}/delete")
-	public String delete(@PathVariable("id") Long id) {
-		service.deleteById(id);
-		return "redirect:/teachers";
-	}
+    @DeleteMapping("/{id}/delete")
+    public String delete(@PathVariable("id") Long id) {
+        service.deleteById(id);
+        return "redirect:/teachers";
+    }
 }

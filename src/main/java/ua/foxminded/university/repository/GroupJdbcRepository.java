@@ -17,37 +17,37 @@ import ua.foxminded.university.model.Group;
 @Transactional
 public class GroupJdbcRepository implements GenericRepository<Group> {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Override
-	public void add(Group group) throws RepositoryException {
-		entityManager.persist(group);
-	}
+    @Override
+    public void add(Group group) throws RepositoryException {
+        entityManager.persist(group);
+    }
 
-	@Override
-	public void deleteById(long id) throws RepositoryException {
-		entityManager.remove(getById(id));
-	}
+    @Override
+    public void deleteById(long id) throws RepositoryException {
+        entityManager.remove(getById(id));
+    }
 
-	@Override
-	public Group getById(long id) throws RepositoryException {
-		return entityManager.find(Group.class, id);
-	}
+    @Override
+    public Group getById(long id) throws RepositoryException {
+        return entityManager.find(Group.class, id);
+    }
 
-	@Override
-	public List<Group> getAll() throws RepositoryException {
-		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Group> query = builder.createQuery(Group.class);
-		Root<Group> rootEntry = query.from(Group.class);
-		CriteriaQuery<Group> queryList = query.select(rootEntry);
-		query.orderBy(builder.asc(rootEntry.get("id")));
-		TypedQuery<Group> typedQueryList = entityManager.createQuery(queryList);
-		return typedQueryList.getResultList();
-	}
+    @Override
+    public List<Group> getAll() throws RepositoryException {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Group> query = builder.createQuery(Group.class);
+        Root<Group> rootEntry = query.from(Group.class);
+        CriteriaQuery<Group> queryList = query.select(rootEntry);
+        query.orderBy(builder.asc(rootEntry.get("id")));
+        TypedQuery<Group> typedQueryList = entityManager.createQuery(queryList);
+        return typedQueryList.getResultList();
+    }
 
-	@Override
-	public void update(Group group) throws RepositoryException {
-		entityManager.merge(group);
-	}
+    @Override
+    public void update(Group group) throws RepositoryException {
+        entityManager.merge(group);
+    }
 }
