@@ -72,8 +72,6 @@ class RoomControllerTest {
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
         Room room = Room.builder().id(1L).capacity(10).build();
 
-        Mockito.when(mockService.add(room)).thenReturn(true);
-
         mockMvc.perform(get(ADD_PATH)).andExpect(status().isOk()).andExpect(view().name(ADD_VIEW))
                 .andExpect(model().attributeExists(ROOM_ATTRIBUTE));
     }
@@ -83,8 +81,6 @@ class RoomControllerTest {
         Room room = Room.builder().id(1L).capacity(10).build();
         String encoded = URLEncoder.encode(room.toString(), "UTF-8");
 
-        Mockito.when(mockService.add(room)).thenReturn(true);
-
         mockMvc.perform(post(SAVE_PATH).param(ROOM_PARAM, encoded)).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));
     }
@@ -93,8 +89,6 @@ class RoomControllerTest {
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
         Room room = Room.builder().id(1L).capacity(10).build();
         String encoded = URLEncoder.encode(room.toString(), "UTF-8");
-
-        Mockito.when(mockService.update(room)).thenReturn(true);
 
         mockMvc.perform(patch(UPDATE_PATH).param(ROOM_PARAM, encoded)).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));
@@ -113,8 +107,6 @@ class RoomControllerTest {
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
         Room room = Room.builder().id(1L).capacity(10).build();
-
-        Mockito.when(mockService.deleteById(room.getId())).thenReturn(true);
 
         mockMvc.perform(delete(DELETE_PATH, "1")).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));

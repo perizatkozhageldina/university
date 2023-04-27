@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import ua.foxminded.university.model.Teacher;
-import ua.foxminded.university.repository.RepositoryException;
 import ua.foxminded.university.repository.TeacherJdbcRepository;
 
 class TeacherServiceTest {
@@ -27,25 +26,25 @@ class TeacherServiceTest {
     }
 
     @Test
-    void shouldCallDaoAdd_whenServiceAddMethodCalled() throws RepositoryException {
-        service.add(teacher);
-        verify(dao, times(1)).add(teacher);
+    void shouldCallDaoAdd_whenServiceAddMethodCalled() {
+        service.save(teacher);
+        verify(dao, times(1)).save(teacher);
     }
 
     @Test
-    void shouldCallDaoGetAll_whenServiceGetAllMethodCalled() throws RepositoryException {
+    void shouldCallDaoGetAll_whenServiceGetAllMethodCalled() {
         service.getAll();
-        verify(dao, times(1)).getAll();
+        verify(dao, times(1)).findAll();
     }
 
     @Test
-    void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() throws RepositoryException {
+    void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() {
         service.getById(anyInt());
-        verify(dao, times(1)).getById(anyLong());
+        verify(dao, times(1)).findById(anyLong());
     }
 
     @Test
-    void shouldCallDaoDelete_whenServiceDeleteMethodCalled() throws RepositoryException {
+    void shouldCallDaoDelete_whenServiceDeleteMethodCalled() {
         service.deleteById(anyLong());
         verify(dao, times(1)).deleteById(anyLong());
     }

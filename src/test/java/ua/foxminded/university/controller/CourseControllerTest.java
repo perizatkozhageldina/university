@@ -72,8 +72,6 @@ class CourseControllerTest {
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
         Course course = Course.builder().id(1L).level(1).hours(12).build();
 
-        Mockito.when(mockService.add(course)).thenReturn(true);
-
         mockMvc.perform(get(ADD_PATH)).andExpect(status().isOk()).andExpect(view().name(ADD_VIEW))
                 .andExpect(model().attributeExists(COURSE_ATTRIBUTE));
     }
@@ -83,8 +81,6 @@ class CourseControllerTest {
         Course course = Course.builder().id(1L).level(1).hours(12).build();
         String encoded = URLEncoder.encode(course.toString(), "UTF-8");
 
-        Mockito.when(mockService.add(course)).thenReturn(true);
-
         mockMvc.perform(post(SAVE_PATH).param(COURSE_PARAM, encoded)).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));
     }
@@ -93,8 +89,6 @@ class CourseControllerTest {
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
         Course course = Course.builder().id(1L).level(1).hours(12).build();
         String encoded = URLEncoder.encode(course.toString(), "UTF-8");
-
-        Mockito.when(mockService.update(course)).thenReturn(true);
 
         mockMvc.perform(patch(UPDATE_PATH).param(COURSE_PARAM, encoded)).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));
@@ -113,8 +107,6 @@ class CourseControllerTest {
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
         Course course = Course.builder().id(1L).level(1).hours(12).build();
-
-        Mockito.when(mockService.deleteById(course.getId())).thenReturn(true);
 
         mockMvc.perform(delete(DELETE_PATH, "1")).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));

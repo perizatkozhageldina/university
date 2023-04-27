@@ -1,21 +1,19 @@
 package ua.foxminded.university.service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.service.spi.ServiceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.repository.CourseJdbcRepository;
-import ua.foxminded.university.repository.RepositoryException;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 public class CourseService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CourseService.class);
     private CourseJdbcRepository dao;
 
     @Autowired
@@ -23,51 +21,20 @@ public class CourseService {
         this.dao = dao;
     }
 
-    public boolean add(Course course) throws ServiceException {
-        try {
-            dao.add(course);
-            return true;
-        } catch (RepositoryException e) {
-            LOGGER.error(e.getMessage());
-            return false;
-        }
+    public void save(Course course) throws ServiceException {
+        dao.save(course);
     }
 
-    public boolean update(Course course) throws ServiceException {
-        try {
-            dao.update(course);
-            return true;
-        } catch (RepositoryException e) {
-            LOGGER.error(e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean deleteById(long id) throws ServiceException {
-        try {
-            dao.deleteById(id);
-            return true;
-        } catch (RepositoryException e) {
-            LOGGER.error(e.getMessage());
-            return false;
-        }
+    public void deleteById(long id) throws ServiceException {
+        dao.deleteById(id);
     }
 
     public Course getById(long id) throws ServiceException {
-        try {
-            return dao.getById(id);
-        } catch (RepositoryException e) {
-            LOGGER.error(e.getMessage());
-            return null;
-        }
+        Optional<Course> optionalCourse = dao.findById(id);
+        return optionalCourse.orElseThrow(EntityNotFoundException::new);
     }
 
     public List<Course> getAll() throws ServiceException {
-        try {
-            return dao.getAll();
-        } catch (RepositoryException e) {
-            LOGGER.error(e.getMessage());
-            return Collections.emptyList();
-        }
+        return dao.findAll();
     }
 }

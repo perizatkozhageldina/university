@@ -41,13 +41,13 @@ public class RoomController {
 
     @PostMapping("save")
     public String save(@ModelAttribute("room") Room room) {
-        service.add(room);
+        service.save(room);
         return "redirect:/rooms";
     }
 
     @PatchMapping("update")
     public String update(@ModelAttribute("room") Room room) {
-        service.update(room);
+        service.save(room);
         return "redirect:/rooms";
     }
 

@@ -10,45 +10,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import ua.foxminded.university.model.Course;
 import ua.foxminded.university.model.Student;
 
 @Repository
-@Transactional
-public class StudentJdbcRepository implements GenericRepository<Student> {
-
-    @PersistenceContext
-    public EntityManager entityManager;
-
-    @Override
-    public void add(Student student) throws RepositoryException {
-        entityManager.persist(student);
-    }
-
-    @Override
-    public void deleteById(long id) throws RepositoryException {
-        entityManager.remove(getById(id));
-    }
-
-    @Override
-    public Student getById(long id) throws RepositoryException {
-        return entityManager.find(Student.class, id);
-    }
-
-    @Override
-    public List<Student> getAll() throws RepositoryException {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Student> query = builder.createQuery(Student.class);
-        Root<Student> rootEntry = query.from(Student.class);
-        CriteriaQuery<Student> queryList = query.select(rootEntry);
-        query.orderBy(builder.asc(rootEntry.get("id")));
-        TypedQuery<Student> typedQueryList = entityManager.createQuery(queryList);
-        return typedQueryList.getResultList();
-    }
-
-    @Override
-    public void update(Student student) throws RepositoryException {
-        entityManager.merge(student);
-    }
+public interface StudentJdbcRepository extends JpaRepository<Student, Long> {
 }

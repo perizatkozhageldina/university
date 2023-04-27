@@ -41,13 +41,13 @@ public class LectureController {
 
     @PostMapping("save")
     public String save(@ModelAttribute("lecture") Lecture lecture) {
-        service.add(lecture);
+        service.save(lecture);
         return "redirect:/lectures";
     }
 
     @PatchMapping("update")
     public String update(@ModelAttribute("lecture") Lecture lecture) {
-        service.update(lecture);
+        service.save(lecture);
         return "redirect:/lectures";
     }
 

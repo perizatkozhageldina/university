@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,43 +29,43 @@ class StudentJdbcRepositoryTest {
     @Test
     @Sql("classpath:testSchema.sql")
     @Sql("classpath:insertGroups.sql")
-    void shouldAddStudent_whenAddMethodCalled() throws RepositoryException {
-        dao.add(expectedStudent1);
-        Student actualStudent = dao.getById(expectedStudent1.getId());
+    void shouldAddStudent_whenAddMethodCalled() {
+        dao.save(expectedStudent1);
+        Optional<Student> actualStudent = dao.findById(expectedStudent1.getId());
         assertEquals(expectedStudent1, actualStudent);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     @Sql("classpath:insertGroups.sql")
-    void shouldDeleteStudent_whenDeleteMethodCalled() throws RepositoryException {
-        dao.add(expectedStudent1);
+    void shouldDeleteStudent_whenDeleteMethodCalled() {
+        dao.save(expectedStudent1);
         dao.deleteById(expectedStudent1.getId());
-        Student actualStudent = dao.getById(expectedStudent1.getId());
+        Optional<Student> actualStudent = dao.findById(expectedStudent1.getId());
         assertNull(actualStudent);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     @Sql("classpath:insertGroups.sql")
-    void shouldGetStudent_whenGetByIdMethodCalled() throws RepositoryException {
-        dao.add(expectedStudent1);
-        Student actualStudent = dao.getById(expectedStudent1.getId());
+    void shouldGetStudent_whenGetByIdMethodCalled() {
+        dao.save(expectedStudent1);
+        Optional<Student> actualStudent = dao.findById(expectedStudent1.getId());
         assertEquals(expectedStudent1, actualStudent);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     @Sql("classpath:insertGroups.sql")
-    void shouldGettAllStudents_whenGetAllMethodCalled() throws RepositoryException {
+    void shouldGettAllStudents_whenGetAllMethodCalled() {
         List<Student> expectedStudents = new ArrayList<>();
         expectedStudents.add(expectedStudent1);
         expectedStudents.add(expectedStudent2);
         expectedStudents.add(expectedStudent3);
-        dao.add(expectedStudent1);
-        dao.add(expectedStudent2);
-        dao.add(expectedStudent3);
-        List<Student> actualStudents = dao.getAll();
+        dao.save(expectedStudent1);
+        dao.save(expectedStudent2);
+        dao.save(expectedStudent3);
+        List<Student> actualStudents = dao.findAll();
         assertEquals(expectedStudents, actualStudents);
     }
 }

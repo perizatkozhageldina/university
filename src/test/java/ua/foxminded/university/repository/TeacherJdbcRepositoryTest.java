@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,40 +28,40 @@ class TeacherJdbcRepositoryTest {
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddTeacher_whenAddMethodCalled() throws RepositoryException {
-        dao.add(expectedTeacher1);
-        Teacher actualTeacher = dao.getById(expectedTeacher1.getId());
+    void shouldAddTeacher_whenAddMethodCalled() {
+        dao.save(expectedTeacher1);
+        Optional<Teacher> actualTeacher = dao.findById(expectedTeacher1.getId());
         assertEquals(expectedTeacher1, actualTeacher);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteTeacher_whenDeleteMethodCalled() throws RepositoryException {
-        dao.add(expectedTeacher1);
+    void shouldDeleteTeacher_whenDeleteMethodCalled() {
+        dao.save(expectedTeacher1);
         dao.deleteById(expectedTeacher1.getId());
-        Teacher actualTeacher = dao.getById(expectedTeacher1.getId());
+        Optional<Teacher> actualTeacher = dao.findById(expectedTeacher1.getId());
         assertNull(actualTeacher);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetTeacher_whenGetByIdMethodCalled() throws RepositoryException {
-        dao.add(expectedTeacher1);
-        Teacher actualTeacher = dao.getById(expectedTeacher1.getId());
+    void shouldGetTeacher_whenGetByIdMethodCalled() {
+        dao.save(expectedTeacher1);
+        Optional<Teacher> actualTeacher = dao.findById(expectedTeacher1.getId());
         assertEquals(expectedTeacher1, actualTeacher);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllTeachers_whenGetAllMethodCalled() throws RepositoryException {
+    void shouldGettAllTeachers_whenGetAllMethodCalled() {
         List<Teacher> expectedTeachers = new ArrayList<>();
         expectedTeachers.add(expectedTeacher1);
         expectedTeachers.add(expectedTeacher2);
         expectedTeachers.add(expectedTeacher3);
-        dao.add(expectedTeacher1);
-        dao.add(expectedTeacher2);
-        dao.add(expectedTeacher3);
-        List<Teacher> actualTeachers = dao.getAll();
+        dao.save(expectedTeacher1);
+        dao.save(expectedTeacher2);
+        dao.save(expectedTeacher3);
+        List<Teacher> actualTeachers = dao.findAll();
         assertEquals(expectedTeachers, actualTeachers);
     }
 }

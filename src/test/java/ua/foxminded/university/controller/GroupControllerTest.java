@@ -72,8 +72,6 @@ class GroupControllerTest {
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
         Group group = Group.builder().id(1L).name("VT-11").build();
 
-        Mockito.when(mockService.add(group)).thenReturn(true);
-
         mockMvc.perform(get(ADD_PATH)).andExpect(status().isOk()).andExpect(view().name(ADD_VIEW))
                 .andExpect(model().attributeExists(GROUP_ATTRIBUTE));
     }
@@ -83,8 +81,6 @@ class GroupControllerTest {
         Group group = Group.builder().id(1L).name("VT-11").build();
         String encoded = URLEncoder.encode(group.toString(), "UTF-8");
 
-        Mockito.when(mockService.add(group)).thenReturn(true);
-
         mockMvc.perform(post(SAVE_PATH).param(GROUP_PARAM, encoded)).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));
     }
@@ -93,8 +89,6 @@ class GroupControllerTest {
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
         Group group = Group.builder().id(1L).name("VT-11").build();
         String encoded = URLEncoder.encode(group.toString(), "UTF-8");
-
-        Mockito.when(mockService.update(group)).thenReturn(true);
 
         mockMvc.perform(patch(UPDATE_PATH).param(GROUP_PARAM, encoded)).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));
@@ -113,8 +107,6 @@ class GroupControllerTest {
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
         Group group = Group.builder().id(1L).name("VT-11").build();
-
-        Mockito.when(mockService.deleteById(group.getId())).thenReturn(true);
 
         mockMvc.perform(delete(DELETE_PATH, "1")).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));

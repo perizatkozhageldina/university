@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,40 +28,40 @@ class RoomJdbcRepositoryTest {
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddRoom_whenAddMethodCalled() throws RepositoryException {
-        dao.add(expectedRoom1);
-        Room actualRoom = dao.getById(expectedRoom1.getId());
+    void shouldAddRoom_whenAddMethodCalled() {
+        dao.save(expectedRoom1);
+        Optional<Room> actualRoom = dao.findById(expectedRoom1.getId());
         assertEquals(expectedRoom1, actualRoom);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteRoom_whenDeleteMethodCalled() throws RepositoryException {
-        dao.add(expectedRoom1);
+    void shouldDeleteRoom_whenDeleteMethodCalled() {
+        dao.save(expectedRoom1);
         dao.deleteById(expectedRoom1.getId());
-        Room actualRoom = dao.getById(expectedRoom1.getId());
+        Optional<Room> actualRoom = dao.findById(expectedRoom1.getId());
         assertNull(actualRoom);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetAudience_whenGetByIdMethodCalled() throws RepositoryException {
-        dao.add(expectedRoom1);
-        Room actualRoom = dao.getById(expectedRoom1.getId());
+    void shouldGetAudience_whenGetByIdMethodCalled() {
+        dao.save(expectedRoom1);
+        Optional<Room> actualRoom = dao.findById(expectedRoom1.getId());
         assertEquals(expectedRoom1, actualRoom);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllAudiences_whenGetAllMethodCalled() throws RepositoryException {
+    void shouldGettAllAudiences_whenGetAllMethodCalled() {
         List<Room> expectedRooms = new ArrayList<>();
         expectedRooms.add(expectedRoom1);
         expectedRooms.add(expectedRoom2);
         expectedRooms.add(expectedRoom3);
-        dao.add(expectedRoom1);
-        dao.add(expectedRoom2);
-        dao.add(expectedRoom3);
-        List<Room> actualRooms = dao.getAll();
+        dao.save(expectedRoom1);
+        dao.save(expectedRoom2);
+        dao.save(expectedRoom3);
+        List<Room> actualRooms = dao.findAll();
         assertEquals(expectedRooms, actualRooms);
     }
 }

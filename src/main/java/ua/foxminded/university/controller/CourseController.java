@@ -41,13 +41,13 @@ public class CourseController {
 
 	@PostMapping("save")
 	public String save(@ModelAttribute("course") Course course) {
-		service.add(course);
+		service.save(course);
 		return "redirect:/courses";
 	}
 
 	@PatchMapping("update")
 	public String update(@ModelAttribute("course") Course course) {
-		service.update(course);
+		service.save(course);
 		return "redirect:/courses";
 	}
 

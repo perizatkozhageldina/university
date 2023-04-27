@@ -41,13 +41,13 @@ public class GroupController {
 
     @PostMapping("save")
     public String save(@ModelAttribute("group") Group group) {
-        service.add(group);
+        service.save(group);
         return "redirect:/groups";
     }
 
     @PatchMapping("update")
     public String update(@ModelAttribute("group") Group group) {
-        service.update(group);
+        service.save(group);
         return "redirect:/groups";
     }
 

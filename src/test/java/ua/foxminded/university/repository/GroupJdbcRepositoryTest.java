@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,40 +28,40 @@ class GroupJdbcRepositoryTest {
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddGroup_whenAddMethodCalled() throws RepositoryException {
-        dao.add(expectedGroup1);
-        Group actualGroup = dao.getById(expectedGroup1.getId());
+    void shouldAddGroup_whenAddMethodCalled() {
+        dao.save(expectedGroup1);
+        Optional<Group> actualGroup = dao.findById(expectedGroup1.getId());
         assertEquals(expectedGroup1, actualGroup);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteGroup_whenDeleteMethodCalled() throws RepositoryException {
-        dao.add(expectedGroup1);
+    void shouldDeleteGroup_whenDeleteMethodCalled() {
+        dao.save(expectedGroup1);
         dao.deleteById(expectedGroup1.getId());
-        Group actualGroup = dao.getById(expectedGroup1.getId());
+        Optional<Group> actualGroup = dao.findById(expectedGroup1.getId());
         assertNull(actualGroup);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetGroup_whenGetByIdMethodCalled() throws RepositoryException {
-        dao.add(expectedGroup1);
-        Group actualGroup = dao.getById(expectedGroup1.getId());
+    void shouldGetGroup_whenGetByIdMethodCalled() {
+        dao.save(expectedGroup1);
+        Optional<Group> actualGroup = dao.findById(expectedGroup1.getId());
         assertEquals(expectedGroup1, actualGroup);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllGroups_whenGetAllMethodCalled() throws RepositoryException {
+    void shouldGettAllGroups_whenGetAllMethodCalled() {
         List<Group> expectedGroups = new ArrayList<>();
         expectedGroups.add(expectedGroup1);
         expectedGroups.add(expectedGroup2);
         expectedGroups.add(expectedGroup3);
-        dao.add(expectedGroup1);
-        dao.add(expectedGroup2);
-        dao.add(expectedGroup3);
-        List<Group> actualGroups = dao.getAll();
+        dao.save(expectedGroup1);
+        dao.save(expectedGroup2);
+        dao.save(expectedGroup3);
+        List<Group> actualGroups = dao.findAll();
         assertEquals(expectedGroups, actualGroups);
     }
 }

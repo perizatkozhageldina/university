@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,40 +28,40 @@ class LectureJdbcRepositoryTest {
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldAddLecture_whenAddMethodCalled() throws RepositoryException {
-        dao.add(expectedLecture1);
-        Lecture actualLecture = dao.getById(expectedLecture1.getId());
+    void shouldAddLecture_whenAddMethodCalled() {
+        dao.save(expectedLecture1);
+        Optional<Lecture> actualLecture = dao.findById(expectedLecture1.getId());
         assertEquals(expectedLecture1, actualLecture);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldDeleteLecture_whenDeleteMethodCalled() throws RepositoryException {
-        dao.add(expectedLecture1);
+    void shouldDeleteLecture_whenDeleteMethodCalled() {
+        dao.save(expectedLecture1);
         dao.deleteById(expectedLecture1.getId());
-        Lecture actualLecture = dao.getById(expectedLecture1.getId());
+        Optional<Lecture> actualLecture = dao.findById(expectedLecture1.getId());
         assertNull(actualLecture);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGetLecture_whenGetByIdMethodCalled() throws RepositoryException {
-        dao.add(expectedLecture1);
-        Lecture actualLecture = dao.getById(expectedLecture1.getId());
+    void shouldGetLecture_whenGetByIdMethodCalled() {
+        dao.save(expectedLecture1);
+        Optional<Lecture> actualLecture = dao.findById(expectedLecture1.getId());
         assertEquals(expectedLecture1, actualLecture);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllLectures_whenGetAllMethodCalled() throws RepositoryException {
+    void shouldGettAllLectures_whenGetAllMethodCalled() {
         List<Lecture> expectedLectures = new ArrayList<>();
         expectedLectures.add(expectedLecture1);
         expectedLectures.add(expectedLecture2);
         expectedLectures.add(expectedLecture3);
-        dao.add(expectedLecture1);
-        dao.add(expectedLecture2);
-        dao.add(expectedLecture3);
-        List<Lecture> actualLectures = dao.getAll();
+        dao.save(expectedLecture1);
+        dao.save(expectedLecture2);
+        dao.save(expectedLecture3);
+        List<Lecture> actualLectures = dao.findAll();
         assertEquals(expectedLectures, actualLectures);
     }
 }

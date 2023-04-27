@@ -41,13 +41,13 @@ public class StudentController {
 
     @PostMapping("save")
     public String save(@ModelAttribute("student") Student student) {
-        service.add(student);
+        service.save(student);
         return "redirect:/students";
     }
 
     @PatchMapping("update")
     public String update(@ModelAttribute("student") Student student) {
-        service.update(student);
+        service.save(student);
         return "redirect:/students";
     }
 

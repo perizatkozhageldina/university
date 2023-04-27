@@ -73,8 +73,6 @@ class TeacherControllerTest {
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
         Teacher teacher = Teacher.builder().id(1L).category("Junior").hours(12).build();
 
-        Mockito.when(mockService.add(teacher)).thenReturn(true);
-
         mockMvc.perform(get(ADD_PATH)).andExpect(status().isOk()).andExpect(view().name(ADD_VIEW))
                 .andExpect(model().attributeExists(TEACHER_ATTRIBUTE));
     }
@@ -85,8 +83,6 @@ class TeacherControllerTest {
 
         String encoded = URLEncoder.encode(teacher.toString(), "UTF-8");
 
-        Mockito.when(mockService.add(teacher)).thenReturn(true);
-
         mockMvc.perform(post(SAVE_PATH).param(TEACHER_PARAM, encoded)).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));
     }
@@ -96,8 +92,6 @@ class TeacherControllerTest {
         Teacher teacher = Teacher.builder().id(1L).category("Junior").hours(12).build();
 
         String encoded = URLEncoder.encode(teacher.toString(), "UTF-8");
-
-        Mockito.when(mockService.update(teacher)).thenReturn(true);
 
         mockMvc.perform(patch(UPDATE_PATH).param(TEACHER_PARAM, encoded)).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));
@@ -116,8 +110,6 @@ class TeacherControllerTest {
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
         Teacher teacher = Teacher.builder().id(1L).category("Junior").hours(12).build();
-
-        Mockito.when(mockService.deleteById(teacher.getId())).thenReturn(true);
 
         mockMvc.perform(delete(DELETE_PATH, "1")).andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT_VIEW));
