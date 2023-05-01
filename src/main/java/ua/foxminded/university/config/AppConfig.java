@@ -68,41 +68,4 @@ public class AppConfig implements WebMvcConfigurer {
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
     }
-
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(environment.getRequiredProperty("db.driver"));
-//        dataSource.setUrl(environment.getRequiredProperty("db.url"));
-//        dataSource.setUsername(environment.getRequiredProperty("db.username"));
-//        dataSource.setPassword(environment.getRequiredProperty("db.password"));
-//        return dataSource;
-//    }
-
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-//        em.setDataSource(dataSource);
-//        em.setPackagesToScan("ua.foxminded.university");
-//        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-//        em.setJpaProperties(hibernateProperties);
-//
-//        return em;
-//    }
-
-//    @Bean
-//    public PlatformTransactionManager transactionManager() {
-//        JpaTransactionManager transactionManager = new JpaTransactionManager();
-//        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-//        return transactionManager;
-//    }
-
-//    private Properties hibernateProperties() {
-//        Properties properties = new Properties();
-//        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-//        properties.setProperty("hibernate.show_sql", "true");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-//        properties.setProperty("javax.persistence.validation.mode", "NONE");
-//        return properties;
-//    }
 }
