@@ -30,8 +30,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @Configuration
 @ComponentScan("ua.foxminded.university")
 @PropertySource("classpath:application.properties")
-//@EnableWebMvc
-//@EnableTransactionManagement
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class AppConfig implements WebMvcConfigurer {
 
