@@ -14,14 +14,15 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.model.Group;
 import ua.foxminded.university.model.Lecture;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class LectureJdbcRepositoryTest {
-    private static final Lecture expectedLecture1 = Lecture.builder().id(101).number(1).build();
-    private static final Lecture expectedLecture2 = Lecture.builder().id(102).number(2).build();
-    private static final Lecture expectedLecture3 = Lecture.builder().id(103).number(3).build();
+    private static final Lecture expectedLecture1 = Lecture.builder().name("Lecture1").number(1).build();
+    private static final Lecture expectedLecture2 = Lecture.builder().name("Lecture2").number(2).build();
+    private static final Lecture expectedLecture3 = Lecture.builder().name("Lecture3").number(3).build();
 
     @Autowired
     private LectureJdbcRepository dao;
@@ -29,31 +30,30 @@ class LectureJdbcRepositoryTest {
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldAddLecture_whenAddMethodCalled() {
-        dao.save(expectedLecture1);
-        Optional<Lecture> actualLecture = dao.findById(expectedLecture1.getId());
-        assertEquals(expectedLecture1, actualLecture);
+        Lecture savedLecture = dao.save(expectedLecture1);
+        assertEquals(expectedLecture1, savedLecture);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldDeleteLecture_whenDeleteMethodCalled() {
-        dao.save(expectedLecture1);
+        Lecture savedLecture = dao.save(expectedLecture1);
         dao.deleteById(expectedLecture1.getId());
-        Optional<Lecture> actualLecture = dao.findById(expectedLecture1.getId());
-        assertNull(actualLecture);
+        boolean exists = dao.existsById(savedLecture.getId());
+        assertFalse(exists);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldGetLecture_whenGetByIdMethodCalled() {
         dao.save(expectedLecture1);
-        Optional<Lecture> actualLecture = dao.findById(expectedLecture1.getId());
+        Lecture actualLecture = dao.findById(expectedLecture1.getId()).orElse(null);
         assertEquals(expectedLecture1, actualLecture);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllLectures_whenGetAllMethodCalled() {
+    void shouldGetAllLectures_whenGetAllMethodCalled() {
         List<Lecture> expectedLectures = new ArrayList<>();
         expectedLectures.add(expectedLecture1);
         expectedLectures.add(expectedLecture2);

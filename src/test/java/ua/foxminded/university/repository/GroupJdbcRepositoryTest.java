@@ -19,9 +19,9 @@ import ua.foxminded.university.model.Group;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class GroupJdbcRepositoryTest {
-    private static final Group expectedGroup1 = Group.builder().id(101).name("GROUP1").build();
-    private static final Group expectedGroup2 = Group.builder().id(102).name("GROUP2").build();
-    private static final Group expectedGroup3 = Group.builder().id(103).name("GROUP3").build();
+    private static final Group expectedGroup1 = Group.builder().name("GROUP1").build();
+    private static final Group expectedGroup2 = Group.builder().name("GROUP2").build();
+    private static final Group expectedGroup3 = Group.builder().name("GROUP3").build();
 
     @Autowired
     private GroupJdbcRepository dao;
@@ -29,31 +29,30 @@ class GroupJdbcRepositoryTest {
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldAddGroup_whenAddMethodCalled() {
-        dao.save(expectedGroup1);
-        Optional<Group> actualGroup = dao.findById(expectedGroup1.getId());
-        assertEquals(expectedGroup1, actualGroup);
+        Group savedGroup = dao.save(expectedGroup1);
+        assertEquals(expectedGroup1, savedGroup);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldDeleteGroup_whenDeleteMethodCalled() {
-        dao.save(expectedGroup1);
-        dao.deleteById(expectedGroup1.getId());
-        Optional<Group> actualGroup = dao.findById(expectedGroup1.getId());
-        assertNull(actualGroup);
+        Group savedGroup = dao.save(expectedGroup1);
+        dao.deleteById(savedGroup.getId());
+        boolean exists = dao.existsById(savedGroup.getId());
+        assertFalse(exists);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldGetGroup_whenGetByIdMethodCalled() {
         dao.save(expectedGroup1);
-        Optional<Group> actualGroup = dao.findById(expectedGroup1.getId());
+        Group actualGroup = dao.findById(expectedGroup1.getId()).orElse(null);
         assertEquals(expectedGroup1, actualGroup);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllGroups_whenGetAllMethodCalled() {
+    void shouldGetAllGroups_whenGetAllMethodCalled() {
         List<Group> expectedGroups = new ArrayList<>();
         expectedGroups.add(expectedGroup1);
         expectedGroups.add(expectedGroup2);

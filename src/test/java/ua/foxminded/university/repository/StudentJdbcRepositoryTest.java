@@ -14,50 +14,59 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.model.Group;
 import ua.foxminded.university.model.Student;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class StudentJdbcRepositoryTest {
-    private static final Student expectedStudent1 = Student.builder().id(101).academicYear(1).groupId(1).build();
-    private static final Student expectedStudent2 = Student.builder().id(102).groupId(5).build();
-    private static final Student expectedStudent3 = Student.builder().id(103).academicYear(2).groupId(3).build();
+    private static final Student expectedStudent1 = Student.builder().academicYear(1).name("Student1").build();
+    private static final Student expectedStudent2 = Student.builder().academicYear(2).name("Student2").build();
+    private static final Student expectedStudent3 = Student.builder().academicYear(3).name("Student3").build();
+    private static final Group group = Group.builder().name("Group1").build();
 
     @Autowired
     private StudentJdbcRepository dao;
+    @Autowired
+    private GroupJdbcRepository groupDao;
 
     @Test
     @Sql("classpath:testSchema.sql")
-    @Sql("classpath:insertGroups.sql")
     void shouldAddStudent_whenAddMethodCalled() {
-        dao.save(expectedStudent1);
-        Optional<Student> actualStudent = dao.findById(expectedStudent1.getId());
-        assertEquals(expectedStudent1, actualStudent);
+        Group savedGroup = groupDao.save(group);
+        expectedStudent1.setGroupId(savedGroup.getId());
+        Student savedStudent = dao.save(expectedStudent1);
+        assertEquals(expectedStudent1, savedStudent);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    @Sql("classpath:insertGroups.sql")
     void shouldDeleteStudent_whenDeleteMethodCalled() {
-        dao.save(expectedStudent1);
+        Group savedGroup = groupDao.save(group);
+        expectedStudent1.setGroupId(savedGroup.getId());
+        Student savedStudent = dao.save(expectedStudent1);
         dao.deleteById(expectedStudent1.getId());
-        Optional<Student> actualStudent = dao.findById(expectedStudent1.getId());
-        assertNull(actualStudent);
+        boolean exists = dao.existsById(savedStudent.getId());
+        assertFalse(exists);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    @Sql("classpath:insertGroups.sql")
     void shouldGetStudent_whenGetByIdMethodCalled() {
+        Group savedGroup = groupDao.save(group);
+        expectedStudent1.setGroupId(savedGroup.getId());
         dao.save(expectedStudent1);
-        Optional<Student> actualStudent = dao.findById(expectedStudent1.getId());
+        Student actualStudent = dao.findById(expectedStudent1.getId()).orElse(null);
         assertEquals(expectedStudent1, actualStudent);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    @Sql("classpath:insertGroups.sql")
-    void shouldGettAllStudents_whenGetAllMethodCalled() {
+    void shouldGetAllStudents_whenGetAllMethodCalled() {
+        Group savedGroup = groupDao.save(group);
+        expectedStudent1.setGroupId(savedGroup.getId());
+        expectedStudent2.setGroupId(savedGroup.getId());
+        expectedStudent3.setGroupId(savedGroup.getId());
         List<Student> expectedStudents = new ArrayList<>();
         expectedStudents.add(expectedStudent1);
         expectedStudents.add(expectedStudent2);

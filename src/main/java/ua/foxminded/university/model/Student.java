@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String surname;
-    private int academicYear;
-    private Integer groupId;
+    private Integer academicYear;
+    private Long groupId;
 }

@@ -19,9 +19,9 @@ import ua.foxminded.university.model.Teacher;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class TeacherJdbcRepositoryTest {
-    private static final Teacher expectedTeacher1 = Teacher.builder().id(101).hours(36).build();
-    private static final Teacher expectedTeacher2 = Teacher.builder().id(102).hours(48).build();
-    private static final Teacher expectedTeacher3 = Teacher.builder().id(103).hours(60).build();
+    private static final Teacher expectedTeacher1 = Teacher.builder().category("category1").hours(36).build();
+    private static final Teacher expectedTeacher2 = Teacher.builder().category("category2").hours(48).build();
+    private static final Teacher expectedTeacher3 = Teacher.builder().category("category3").hours(60).build();
 
     @Autowired
     private TeacherJdbcRepository dao;
@@ -29,31 +29,30 @@ class TeacherJdbcRepositoryTest {
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldAddTeacher_whenAddMethodCalled() {
-        dao.save(expectedTeacher1);
-        Optional<Teacher> actualTeacher = dao.findById(expectedTeacher1.getId());
-        assertEquals(expectedTeacher1, actualTeacher);
+        Teacher savedTeacher = dao.save(expectedTeacher1);
+        assertEquals(expectedTeacher1, savedTeacher);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldDeleteTeacher_whenDeleteMethodCalled() {
-        dao.save(expectedTeacher1);
+        Teacher savedTeacher = dao.save(expectedTeacher1);
         dao.deleteById(expectedTeacher1.getId());
-        Optional<Teacher> actualTeacher = dao.findById(expectedTeacher1.getId());
-        assertNull(actualTeacher);
+        boolean exists = dao.existsById(savedTeacher.getId());
+        assertFalse(exists);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldGetTeacher_whenGetByIdMethodCalled() {
         dao.save(expectedTeacher1);
-        Optional<Teacher> actualTeacher = dao.findById(expectedTeacher1.getId());
+        Teacher actualTeacher = dao.findById(expectedTeacher1.getId()).orElse(null);
         assertEquals(expectedTeacher1, actualTeacher);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllTeachers_whenGetAllMethodCalled() {
+    void shouldGetAllTeachers_whenGetAllMethodCalled() {
         List<Teacher> expectedTeachers = new ArrayList<>();
         expectedTeachers.add(expectedTeacher1);
         expectedTeachers.add(expectedTeacher2);

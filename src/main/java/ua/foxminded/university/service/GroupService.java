@@ -31,7 +31,7 @@ public class GroupService {
     }
 
     public Group getById(long id) throws ServiceException {
-        return dao.findById(id).get();
+        return dao.getReferenceById(id);
     }
 
     public List<Group> getAll() throws ServiceException {

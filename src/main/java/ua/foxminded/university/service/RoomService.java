@@ -27,7 +27,7 @@ public class RoomService {
     }
 
     public Room getById(long id) throws ServiceException {
-        return dao.findById(id).get();
+        return dao.getReferenceById(id);
     }
 
     public List<Room> getAll() throws ServiceException {

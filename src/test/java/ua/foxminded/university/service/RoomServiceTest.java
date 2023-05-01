@@ -40,7 +40,7 @@ class RoomServiceTest {
     @Test
     void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() {
         service.getById(anyInt());
-        verify(dao, times(1)).findById(anyLong());
+        verify(dao, times(1)).getReferenceById(anyLong());
     }
 
     @Test

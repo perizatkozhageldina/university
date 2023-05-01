@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,9 +20,9 @@ import ua.foxminded.university.model.Course;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class CourseJdbcRepositoryTest {
-    private static final Course expectedCourse1 = Course.builder().id(101).hours(36).build();
-    private static final Course expectedCourse2 = Course.builder().id(102).hours(48).build();
-    private static final Course expectedCourse3 = Course.builder().id(103).hours(60).build();
+    private static final Course expectedCourse1 = Course.builder().level(3).hours(36).build();
+    private static final Course expectedCourse2 = Course.builder().level(4).hours(48).build();
+    private static final Course expectedCourse3 = Course.builder().level(5).hours(60).build();
 
     @Autowired
     private CourseJdbcRepository dao;
@@ -29,31 +30,30 @@ class CourseJdbcRepositoryTest {
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldAddCourse_whenAddMethodCalled() {
-        dao.save(expectedCourse1);
-        Optional<Course> actualCourse = dao.findById(expectedCourse1.getId());
-        assertEquals(expectedCourse1, actualCourse);
+        Course savedCourse = dao.save(expectedCourse1);
+        assertEquals(expectedCourse1, savedCourse);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldDeleteCourse_whenDeleteMethodCalled() {
-        dao.save(expectedCourse1);
-        dao.deleteById(expectedCourse1.getId());
-        Optional<Course> actualCourse = dao.findById(expectedCourse1.getId());
-        assertNull(actualCourse);
+        Course savedCourse = dao.save(expectedCourse1);
+        dao.deleteById(savedCourse.getId());
+        boolean exists = dao.existsById(savedCourse.getId());
+        assertFalse(exists);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldGetCourse_whenGetByIdMethodCalled() {
         dao.save(expectedCourse1);
-        Optional<Course> actualCourse = dao.findById(expectedCourse1.getId());
+        Course actualCourse = dao.findById(expectedCourse1.getId()).orElse(null);
         assertEquals(expectedCourse1, actualCourse);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
-    void shouldGettAllCourses_whenGetAllMethodCalled() {
+    void shouldGetAllCourses_whenGetAllMethodCalled() {
         List<Course> expectedCourses = new ArrayList<>();
         expectedCourses.add(expectedCourse1);
         expectedCourses.add(expectedCourse2);

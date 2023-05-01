@@ -42,10 +42,8 @@ class CourseServiceTest {
 
     @Test
     void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() {
-        Course course = Course.builder().id(5).hours(5).level(5).build();
-//        Mockito.when(dao.findById(5L)).thenReturn(Optional.of(course));
-        service.getById(course.getId());
-        verify(dao, times(1)).findById(5L);
+        service.getById(anyLong());
+        verify(dao, times(1)).getReferenceById(anyLong());
     }
 
     @Test

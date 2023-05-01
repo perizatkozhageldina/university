@@ -30,18 +30,16 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @Configuration
 @ComponentScan("ua.foxminded.university")
 @PropertySource("classpath:application.properties")
-@EnableWebMvc
-@EnableTransactionManagement
+//@EnableWebMvc
+//@EnableTransactionManagement
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class AppConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
-    private Environment environment;
 
     @Autowired
-    public AppConfig(ApplicationContext applicationContext, Environment environment) {
+    public AppConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-        this.environment = environment;
     }
 
     @Bean
@@ -73,40 +71,40 @@ public class AppConfig implements WebMvcConfigurer {
         registry.viewResolver(resolver);
     }
 
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("db.driver"));
-        dataSource.setUrl(environment.getRequiredProperty("db.url"));
-        dataSource.setUsername(environment.getRequiredProperty("db.username"));
-        dataSource.setPassword(environment.getRequiredProperty("db.password"));
-        return dataSource;
-    }
+//    @Bean
+//    public DataSource dataSource() {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(environment.getRequiredProperty("db.driver"));
+//        dataSource.setUrl(environment.getRequiredProperty("db.url"));
+//        dataSource.setUsername(environment.getRequiredProperty("db.username"));
+//        dataSource.setPassword(environment.getRequiredProperty("db.password"));
+//        return dataSource;
+//    }
 
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan("ua.foxminded.university");
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        em.setJpaProperties(hibernateProperties());
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+//        em.setDataSource(dataSource);
+//        em.setPackagesToScan("ua.foxminded.university");
+//        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+//        em.setJpaProperties(hibernateProperties);
+//
+//        return em;
+//    }
 
-        return em;
-    }
+//    @Bean
+//    public PlatformTransactionManager transactionManager() {
+//        JpaTransactionManager transactionManager = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+//        return transactionManager;
+//    }
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-        return transactionManager;
-    }
-
-    private Properties hibernateProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        properties.setProperty("javax.persistence.validation.mode", "NONE");
-        return properties;
-    }
+//    private Properties hibernateProperties() {
+//        Properties properties = new Properties();
+//        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+//        properties.setProperty("hibernate.show_sql", "true");
+//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+//        properties.setProperty("javax.persistence.validation.mode", "NONE");
+//        return properties;
+//    }
 }

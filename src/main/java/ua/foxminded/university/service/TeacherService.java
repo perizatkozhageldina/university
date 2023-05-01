@@ -27,7 +27,7 @@ public class TeacherService {
     }
 
     public Teacher getById(long id) throws ServiceException {
-        return dao.findById(id).get();
+        return dao.getReferenceById(id);
     }
 
     public List<Teacher> getAll() throws ServiceException {

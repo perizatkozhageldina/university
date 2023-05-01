@@ -1,7 +1,6 @@
 package ua.foxminded.university.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.repository.CourseJdbcRepository;
-
-import javax.persistence.EntityNotFoundException;
 
 @Service
 public class CourseService {
@@ -30,8 +27,7 @@ public class CourseService {
     }
 
     public Course getById(long id) throws ServiceException {
-        Optional<Course> optionalCourse = dao.findById(id);
-        return optionalCourse.orElseThrow(EntityNotFoundException::new);
+        return dao.getReferenceById(id);
     }
 
     public List<Course> getAll() throws ServiceException {

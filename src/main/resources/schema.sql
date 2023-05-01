@@ -5,9 +5,9 @@ DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS student;
 DROP TABLE IF EXISTS teacher;
 
-CREATE TABLE course(id SERIAL PRIMARY KEY, name VARCHAR, level integer, hours integer);
-CREATE TABLE groups(id SERIAL PRIMARY KEY, name VARCHAR);
-CREATE TABLE lecture(id SERIAL PRIMARY KEY, name VARCHAR, number integer);
-CREATE TABLE room(id SERIAL PRIMARY KEY, name VARCHAR, capacity integer);
-CREATE TABLE student(id SERIAL PRIMARY KEY, name VARCHAR, surname VARCHAR, academicYear integer, groupId integer, CONSTRAINT fk_group FOREIGN KEY(groupId) REFERENCES groups(id));
-CREATE TABLE teacher(id SERIAL PRIMARY KEY, name VARCHAR, surname VARCHAR, category varchar, hours integer);
+CREATE TABLE course(id LONG AUTO_INCREMENT PRIMARY KEY, name VARCHAR, level INTEGER, hours INTEGER);
+CREATE TABLE groups(id LONG AUTO_INCREMENT PRIMARY KEY, name VARCHAR);
+CREATE TABLE lecture(id LONG AUTO_INCREMENT PRIMARY KEY, name VARCHAR, number INTEGER);
+CREATE TABLE room(id LONG AUTO_INCREMENT PRIMARY KEY, name VARCHAR, capacity INTEGER);
+CREATE TABLE student(id LONG AUTO_INCREMENT PRIMARY KEY, name VARCHAR, surname VARCHAR, academicYear INTEGER, groupId LONG, CONSTRAINT fk_group FOREIGN KEY(groupId) REFERENCES groups(id));
+CREATE TABLE teacher(id LONG AUTO_INCREMENT PRIMARY KEY, name VARCHAR, surname VARCHAR, category VARCHAR, hours INTEGER);
