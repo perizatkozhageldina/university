@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,9 +18,9 @@ import ua.foxminded.university.model.Group;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
 class GroupJdbcRepositoryTest {
-    private static final Group expectedGroup1 = Group.builder().name("GROUP1").build();
-    private static final Group expectedGroup2 = Group.builder().name("GROUP2").build();
-    private static final Group expectedGroup3 = Group.builder().name("GROUP3").build();
+    private static final Group EXPECTED_GROUP_1 = Group.builder().name("GROUP1").build();
+    private static final Group EXPECTED_GROUP_2 = Group.builder().name("GROUP2").build();
+    private static final Group EXPECTED_GROUP_3 = Group.builder().name("GROUP3").build();
 
     @Autowired
     private GroupJdbcRepository dao;
@@ -29,14 +28,14 @@ class GroupJdbcRepositoryTest {
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldAddGroup_whenAddMethodCalled() {
-        Group savedGroup = dao.save(expectedGroup1);
-        assertEquals(expectedGroup1, savedGroup);
+        Group savedGroup = dao.save(EXPECTED_GROUP_1);
+        assertEquals(EXPECTED_GROUP_1, savedGroup);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldDeleteGroup_whenDeleteMethodCalled() {
-        Group savedGroup = dao.save(expectedGroup1);
+        Group savedGroup = dao.save(EXPECTED_GROUP_1);
         dao.deleteById(savedGroup.getId());
         boolean exists = dao.existsById(savedGroup.getId());
         assertFalse(exists);
@@ -45,21 +44,21 @@ class GroupJdbcRepositoryTest {
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldGetGroup_whenGetByIdMethodCalled() {
-        dao.save(expectedGroup1);
-        Group actualGroup = dao.findById(expectedGroup1.getId()).orElse(null);
-        assertEquals(expectedGroup1, actualGroup);
+        dao.save(EXPECTED_GROUP_1);
+        Group actualGroup = dao.findById(EXPECTED_GROUP_1.getId()).orElse(null);
+        assertEquals(EXPECTED_GROUP_1, actualGroup);
     }
 
     @Test
     @Sql("classpath:testSchema.sql")
     void shouldGetAllGroups_whenGetAllMethodCalled() {
         List<Group> expectedGroups = new ArrayList<>();
-        expectedGroups.add(expectedGroup1);
-        expectedGroups.add(expectedGroup2);
-        expectedGroups.add(expectedGroup3);
-        dao.save(expectedGroup1);
-        dao.save(expectedGroup2);
-        dao.save(expectedGroup3);
+        expectedGroups.add(EXPECTED_GROUP_1);
+        expectedGroups.add(EXPECTED_GROUP_2);
+        expectedGroups.add(EXPECTED_GROUP_3);
+        dao.save(EXPECTED_GROUP_1);
+        dao.save(EXPECTED_GROUP_2);
+        dao.save(EXPECTED_GROUP_3);
         List<Group> actualGroups = dao.findAll();
         assertEquals(expectedGroups, actualGroups);
     }
