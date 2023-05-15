@@ -38,7 +38,7 @@ public class RoomController {
     }
 
     @GetMapping("/add")
-    public String add(@Valid Model model) {
+    public String add(Model model) {
         model.addAttribute("room", new Room());
         return "room/add";
     }

@@ -38,7 +38,7 @@ public class TeacherController {
     }
 
     @GetMapping("/add")
-    public String add(@Valid Model model) {
+    public String add(Model model) {
         model.addAttribute("teacher", new Teacher());
         return "teacher/add";
     }

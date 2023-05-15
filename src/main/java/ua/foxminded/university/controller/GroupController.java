@@ -38,7 +38,7 @@ public class GroupController {
     }
 
     @GetMapping("/add")
-    public String add(@Valid Model model) {
+    public String add(Model model) {
         model.addAttribute("group", new Group());
         return "group/add";
     }
