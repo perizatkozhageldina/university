@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ua.foxminded.university.model.Group;
 import ua.foxminded.university.service.GroupService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/groups")
@@ -34,19 +38,25 @@ public class GroupController {
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
+    public String add(@Valid Model model) {
         model.addAttribute("group", new Group());
         return "group/add";
     }
 
     @PostMapping("save")
-    public String save(@ModelAttribute("group") Group group) {
+    public String save(@Valid @ModelAttribute("group") Group group, BindingResult result) {
+        if (result.hasErrors()) {
+            return "group/add";
+        }
         service.save(group);
         return "redirect:/groups";
     }
 
     @PatchMapping("update")
-    public String update(@ModelAttribute("group") Group group) {
+    public String update(@Valid @ModelAttribute("group") Group group, BindingResult result) {
+        if (result.hasErrors()) {
+            return "group/edit";
+        }
         service.save(group);
         return "redirect:/groups";
     }

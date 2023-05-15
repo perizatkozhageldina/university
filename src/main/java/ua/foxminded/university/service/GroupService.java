@@ -6,10 +6,14 @@ import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.validation.annotation.Validated;
 import ua.foxminded.university.model.Group;
 import ua.foxminded.university.repository.GroupJdbcRepository;
 
+import javax.validation.Valid;
+
 @Service
+@Validated
 public class GroupService {
     private GroupJdbcRepository dao;
 
@@ -18,11 +22,7 @@ public class GroupService {
         this.dao = dao;
     }
 
-    public void save(Group group) throws ServiceException {
-        dao.save(group);
-    }
-
-    public void update(Group group) throws ServiceException {
+    public void save(@Valid Group group) throws ServiceException {
         dao.save(group);
     }
 

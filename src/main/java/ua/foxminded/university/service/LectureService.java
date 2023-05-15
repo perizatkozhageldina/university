@@ -6,10 +6,14 @@ import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.validation.annotation.Validated;
 import ua.foxminded.university.model.Lecture;
 import ua.foxminded.university.repository.LectureJdbcRepository;
 
+import javax.validation.Valid;
+
 @Service
+@Validated
 public class LectureService {
     private LectureJdbcRepository dao;
 
@@ -18,7 +22,7 @@ public class LectureService {
         this.dao = dao;
     }
 
-    public void save(Lecture lecture) throws ServiceException {
+    public void save(@Valid Lecture lecture) throws ServiceException {
         dao.save(lecture);
     }
 

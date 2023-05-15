@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ua.foxminded.university.model.Teacher;
 import ua.foxminded.university.service.TeacherService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/teachers")
@@ -34,19 +38,25 @@ public class TeacherController {
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
+    public String add(@Valid Model model) {
         model.addAttribute("teacher", new Teacher());
         return "teacher/add";
     }
 
     @PostMapping("save")
-    public String save(@ModelAttribute("teacher") Teacher teacher) {
+    public String save(@Valid @ModelAttribute("teacher") Teacher teacher, BindingResult result) {
+        if (result.hasErrors()) {
+            return "teacher/add";
+        }
         service.save(teacher);
         return "redirect:/teachers";
     }
 
     @PatchMapping("update")
-    public String update(@ModelAttribute("teacher") Teacher teacher) {
+    public String update(@Valid @ModelAttribute("teacher") Teacher teacher, BindingResult result) {
+        if (result.hasErrors()) {
+            return "teacher/edit";
+        }
         service.save(teacher);
         return "redirect:/teachers";
     }

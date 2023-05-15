@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.service.CourseService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/courses")
@@ -40,13 +43,19 @@ public class CourseController {
 	}
 
 	@PostMapping("save")
-	public String save(@ModelAttribute("course") Course course) {
+	public String save(@Valid @ModelAttribute("course") Course course, BindingResult result) {
+		if (result.hasErrors()) {
+			return "course/add";
+		}
 		service.save(course);
 		return "redirect:/courses";
 	}
 
 	@PatchMapping("update")
-	public String update(@ModelAttribute("course") Course course) {
+	public String update(@Valid @ModelAttribute("course") Course course, BindingResult result) {
+		if (result.hasErrors()) {
+			return "course/edit";
+		}
 		service.save(course);
 		return "redirect:/courses";
 	}

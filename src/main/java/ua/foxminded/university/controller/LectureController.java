@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ua.foxminded.university.model.Lecture;
 import ua.foxminded.university.service.LectureService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/lectures")
@@ -34,19 +38,25 @@ public class LectureController {
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
+    public String add(@Valid Model model) {
         model.addAttribute("lecture", new Lecture());
         return "lecture/add";
     }
 
     @PostMapping("save")
-    public String save(@ModelAttribute("lecture") Lecture lecture) {
+    public String save(@Valid @ModelAttribute("lecture") Lecture lecture, BindingResult result) {
+        if (result.hasErrors()) {
+            return "lecture/add";
+        }
         service.save(lecture);
         return "redirect:/lectures";
     }
 
     @PatchMapping("update")
-    public String update(@ModelAttribute("lecture") Lecture lecture) {
+    public String update(@Valid @ModelAttribute("lecture") Lecture lecture, BindingResult result) {
+        if (result.hasErrors()) {
+            return "lecture/edit";
+        }
         service.save(lecture);
         return "redirect:/lectures";
     }

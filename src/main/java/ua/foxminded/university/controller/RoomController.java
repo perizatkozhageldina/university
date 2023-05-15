@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ua.foxminded.university.model.Room;
 import ua.foxminded.university.service.RoomService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/rooms")
@@ -34,19 +38,25 @@ public class RoomController {
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
+    public String add(@Valid Model model) {
         model.addAttribute("room", new Room());
         return "room/add";
     }
 
     @PostMapping("save")
-    public String save(@ModelAttribute("room") Room room) {
+    public String save(@Valid @ModelAttribute("room") Room room, BindingResult result) {
+        if (result.hasErrors()) {
+            return "room/add";
+        }
         service.save(room);
         return "redirect:/rooms";
     }
 
     @PatchMapping("update")
-    public String update(@ModelAttribute("room") Room room) {
+    public String update(@Valid @ModelAttribute("room") Room room, BindingResult result) {
+        if (result.hasErrors()) {
+            return "room/edit";
+        }
         service.save(room);
         return "redirect:/rooms";
     }

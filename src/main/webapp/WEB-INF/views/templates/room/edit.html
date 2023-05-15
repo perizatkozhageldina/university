@@ -43,10 +43,14 @@
 			<div class="form-group">
 				<label for="name">Name</label> <input type="text" class="form-control" id="name" th:field="*{name}"
 					placeholder="Name">
+				<p  th:if="${#fields.hasErrors('name')}" th:class="${#fields.hasErrors('name')}? error">
+					Name is mandatory</p>
 			</div>
 			<div class="form-group">
 				<label for="capacity">Capacity</label> <input type="number" class="form-control" id="capacity"
 					th:field="*{capacity}" placeholder="Capacity">
+				<p  th:if="${#fields.hasErrors('capacity')}" th:class="${#fields.hasErrors('capacity')}? error">
+					Capacity cannot be null</p>
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 			<a class="btn btn-danger" href="/university/rooms" role="button">Cancel</a>

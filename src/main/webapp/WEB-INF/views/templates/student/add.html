@@ -39,14 +39,20 @@
 			<div class="form-group">
 				<label for="name">Name</label> <input type="text" class="form-control" id="name" th:field="*{name}"
 					placeholder="Name">
+				<p th:if="${#fields.hasErrors('name')}" th:class="${#fields.hasErrors('name')}? error">
+					Name is mandatory</p>
 			</div>
 			<div class="form-group">
 				<label for="surname">Surname</label> <input type="text" class="form-control" id="surname" th:field="*{surname}"
 					placeholder="Surname">
+				<p th:if="${#fields.hasErrors('surname')}" th:class="${#fields.hasErrors('surname')}? error">
+					Surname is mandatory</p>
 			</div>
 			<div class="form-group">
 				<label for="academicYear">Academic Year</label> <input type="number" class="form-control" id="academicYear"
 					th:field="*{academicYear}" placeholder="Academic Year">
+				<p th:if="${#fields.hasErrors('academicYear')}" th:class="${#fields.hasErrors('academicYear')}? error">
+					Academic year cannot be null and more than 5</p>
 			</div>
 			<div class="form-group">
 				<label for="groupId">Group Id</label> <input type="number" class="form-control" id="groupId" th:field="*{groupId}"

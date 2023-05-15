@@ -43,10 +43,14 @@
 			<div class="form-group">
 				<label for="name">Name</label> <input type="text" class="form-control" id="name" th:field="*{name}"
 					placeholder="Name">
+				<p th:if="${#fields.hasErrors('name')}" th:class="${#fields.hasErrors('name')}? error">
+					Name is mandatory</p>
 			</div>
 			<div class="form-group">
 				<label for="surname">Surname</label> <input type="text" class="form-control" id="surname" th:field="*{surname}"
 					placeholder="Surname">
+				<p th:if="${#fields.hasErrors('surname')}" th:class="${#fields.hasErrors('surname')}? error">
+					Surname is mandatory</p>
 			</div>
 			<div class="form-group">
 				<label for="category">Category</label> <input type="text" class="form-control" id="category" th:field="*{category}"
