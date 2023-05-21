@@ -46,6 +46,11 @@
 				<p  th:if="${#fields.hasErrors('name')}" th:class="${#fields.hasErrors('name')}? error">
 					Name is mandatory</p>
 			</div>
+			<div class="form-group">
+				<label for="maxStudents">Maximum number of students</label>
+				<input type="number" class="form-control" id="maxStudents" th:field="*{maxStudents}" placeholder="Maximum number of students">
+				<p th:if="${#fields.hasErrors('maxStudents')}" th:class="${#fields.hasErrors('maxStudents')}? error">Enter correct number</p>
+			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 			<a class="btn btn-danger" href="/university/groups" role="button">Cancel</a>
 		</form>

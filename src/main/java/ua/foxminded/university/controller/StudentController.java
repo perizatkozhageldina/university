@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ua.foxminded.university.model.Group;
 import ua.foxminded.university.model.Student;
+import ua.foxminded.university.service.GroupService;
 import ua.foxminded.university.service.StudentService;
 
 import javax.validation.Valid;
@@ -24,10 +25,12 @@ import javax.validation.Valid;
 @RequestMapping("/students")
 public class StudentController {
     private StudentService service;
+    private GroupService groupService;
 
     @Autowired
-    public StudentController(StudentService service) {
+    public StudentController(StudentService service, GroupService groupService) {
         this.service = service;
+        this.groupService = groupService;
     }
 
     @GetMapping
@@ -39,6 +42,8 @@ public class StudentController {
 
     @GetMapping("/add")
     public String add(Model model) {
+        List<Group> groups = groupService.getAll();
+        model.addAttribute("groups", groups);
         model.addAttribute("student", new Student());
         return "student/add";
     }
@@ -53,8 +58,10 @@ public class StudentController {
     }
 
     @PatchMapping("update")
-    public String update(@Valid @ModelAttribute("student") Student student, BindingResult result) {
+    public String update(@Valid @ModelAttribute("student") Student student, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            List<Group> groups = groupService.getAll();
+            model.addAttribute("groups", groups);
             return "student/edit";
         }
         service.save(student);
@@ -64,7 +71,9 @@ public class StudentController {
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
         Student student = service.getById(id);
+        List<Group> groups = groupService.getAll();
         model.addAttribute("student", student);
+        model.addAttribute("groups", groups);
         return "student/edit";
     }
 

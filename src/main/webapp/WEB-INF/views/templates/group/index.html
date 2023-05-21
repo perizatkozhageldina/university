@@ -56,6 +56,7 @@
 						<tr>
 							<th>Id</th>
 							<th>Name</th>
+							<th>Maximum students in group</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -63,6 +64,7 @@
 						<tr th:each="group : ${groups}">
 							<td th:text="${group.id}"></td>
 							<td th:text="${group.name}"></td>
+							<td th:text="${group.maxStudents}"></td>
 							<td class="deleteCell">
 								<form th:action="@{/groups/{id}/edit(id=${group.id})}" th:method="GET">
 									<button class="editButton" type="submit">

@@ -55,8 +55,12 @@
 					Academic year cannot be null and more than 5</p>
 			</div>
 			<div class="form-group">
-				<label for="groupId">Group Id</label> <input type="number" class="form-control" id="groupId" th:field="*{groupId}"
-					placeholder="Group Id">
+				<label for="groupId">Group</label>
+				<select id="groupId" name="groupId" class="form-control">
+					<option value="">-- Select Group --</option>
+					<option th:each="group : ${groups}" th:value="${group.id}" th:text="${group.name}"></option>
+				</select>
+				<p th:if="${#fields.hasErrors('groupId')}" th:class="${#fields.hasErrors('groupId')}? error">Group is full</p>
 			</div>
 			<button type="submit" class="btn btn-success">Submit</button>
 			<a class="btn btn-danger" href="/university/students" role="button">Cancel</a>

@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.model.Student;
+import ua.foxminded.university.service.GroupService;
 import ua.foxminded.university.service.StudentService;
 
 @ExtendWith(SpringExtension.class)
@@ -51,10 +52,13 @@ class StudentControllerTest {
     @Mock
     private StudentService mockService;
 
+    @Mock
+    private GroupService mockGroupService;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(new StudentController(mockService)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new StudentController(mockService, mockGroupService)).build();
     }
 
     @Test
