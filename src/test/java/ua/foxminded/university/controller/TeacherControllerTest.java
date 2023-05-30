@@ -1,32 +1,24 @@
 package ua.foxminded.university.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
+import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.model.Teacher;
 import ua.foxminded.university.service.TeacherService;
+
+import java.net.URLEncoder;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -45,73 +37,81 @@ class TeacherControllerTest {
     private static final String INDEX_ATTRIBUTE = "teachers";
     private static final String TEACHER_ATTRIBUTE = "teacher";
     private static final String TEACHER_PARAM = "Teacher";
+    private static final String TEACHER_NAME = "Name";
+    private static final String TEACHER_SURNAME = "Surname";
+    private static final String TEACHER_CATEGORY = "Category";
 
-    private MockMvc mockMvc;
+    @Autowired
+    WebApplicationContext wac;
 
-    @Mock
-    private TeacherService mockService;
+    @Autowired
+    TeacherService teacherService;
+
+    MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(new TeacherController(mockService)).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
+                .dispatchOptions(true).build();
     }
 
     @Test
     void shouldReturnIndexView_whenListMethodExecuted() throws Exception {
-        List<Teacher> teacherList = Arrays.asList(Teacher.builder().id(1L).category("Junior").hours(12).build(),
-                Teacher.builder().id(2L).category("Middle").hours(24).build(),
-                Teacher.builder().id(3L).category("Senior").hours(36).build());
-
-        Mockito.when(mockService.getAll()).thenReturn(teacherList);
-
-        mockMvc.perform(get(INDEX_PATH)).andExpect(status().isOk()).andExpect(view().name(INDEX_VIEW))
-                .andExpect(model().attributeExists(INDEX_ATTRIBUTE));
+        mockMvc.perform(MockMvcRequestBuilders.get(INDEX_PATH))
+                .andExpect(MockMvcResultMatchers.view().name(INDEX_VIEW))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists(INDEX_ATTRIBUTE));
     }
 
     @Test
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
-        Teacher teacher = Teacher.builder().id(1L).category("Junior").hours(12).build();
-
-        mockMvc.perform(get(ADD_PATH)).andExpect(status().isOk()).andExpect(view().name(ADD_VIEW))
-                .andExpect(model().attributeExists(TEACHER_ATTRIBUTE));
+        Teacher teacher = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).category(TEACHER_CATEGORY).hours(12).build();
+        teacherService.save(teacher);
+        mockMvc.perform(MockMvcRequestBuilders.get(ADD_PATH))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(ADD_VIEW))
+                .andExpect(MockMvcResultMatchers.model().attributeExists(TEACHER_ATTRIBUTE));
     }
 
     @Test
     void shouldReturnSaveView_whenSaveMethodExecuted() throws Exception {
-        Teacher teacher = Teacher.builder().id(1L).category("Junior").hours(12).build();
-
+        Teacher teacher = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).category(TEACHER_CATEGORY).hours(12).build();
         String encoded = URLEncoder.encode(teacher.toString(), "UTF-8");
-
-        mockMvc.perform(post(SAVE_PATH).param(TEACHER_PARAM, encoded)).andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT_VIEW));
+        mockMvc.perform(MockMvcRequestBuilders.post(SAVE_PATH).param(TEACHER_PARAM, encoded))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(ADD_VIEW));
     }
 
     @Test
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
-        Teacher teacher = Teacher.builder().id(1L).category("Junior").hours(12).build();
-
-        String encoded = URLEncoder.encode(teacher.toString(), "UTF-8");
-
-        mockMvc.perform(patch(UPDATE_PATH).param(TEACHER_PARAM, encoded)).andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT_VIEW));
+        Teacher teacher = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).category(TEACHER_CATEGORY).hours(12).build();
+        teacherService.save(teacher);
+        mockMvc.perform(MockMvcRequestBuilders.patch(UPDATE_PATH)
+                .param("name", "Updated Name")
+                .param("surname", "Updated Surname")
+                .param("category", "Updated category")
+                .param("hours", "12"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
     }
 
     @Test
     void shouldReturnEditView_whenEditMethodExecuted() throws Exception {
-        Teacher teacher = Teacher.builder().id(1L).category("Junior").hours(12).build();
-
-        Mockito.when(mockService.getById(teacher.getId())).thenReturn(teacher);
-
-        mockMvc.perform(get(EDIT_PATH, "1")).andExpect(status().isOk()).andExpect(view().name(EDIT_VIEW))
+        Teacher teacher = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).category(TEACHER_CATEGORY).hours(12).build();
+        teacherService.save(teacher);
+        mockMvc.perform(MockMvcRequestBuilders.get(EDIT_PATH, teacher.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(EDIT_VIEW))
                 .andExpect(model().attributeExists(TEACHER_ATTRIBUTE));
     }
 
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
-        Teacher teacher = Teacher.builder().id(1L).category("Junior").hours(12).build();
+        Teacher teacher = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).category(TEACHER_CATEGORY).hours(12).build();
+        teacherService.save(teacher);
+        mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_PATH, teacher.getId()))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
 
-        mockMvc.perform(delete(DELETE_PATH, "1")).andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT_VIEW));
     }
 }

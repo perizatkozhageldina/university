@@ -1,32 +1,24 @@
 package ua.foxminded.university.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
+import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.model.Room;
 import ua.foxminded.university.service.RoomService;
+
+import java.net.URLEncoder;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -44,71 +36,78 @@ class RoomControllerTest {
     private static final String REDIRECT_VIEW = "redirect:/rooms";
     private static final String INDEX_ATTRIBUTE = "rooms";
     private static final String ROOM_ATTRIBUTE = "room";
-    private static final String ROOM_PARAM = "Lecture";
+    private static final String ROOM_PARAM = "Room";
+    private static final String ROOM_NAME = "Room";
 
-    private MockMvc mockMvc;
+    @Autowired
+    WebApplicationContext wac;
 
-    @Mock
-    private RoomService mockService;
+    @Autowired
+    RoomService roomService;
+
+    MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(new RoomController(mockService)).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
+                .dispatchOptions(true).build();
     }
 
     @Test
     void shouldReturnIndexView_whenListMethodExecuted() throws Exception {
-        List<Room> roomList = Arrays.asList(Room.builder().id(1L).capacity(10).build(),
-                Room.builder().id(2L).capacity(20).build(), Room.builder().id(3L).capacity(30).build());
-
-        Mockito.when(mockService.getAll()).thenReturn(roomList);
-
-        mockMvc.perform(get(INDEX_PATH)).andExpect(status().isOk()).andExpect(view().name(INDEX_VIEW))
-                .andExpect(model().attributeExists(INDEX_ATTRIBUTE));
+        mockMvc.perform(MockMvcRequestBuilders.get(INDEX_PATH))
+                .andExpect(MockMvcResultMatchers.view().name(INDEX_VIEW))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists(INDEX_ATTRIBUTE));
     }
 
     @Test
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).capacity(10).build();
-
-        mockMvc.perform(get(ADD_PATH)).andExpect(status().isOk()).andExpect(view().name(ADD_VIEW))
-                .andExpect(model().attributeExists(ROOM_ATTRIBUTE));
+        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
+        roomService.save(room);
+        mockMvc.perform(MockMvcRequestBuilders.get(ADD_PATH))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(ADD_VIEW))
+                .andExpect(MockMvcResultMatchers.model().attributeExists(ROOM_ATTRIBUTE));
     }
 
     @Test
     void shouldReturnSaveView_whenSaveMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).capacity(10).build();
+        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
         String encoded = URLEncoder.encode(room.toString(), "UTF-8");
-
-        mockMvc.perform(post(SAVE_PATH).param(ROOM_PARAM, encoded)).andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT_VIEW));
+        mockMvc.perform(MockMvcRequestBuilders.post(SAVE_PATH).param(ROOM_PARAM, encoded))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(ADD_VIEW));
     }
 
     @Test
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).capacity(10).build();
-        String encoded = URLEncoder.encode(room.toString(), "UTF-8");
-
-        mockMvc.perform(patch(UPDATE_PATH).param(ROOM_PARAM, encoded)).andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT_VIEW));
+        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
+        roomService.save(room);
+        mockMvc.perform(MockMvcRequestBuilders.patch(UPDATE_PATH)
+                .param("name", "Updated Room")
+                .param("capacity", "10"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
     }
 
     @Test
     void shouldReturnEditView_whenEditMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).capacity(10).build();
-
-        Mockito.when(mockService.getById(room.getId())).thenReturn(room);
-
-        mockMvc.perform(get(EDIT_PATH, "1")).andExpect(status().isOk()).andExpect(view().name(EDIT_VIEW))
+        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
+        roomService.save(room);
+        mockMvc.perform(MockMvcRequestBuilders.get(EDIT_PATH, room.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(EDIT_VIEW))
                 .andExpect(model().attributeExists(ROOM_ATTRIBUTE));
     }
 
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).capacity(10).build();
+        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
+        roomService.save(room);
+        mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_PATH, room.getId()))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
 
-        mockMvc.perform(delete(DELETE_PATH, "1")).andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT_VIEW));
     }
 }

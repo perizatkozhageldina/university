@@ -8,29 +8,29 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="/university/styles/css/main.css" />
+<link rel="stylesheet" type="text/css" href="/styles/css/main.css" />
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/university">University</a>
+		<a class="navbar-brand" href="/">University</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
 			aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-				<a class="nav-item nav-link" href="/university">Home</a>
-				<a class="nav-item nav-link" href="/university/courses">Courses</a>
-				<a class="nav-item nav-link" href="/university/groups">Groups</a>
-				<a class="nav-item nav-link" href="/university/lectures">Lectures</a>
-				<a class="nav-item nav-link" href="/university/rooms">Rooms</a>
-				<a class="nav-item nav-link active" href="/university/students">
+				<a class="nav-item nav-link" href="/">Home</a>
+				<a class="nav-item nav-link" href="/courses">Courses</a>
+				<a class="nav-item nav-link" href="/groups">Groups</a>
+				<a class="nav-item nav-link" href="/lectures">Lectures</a>
+				<a class="nav-item nav-link" href="/rooms">Rooms</a>
+				<a class="nav-item nav-link active" href="/students">
 					Students<span class="sr-only">(current)</span>
 				</a>
-				<a class="nav-item nav-link" href="/university/teachers">Teachers</a>
+				<a class="nav-item nav-link" href="/teachers">Teachers</a>
 			</div>
 		</div>
 	</nav>
@@ -63,7 +63,7 @@
 				<p th:if="${#fields.hasErrors('groupId')}" th:class="${#fields.hasErrors('groupId')}? error">Group is full</p>
 			</div>
 			<button type="submit" class="btn btn-success">Submit</button>
-			<a class="btn btn-danger" href="/university/students" role="button">Cancel</a>
+			<a class="btn btn-danger" href="/students" role="button">Cancel</a>
 		</form>
 	</div>
 </body>
