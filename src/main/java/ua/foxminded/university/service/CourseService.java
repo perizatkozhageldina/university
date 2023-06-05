@@ -1,6 +1,7 @@
 package ua.foxminded.university.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import org.hibernate.service.spi.ServiceException;
@@ -21,16 +22,16 @@ public class CourseService {
         this.dao = dao;
     }
 
-    public void save(@Valid Course course) throws ServiceException {
-        dao.save(course);
+    public Course save(@Valid Course course) throws ServiceException {
+        return dao.save(course);
     }
 
     public void deleteById(long id) throws ServiceException {
         dao.deleteById(id);
     }
 
-    public Course getById(long id) throws ServiceException {
-        return dao.getReferenceById(id);
+    public Optional<Course> getById(long id) throws ServiceException {
+        return dao.findById(id);
     }
 
     public List<Course> getAll() throws ServiceException {

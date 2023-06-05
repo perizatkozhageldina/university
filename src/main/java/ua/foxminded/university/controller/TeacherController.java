@@ -1,6 +1,7 @@
 package ua.foxminded.university.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,7 +63,7 @@ public class TeacherController {
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Teacher teacher = service.getById(id);
+        Optional<Teacher> teacher = service.getById(id);
         model.addAttribute("teacher", teacher);
         return "teacher/edit";
     }

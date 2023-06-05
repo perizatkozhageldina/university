@@ -1,7 +1,7 @@
 package ua.foxminded.university.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.validation.annotation.Validated;
 import ua.foxminded.university.model.Group;
-import ua.foxminded.university.model.Student;
 import ua.foxminded.university.repository.GroupJdbcRepository;
-import ua.foxminded.university.repository.StudentJdbcRepository;
 
 import javax.validation.Valid;
 
@@ -25,16 +23,16 @@ public class GroupService {
         this.dao = dao;
     }
 
-    public void save(@Valid Group group) throws ServiceException {
-        dao.save(group);
+    public Group save(@Valid Group group) throws ServiceException {
+        return dao.save(group);
     }
 
     public void deleteById(long id) throws ServiceException {
         dao.deleteById(id);
     }
 
-    public Group getById(long id) throws ServiceException {
-        return dao.getReferenceById(id);
+    public Optional<Group> getById(long id) throws ServiceException {
+        return dao.findById(id);
     }
 
     public List<Group> getAll() throws ServiceException {

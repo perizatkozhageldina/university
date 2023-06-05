@@ -1,6 +1,7 @@
 package ua.foxminded.university.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,16 @@ public class StudentService {
         this.dao = dao;
     }
 
-    public void save(@Valid Student student) throws ServiceException {
-        dao.save(student);
+    public Student save(@Valid Student student) throws ServiceException {
+        return dao.save(student);
     }
 
     public void deleteById(long id) throws ServiceException {
         dao.deleteById(id);
     }
 
-    public Student getById(long id) throws ServiceException {
-        return dao.getReferenceById(id);
+    public Optional<Student> getById(long id) throws ServiceException {
+        return dao.findById(id);
     }
 
     public List<Student> getAll() throws ServiceException {
