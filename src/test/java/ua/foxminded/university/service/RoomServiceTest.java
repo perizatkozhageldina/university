@@ -10,8 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import ua.foxminded.university.model.Course;
 import ua.foxminded.university.model.Room;
 import ua.foxminded.university.repository.RoomJdbcRepository;
+
+import java.util.Optional;
 
 class RoomServiceTest {
     private RoomService service;
@@ -39,8 +42,9 @@ class RoomServiceTest {
 
     @Test
     void shouldCallDaoGetEntity_whenServiceGetByIdMethodCalled() {
-        service.getById(anyInt());
-        verify(dao, times(1)).findById(anyLong());
+        Mockito.when(dao.findById(anyLong())).thenReturn(Optional.of(new Room()));
+        service.getById(anyLong());
+        Mockito.verify(dao, Mockito.times(1)).findById(anyLong());
     }
 
     @Test

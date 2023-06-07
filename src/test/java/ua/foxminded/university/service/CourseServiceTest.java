@@ -4,9 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.repository.CourseJdbcRepository;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
@@ -38,8 +41,9 @@ class CourseServiceTest {
 
     @Test
     void shouldCallDaoGetEntity_whenServiceGetByIdMethodCalled() {
+        Mockito.when(dao.findById(anyLong())).thenReturn(Optional.of(new Course()));
         service.getById(anyLong());
-        verify(dao, times(1)).findById(anyLong());
+        Mockito.verify(dao, Mockito.times(1)).findById(anyLong());
     }
 
     @Test
