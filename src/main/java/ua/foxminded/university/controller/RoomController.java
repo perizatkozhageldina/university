@@ -63,7 +63,7 @@ public class RoomController {
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Optional<Room> room = service.getById(id);
+        Room room = service.getById(id);
         model.addAttribute("room", room);
         return "room/edit";
     }

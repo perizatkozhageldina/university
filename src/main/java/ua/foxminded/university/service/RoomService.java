@@ -31,8 +31,9 @@ public class RoomService {
         dao.deleteById(id);
     }
 
-    public Optional<Room> getById(long id) throws ServiceException {
-        return dao.findById(id);
+    public Room getById(long id) throws ServiceException {
+        Optional<Room> roomOptional = dao.findById(id);
+        return roomOptional.orElseThrow(() -> new ServiceException("Room not found with ID:" + id));
     }
 
     public List<Room> getAll() throws ServiceException {

@@ -1,20 +1,16 @@
 package ua.foxminded.university.service;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.repository.CourseJdbcRepository;
 
-import java.util.Optional;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 class CourseServiceTest {
     private CourseService service;
@@ -41,9 +37,9 @@ class CourseServiceTest {
     }
 
     @Test
-    void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() {
+    void shouldCallDaoGetEntity_whenServiceGetByIdMethodCalled() {
         service.getById(anyLong());
-        verify(dao, times(1)).getReferenceById(anyLong());
+        verify(dao, times(1)).findById(anyLong());
     }
 
     @Test

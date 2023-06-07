@@ -29,12 +29,12 @@ public class GroupApiControllerTest {
     private static final String ENTITY_PATH = "/api/groups/{id}";
 
     @Autowired
-    WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     @Autowired
-    GroupService groupService;
+    private GroupService groupService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {

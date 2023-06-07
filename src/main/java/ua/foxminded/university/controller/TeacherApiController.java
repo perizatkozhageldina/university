@@ -7,7 +7,6 @@ import ua.foxminded.university.model.Teacher;
 import ua.foxminded.university.service.TeacherService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/teachers")
@@ -20,32 +19,39 @@ public class TeacherApiController {
     }
 
     @GetMapping
-    public List<Teacher> viewAll() {
+    public List<Teacher> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Teacher> viewOne(@PathVariable long id) {
-        return service.getById(id);
+    public ResponseEntity<Teacher> getById(@PathVariable long id) {
+        Teacher teacher = service.getById(id);
+        if (teacher != null) {
+            return ResponseEntity.ok(teacher);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
     public ResponseEntity<Teacher> add(@RequestBody Teacher teacher) {
-        service.save(teacher);
-        Optional<Teacher> savedTeacher = service.getById(teacher.getId());
-        return savedTeacher.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Teacher savedTeacher = service.save(teacher);
+        if (savedTeacher != null) {
+            return ResponseEntity.ok(savedTeacher);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Teacher> update(@PathVariable Long id, @RequestBody Teacher updatedTeacher) {
-        Optional<Teacher> optionalTeacher = service.getById(updatedTeacher.getId());
-        if (optionalTeacher.isPresent()) {
-            Teacher existingTeacher  = optionalTeacher.get();
-            existingTeacher.setName(updatedTeacher.getName());
-            existingTeacher.setSurname(updatedTeacher.getSurname());
-            existingTeacher.setCategory(updatedTeacher.getCategory());
-            existingTeacher.setHours(updatedTeacher.getHours());
-            Teacher savedTeacher = service.save(existingTeacher);
+        Teacher teacher = service.getById(updatedTeacher.getId());
+        if (teacher != null) {
+            teacher.setName(updatedTeacher.getName());
+            teacher.setSurname(updatedTeacher.getSurname());
+            teacher.setCategory(updatedTeacher.getCategory());
+            teacher.setHours(updatedTeacher.getHours());
+            Teacher savedTeacher = service.save(teacher);
             return ResponseEntity.ok(savedTeacher);
         } else {
             return ResponseEntity.notFound().build();
@@ -54,8 +60,8 @@ public class TeacherApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        Optional<Teacher> teacherOptional = service.getById(id);
-        if (teacherOptional.isPresent()) {
+        Teacher teacher = service.getById(id);
+        if (teacher != null) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {

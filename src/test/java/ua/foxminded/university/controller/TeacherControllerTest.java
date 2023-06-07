@@ -42,12 +42,12 @@ class TeacherControllerTest {
     private static final String TEACHER_CATEGORY = "Category";
 
     @Autowired
-    WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     @Autowired
-    TeacherService teacherService;
+    private TeacherService teacherService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {

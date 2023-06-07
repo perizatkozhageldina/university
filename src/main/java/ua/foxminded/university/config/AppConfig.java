@@ -59,7 +59,7 @@ public class AppConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
         return new HiddenHttpMethodFilter();
     }
 

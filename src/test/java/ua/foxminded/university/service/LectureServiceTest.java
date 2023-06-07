@@ -38,9 +38,9 @@ class LectureServiceTest {
     }
 
     @Test
-    void shouldCallDaoGetCourse_whenServiceGetByIdMethodCalled() {
+    void shouldCallDaoGetEntity_whenServiceGetByIdMethodCalled() {
         service.getById(anyInt());
-        verify(dao, times(1)).getReferenceById(anyLong());
+        verify(dao, times(1)).findById(anyLong());
     }
 
     @Test

@@ -63,7 +63,7 @@ public class TeacherController {
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Optional<Teacher> teacher = service.getById(id);
+        Teacher teacher = service.getById(id);
         model.addAttribute("teacher", teacher);
         return "teacher/edit";
     }

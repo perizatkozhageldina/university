@@ -7,7 +7,6 @@ import ua.foxminded.university.model.Group;
 import ua.foxminded.university.service.GroupService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/groups")
@@ -20,30 +19,37 @@ public class GroupApiController {
     }
 
     @GetMapping
-    public List<Group> viewAll() {
+    public List<Group> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Group> viewOne(@PathVariable long id) {
-        return service.getById(id);
+    public ResponseEntity<Group> getById(@PathVariable long id) {
+        Group group = service.getById(id);
+        if (group != null) {
+            return ResponseEntity.ok(group);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
     public ResponseEntity<Group> add(@RequestBody Group group) {
-        service.save(group);
-        Optional<Group> savedGroup = service.getById(group.getId());
-        return savedGroup.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Group savedGroup = service.save(group);
+        if (savedGroup != null) {
+            return ResponseEntity.ok(savedGroup);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Group> update(@PathVariable Long id, @RequestBody Group updatedGroup) {
-        Optional<Group> optionalGroup = service.getById(updatedGroup.getId());
-        if (optionalGroup.isPresent()) {
-            Group existingGroup  = optionalGroup.get();
-            existingGroup.setName(updatedGroup.getName());
-            existingGroup.setMaxStudents(updatedGroup.getMaxStudents());
-            Group savedGroup = service.save(existingGroup);
+        Group group = service.getById(updatedGroup.getId());
+        if (group != null) {
+            group.setName(updatedGroup.getName());
+            group.setMaxStudents(updatedGroup.getMaxStudents());
+            Group savedGroup = service.save(group);
             return ResponseEntity.ok(savedGroup);
         } else {
             return ResponseEntity.notFound().build();
@@ -52,8 +58,8 @@ public class GroupApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        Optional<Group> groupOptional = service.getById(id);
-        if (groupOptional.isPresent()) {
+        Group group = service.getById(id);
+        if (group != null) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {

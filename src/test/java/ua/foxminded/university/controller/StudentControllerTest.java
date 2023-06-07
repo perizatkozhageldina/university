@@ -41,12 +41,12 @@ class StudentControllerTest {
     private static final String STUDENT_SURNAME = "Surname";
 
     @Autowired
-    WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     @Autowired
-    StudentService studentService;
+    private StudentService studentService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {

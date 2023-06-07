@@ -3,6 +3,7 @@ package ua.foxminded.university.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.foxminded.university.model.Course;
 import ua.foxminded.university.model.Room;
 import ua.foxminded.university.service.RoomService;
 
@@ -20,30 +21,37 @@ public class RoomApiController {
     }
 
     @GetMapping
-    public List<Room> viewAll() {
+    public List<Room> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Room> viewOne(@PathVariable long id) {
-        return service.getById(id);
+    public ResponseEntity<Room> getById(@PathVariable long id) {
+        Room room = service.getById(id);
+        if (room != null) {
+            return ResponseEntity.ok(room);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
     public ResponseEntity<Room> add(@RequestBody Room room) {
-        service.save(room);
-        Optional<Room> savedRoom = service.getById(room.getId());
-        return savedRoom.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Room savedRoom = service.save(room);
+        if (savedRoom != null) {
+            return ResponseEntity.ok(savedRoom);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Room> update(@PathVariable Long id, @RequestBody Room updatedRoom) {
-        Optional<Room> optionalRoom = service.getById(updatedRoom.getId());
-        if (optionalRoom.isPresent()) {
-            Room existingRoom  = optionalRoom.get();
-            existingRoom.setName(updatedRoom.getName());
-            existingRoom.setCapacity(updatedRoom.getCapacity());
-            Room savedRoom = service.save(existingRoom);
+        Room room = service.getById(updatedRoom.getId());
+        if (room != null) {
+            room.setName(updatedRoom.getName());
+            room.setCapacity(updatedRoom.getCapacity());
+            Room savedRoom = service.save(room);
             return ResponseEntity.ok(savedRoom);
         } else {
             return ResponseEntity.notFound().build();
@@ -52,8 +60,8 @@ public class RoomApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        Optional<Room> roomOptional = service.getById(id);
-        if (roomOptional.isPresent()) {
+        Room room = service.getById(id);
+        if (room != null) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {

@@ -38,12 +38,12 @@ public class CourseApiControllerTest {
     private static final String ENTITY_PATH = "/api/courses/{id}";
 
     @Autowired
-    WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     @Autowired
-    CourseService courseService;
+    private CourseService courseService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {

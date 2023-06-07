@@ -31,8 +31,9 @@ public class GroupService {
         dao.deleteById(id);
     }
 
-    public Optional<Group> getById(long id) throws ServiceException {
-        return dao.findById(id);
+    public Group getById(long id) throws ServiceException {
+        Optional<Group> groupOptional = dao.findById(id);
+        return groupOptional.orElseThrow(() -> new ServiceException("Group not found with ID:" + id));
     }
 
     public List<Group> getAll() throws ServiceException {

@@ -71,7 +71,7 @@ public class StudentController {
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Optional<Student> student = service.getById(id);
+        Student student = service.getById(id);
         List<Group> groups = groupService.getAll();
         model.addAttribute("student", student);
         model.addAttribute("groups", groups);

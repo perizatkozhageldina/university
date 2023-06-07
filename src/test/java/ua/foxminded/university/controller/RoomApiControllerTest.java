@@ -29,12 +29,12 @@ public class RoomApiControllerTest {
     private static final String ENTITY_PATH = "/api/rooms/{id}";
 
     @Autowired
-    WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     @Autowired
-    RoomService roomService;
+    private RoomService roomService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {

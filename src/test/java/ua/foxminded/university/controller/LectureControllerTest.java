@@ -40,12 +40,12 @@ class LectureControllerTest {
     private static final String LECTURE_NAME = "Lecture";
 
     @Autowired
-    WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     @Autowired
-    LectureService lectureService;
+    private LectureService lectureService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {

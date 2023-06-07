@@ -30,12 +30,12 @@ public class StudentApiControllerTest {
     private static final String ENTITY_PATH = "/api/students/{id}";
 
     @Autowired
-    WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     @Autowired
-    StudentService studentService;
+    private StudentService studentService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {

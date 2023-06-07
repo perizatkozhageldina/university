@@ -63,7 +63,7 @@ public class GroupController {
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Optional<Group> group = service.getById(id);
+        Group group = service.getById(id);
         model.addAttribute("group", group);
         return "group/edit";
     }

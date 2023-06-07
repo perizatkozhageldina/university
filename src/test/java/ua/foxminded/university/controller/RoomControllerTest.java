@@ -40,12 +40,12 @@ class RoomControllerTest {
     private static final String ROOM_NAME = "Room";
 
     @Autowired
-    WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     @Autowired
-    RoomService roomService;
+    private RoomService roomService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {

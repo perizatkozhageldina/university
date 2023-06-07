@@ -31,8 +31,9 @@ public class TeacherService {
         dao.deleteById(id);
     }
 
-    public Optional<Teacher> getById(long id) throws ServiceException {
-        return dao.findById(id);
+    public Teacher getById(long id) throws ServiceException {
+        Optional<Teacher> teacherOptional = dao.findById(id);
+        return teacherOptional.orElseThrow(() -> new ServiceException("Teacher not found with ID:" + id));
     }
 
     public List<Teacher> getAll() throws ServiceException {

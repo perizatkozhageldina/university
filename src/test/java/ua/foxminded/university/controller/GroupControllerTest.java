@@ -40,12 +40,12 @@ class GroupControllerTest {
     private static final String GROUP_NAME = "Group";
 
     @Autowired
-    WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     @Autowired
-    GroupService groupService;
+    private GroupService groupService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {

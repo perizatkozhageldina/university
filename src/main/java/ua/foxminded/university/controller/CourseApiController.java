@@ -21,31 +21,38 @@ public class CourseApiController {
     }
 
     @GetMapping
-    public List<Course> viewAll() {
+    public List<Course> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Course> viewOne(@PathVariable long id) {
-        return service.getById(id);
+    public ResponseEntity<Course> getById(@PathVariable long id) {
+        Course course = service.getById(id);
+        if (course != null) {
+            return ResponseEntity.ok(course);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
     public ResponseEntity<Course> add(@RequestBody Course course) {
-        service.save(course);
-        Optional<Course> savedCourse = service.getById(course.getId());
-        return savedCourse.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Course savedCourse = service.save(course);
+        if (savedCourse != null) {
+            return ResponseEntity.ok(savedCourse);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Course> update(@PathVariable Long id, @RequestBody Course updatedCourse) {
-        Optional<Course> optionalCourse = service.getById(updatedCourse.getId());
-        if (optionalCourse.isPresent()) {
-            Course existingCourse  = optionalCourse.get();
-            existingCourse .setName(updatedCourse.getName());
-            existingCourse .setHours(updatedCourse.getHours());
-            existingCourse .setLevel(updatedCourse.getLevel());
-            Course savedCourse = service.save(existingCourse);
+        Course course = service.getById(updatedCourse.getId());
+        if (course != null) {
+            course .setName(updatedCourse.getName());
+            course .setHours(updatedCourse.getHours());
+            course .setLevel(updatedCourse.getLevel());
+            Course savedCourse = service.save(course);
             return ResponseEntity.ok(savedCourse);
         } else {
             return ResponseEntity.notFound().build();
@@ -54,8 +61,8 @@ public class CourseApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        Optional<Course> courseOptional = service.getById(id);
-        if (courseOptional.isPresent()) {
+        Course course = service.getById(id);
+        if (course != null) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {

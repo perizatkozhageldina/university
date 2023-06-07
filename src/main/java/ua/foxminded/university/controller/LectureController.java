@@ -63,7 +63,7 @@ public class LectureController {
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Optional<Lecture> lecture = service.getById(id);
+        Lecture lecture = service.getById(id);
         model.addAttribute("lecture", lecture);
         return "lecture/edit";
     }
