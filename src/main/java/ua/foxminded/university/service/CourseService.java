@@ -31,8 +31,7 @@ public class CourseService {
     }
 
     public Course getById(long id) throws ServiceException {
-        Optional<Course> courseOptional = dao.findById(id);
-        return courseOptional.orElseThrow(() -> new ServiceException("Course not found with ID: " + id));
+        return dao.findById(id).orElseThrow(() -> new ServiceException("Course not found with ID: " + id));
     }
 
     public List<Course> getAll() throws ServiceException {

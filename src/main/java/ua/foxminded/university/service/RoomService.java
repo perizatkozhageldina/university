@@ -32,8 +32,7 @@ public class RoomService {
     }
 
     public Room getById(long id) throws ServiceException {
-        Optional<Room> roomOptional = dao.findById(id);
-        return roomOptional.orElseThrow(() -> new ServiceException("Room not found with ID:" + id));
+        return dao.findById(id).orElseThrow(() -> new ServiceException("Room not found with ID:" + id));
     }
 
     public List<Room> getAll() throws ServiceException {

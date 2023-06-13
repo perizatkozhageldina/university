@@ -32,8 +32,7 @@ public class LectureService {
     }
 
     public Lecture getById(long id) throws ServiceException  {
-        Optional<Lecture> lectureOptional = dao.findById(id);
-        return lectureOptional.orElseThrow(() -> new ServiceException("Lecture not found with ID: " + id));
+        return dao.findById(id).orElseThrow(() -> new ServiceException("Lecture not found with ID: " + id));
     }
 
     public List<Lecture> getAll() throws ServiceException {

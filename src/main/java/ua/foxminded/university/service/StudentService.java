@@ -32,8 +32,7 @@ public class StudentService {
     }
 
     public Student getById(long id) throws ServiceException {
-        Optional<Student> studentOptional = dao.findById(id);
-        return studentOptional.orElseThrow(() -> new ServiceException("Student not found with ID: " + id));
+        return dao.findById(id).orElseThrow(() -> new ServiceException("Student not found with ID: " + id));
     }
 
     public List<Student> getAll() throws ServiceException {

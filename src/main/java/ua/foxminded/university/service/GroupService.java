@@ -32,8 +32,7 @@ public class GroupService {
     }
 
     public Group getById(long id) throws ServiceException {
-        Optional<Group> groupOptional = dao.findById(id);
-        return groupOptional.orElseThrow(() -> new ServiceException("Group not found with ID:" + id));
+        return dao.findById(id).orElseThrow(() -> new ServiceException("Group not found with ID:" + id));
     }
 
     public List<Group> getAll() throws ServiceException {

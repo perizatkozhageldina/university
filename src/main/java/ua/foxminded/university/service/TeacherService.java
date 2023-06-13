@@ -32,8 +32,7 @@ public class TeacherService {
     }
 
     public Teacher getById(long id) throws ServiceException {
-        Optional<Teacher> teacherOptional = dao.findById(id);
-        return teacherOptional.orElseThrow(() -> new ServiceException("Teacher not found with ID:" + id));
+        return dao.findById(id).orElseThrow(() -> new ServiceException("Teacher not found with ID:" + id));
     }
 
     public List<Teacher> getAll() throws ServiceException {
