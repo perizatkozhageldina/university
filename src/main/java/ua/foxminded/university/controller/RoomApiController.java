@@ -1,58 +1,69 @@
 package ua.foxminded.university.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.foxminded.university.dto.RoomDTO;
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.model.Room;
 import ua.foxminded.university.service.RoomService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomApiController {
     private RoomService service;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public RoomApiController(RoomService service) {
+    public RoomApiController(RoomService service, ModelMapper modelMapper) {
         this.service = service;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
-    public List<Room> getAll() {
-        return service.getAll();
+    public List<RoomDTO> getAll() {
+        List<Room> rooms = service.getAll();
+        return rooms.stream().map(room -> modelMapper.map(room, RoomDTO.class)).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Room> getById(@PathVariable long id) {
+    public ResponseEntity<RoomDTO> getById(@PathVariable long id) {
         Room room = service.getById(id);
         if (room != null) {
-            return ResponseEntity.ok(room);
+            RoomDTO roomDTO = modelMapper.map(room, RoomDTO.class);
+            return ResponseEntity.ok(roomDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Room> add(@RequestBody Room room) {
+    public ResponseEntity<RoomDTO> add(@RequestBody RoomDTO roomDTO) {
+        Room room = modelMapper.map(roomDTO, Room.class);
         Room savedRoom = service.save(room);
         if (savedRoom != null) {
-            return ResponseEntity.ok(savedRoom);
+            RoomDTO savedRoomDTO = modelMapper.map(savedRoom, RoomDTO.class);
+            return ResponseEntity.ok(savedRoomDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Room> update(@PathVariable Long id, @RequestBody Room updatedRoom) {
+    public ResponseEntity<RoomDTO> update(@PathVariable Long id, @RequestBody RoomDTO updatedRoomDTO) {
+        Room updatedRoom = modelMapper.map(updatedRoomDTO, Room.class);
         Room room = service.getById(updatedRoom.getId());
         if (room != null) {
             room.setName(updatedRoom.getName());
             room.setCapacity(updatedRoom.getCapacity());
             Room savedRoom = service.save(room);
-            return ResponseEntity.ok(savedRoom);
+            RoomDTO savedRoomDTO = modelMapper.map(savedRoom, RoomDTO.class);
+            return ResponseEntity.ok(savedRoomDTO);
         } else {
             return ResponseEntity.notFound().build();
         }

@@ -1,56 +1,67 @@
 package ua.foxminded.university.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.foxminded.university.dto.LectureDTO;
 import ua.foxminded.university.model.Lecture;
 import ua.foxminded.university.service.LectureService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/lectures")
 public class LectureApiController {
     private LectureService service;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public LectureApiController(LectureService service) {
+    public LectureApiController(LectureService service, ModelMapper modelMapper) {
         this.service = service;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
-    public List<Lecture> getAll() {
-        return service.getAll();
+    public List<LectureDTO> getAll() {
+        List<Lecture> lectures = service.getAll();
+        return lectures.stream().map(lecture -> modelMapper.map(lecture, LectureDTO.class)).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Lecture> getById(@PathVariable long id) {
+    public ResponseEntity<LectureDTO> getById(@PathVariable long id) {
         Lecture lecture = service.getById(id);
         if (lecture != null) {
-            return ResponseEntity.ok(lecture);
+            LectureDTO lectureDTO = modelMapper.map(lecture, LectureDTO.class);
+            return ResponseEntity.ok(lectureDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Lecture> add(@RequestBody Lecture lecture) {
+    public ResponseEntity<LectureDTO> add(@RequestBody LectureDTO lectureDTO) {
+        Lecture lecture = modelMapper.map(lectureDTO, Lecture.class);
         Lecture savedLecture = service.save(lecture);
         if (savedLecture != null) {
-            return ResponseEntity.ok(savedLecture);
+            LectureDTO savedLectureDTO = modelMapper.map(savedLecture, LectureDTO.class);
+            return ResponseEntity.ok(savedLectureDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Lecture> update(@PathVariable Long id, @RequestBody Lecture updatedLecture) {
+    public ResponseEntity<LectureDTO> update(@PathVariable Long id, @RequestBody LectureDTO updatedLectureDTO) {
+        Lecture updatedLecture = modelMapper.map(updatedLectureDTO, Lecture.class);
         Lecture lecture = service.getById(updatedLecture.getId());
         if (lecture != null) {
             lecture.setName(updatedLecture.getName());
             lecture.setNumber(updatedLecture.getNumber());
             Lecture savedLecture = service.save(lecture);
-            return ResponseEntity.ok(savedLecture);
+            LectureDTO savedLectureDTO = modelMapper.map(savedLecture, LectureDTO.class);
+            return ResponseEntity.ok(savedLectureDTO);
         } else {
             return ResponseEntity.notFound().build();
         }

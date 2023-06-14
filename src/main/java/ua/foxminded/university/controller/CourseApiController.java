@@ -1,59 +1,70 @@
 package ua.foxminded.university.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.foxminded.university.dto.CourseDTO;
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.service.CourseService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/courses")
 public class CourseApiController {
     private CourseService service;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public CourseApiController(CourseService service) {
+    public CourseApiController(CourseService service, ModelMapper modelMapper) {
         this.service = service;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
-    public List<Course> getAll() {
-        return service.getAll();
+    public List<CourseDTO> getAll() {
+        List<Course> courses = service.getAll();
+        return courses.stream().map(course -> modelMapper.map(course, CourseDTO.class)).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getById(@PathVariable long id) {
+    public ResponseEntity<CourseDTO> getById(@PathVariable long id) {
         Course course = service.getById(id);
         if (course != null) {
-            return ResponseEntity.ok(course);
+            CourseDTO courseDTO = modelMapper.map(course, CourseDTO.class);
+            return ResponseEntity.ok(courseDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Course> add(@RequestBody Course course) {
+    public ResponseEntity<CourseDTO> add(@RequestBody CourseDTO courseDTO) {
+        Course course = modelMapper.map(courseDTO, Course.class);
         Course savedCourse = service.save(course);
         if (savedCourse != null) {
-            return ResponseEntity.ok(savedCourse);
+            CourseDTO savedCourseDTO = modelMapper.map(savedCourse, CourseDTO.class);
+            return ResponseEntity.ok(savedCourseDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Course> update(@PathVariable Long id, @RequestBody Course updatedCourse) {
+    public ResponseEntity<CourseDTO> update(@PathVariable Long id, @RequestBody CourseDTO updatedCourseDTO) {
+        Course updatedCourse = modelMapper.map(updatedCourseDTO, Course.class);
         Course course = service.getById(updatedCourse.getId());
         if (course != null) {
             course .setName(updatedCourse.getName());
             course .setHours(updatedCourse.getHours());
             course .setLevel(updatedCourse.getLevel());
             Course savedCourse = service.save(course);
-            return ResponseEntity.ok(savedCourse);
+            CourseDTO savedCourseDTO = modelMapper.map(savedCourse, CourseDTO.class);
+            return ResponseEntity.ok(savedCourseDTO);
         } else {
             return ResponseEntity.notFound().build();
         }

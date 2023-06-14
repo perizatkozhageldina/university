@@ -1,56 +1,67 @@
 package ua.foxminded.university.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.foxminded.university.dto.GroupDTO;
 import ua.foxminded.university.model.Group;
 import ua.foxminded.university.service.GroupService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/groups")
 public class GroupApiController {
     private GroupService service;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public GroupApiController(GroupService service) {
+    public GroupApiController(GroupService service, ModelMapper modelMapper) {
         this.service = service;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
-    public List<Group> getAll() {
-        return service.getAll();
+    public List<GroupDTO> getAll() {
+        List<Group> groups = service.getAll();
+        return groups.stream().map(group -> modelMapper.map(group, GroupDTO.class)).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Group> getById(@PathVariable long id) {
+    public ResponseEntity<GroupDTO> getById(@PathVariable long id) {
         Group group = service.getById(id);
         if (group != null) {
-            return ResponseEntity.ok(group);
+            GroupDTO groupDTO = modelMapper.map(group, GroupDTO.class);
+            return ResponseEntity.ok(groupDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Group> add(@RequestBody Group group) {
+    public ResponseEntity<GroupDTO> add(@RequestBody GroupDTO groupDTO) {
+        Group group = modelMapper.map(groupDTO, Group.class);
         Group savedGroup = service.save(group);
         if (savedGroup != null) {
-            return ResponseEntity.ok(savedGroup);
+            GroupDTO savedGroupDTO = modelMapper.map(savedGroup, GroupDTO.class);
+            return ResponseEntity.ok(savedGroupDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Group> update(@PathVariable Long id, @RequestBody Group updatedGroup) {
+    public ResponseEntity<GroupDTO> update(@PathVariable Long id, @RequestBody GroupDTO updatedGroupDTO) {
+        Group updatedGroup = modelMapper.map(updatedGroupDTO, Group.class);
         Group group = service.getById(updatedGroup.getId());
         if (group != null) {
             group.setName(updatedGroup.getName());
             group.setMaxStudents(updatedGroup.getMaxStudents());
             Group savedGroup = service.save(group);
-            return ResponseEntity.ok(savedGroup);
+            GroupDTO savedGroupDTO = modelMapper.map(savedGroup, GroupDTO.class);
+            return ResponseEntity.ok(savedGroupDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
