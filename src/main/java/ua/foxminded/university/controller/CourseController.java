@@ -2,7 +2,6 @@ package ua.foxminded.university.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +26,15 @@ import javax.validation.Valid;
 @RequestMapping("/courses")
 public class CourseController {
 	private CourseService service;
-	private ModelMapper modelMapper;
 
 	@Autowired
-	public CourseController(CourseService service, ModelMapper modelMapper) {
+	public CourseController(CourseService service) {
 		this.service = service;
-		this.modelMapper = modelMapper;
     }
 
 	@GetMapping
 	public String list(Model model) {
-		List<Course> courses = service.getAll();
-		List<CourseDTO> courseDTOList = courses.stream().map(course -> modelMapper.map(course, CourseDTO.class)).collect(Collectors.toList());
+		List<CourseDTO> courseDTOList = service.getAll();
 		model.addAttribute("courses", courseDTOList);
 		return "course/index";
 	}
@@ -54,8 +50,7 @@ public class CourseController {
 		if (result.hasErrors()) {
 			return "course/add";
 		}
-		Course course = modelMapper.map(courseDTO, Course.class);
-		service.save(course);
+		service.save(courseDTO);
 		return "redirect:/courses";
 	}
 
@@ -64,15 +59,13 @@ public class CourseController {
 		if (result.hasErrors()) {
 			return "course/edit";
 		}
-		Course course = modelMapper.map(courseDTO, Course.class);
-		service.save(course);
+		service.save(courseDTO);
 		return "redirect:/courses";
 	}
 
 	@GetMapping("/{id}/edit")
 	public String edit(@PathVariable("id") Long id, Model model) {
-		Course course = service.getById(id);
-		CourseDTO courseDTO = modelMapper.map(course, CourseDTO.class);
+		CourseDTO courseDTO = service.getById(id);
 		model.addAttribute("course", courseDTO);
 		return "course/edit";
 	}

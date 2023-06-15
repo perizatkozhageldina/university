@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.dto.CourseDTO;
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.service.CourseService;
 
@@ -53,9 +54,9 @@ public class CourseApiControllerTest {
 
     @Test
     public void shouldReturnAllRecords_whenViewAllMethodExecuted() throws Exception {
-        Course course1 = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
-        Course course2 = Course.builder().id(2L).name(COURSE_NAME).level(2).hours(24).build();
-        Course course3 = Course.builder().id(3L).name(COURSE_NAME).level(3).hours(36).build();
+        CourseDTO course1 = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO course2 = CourseDTO.builder().id(2L).name(COURSE_NAME).level(2).hours(24).build();
+        CourseDTO course3 = CourseDTO.builder().id(3L).name(COURSE_NAME).level(3).hours(36).build();
 
         courseService.save(course1);
         courseService.save(course2);
@@ -80,9 +81,9 @@ public class CourseApiControllerTest {
 
     @Test
     public void shouldReturnOneJsonElement_whenViewOneMethodExecuted() throws Exception {
-        Course course1 = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
-        Course course2 = Course.builder().id(2L).name(COURSE_NAME).level(2).hours(24).build();
-        Course course3 = Course.builder().id(3L).name(COURSE_NAME).level(3).hours(36).build();
+        CourseDTO course1 = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO course2 = CourseDTO.builder().id(2L).name(COURSE_NAME).level(2).hours(24).build();
+        CourseDTO course3 = CourseDTO.builder().id(3L).name(COURSE_NAME).level(3).hours(36).build();
 
         courseService.save(course1);
         courseService.save(course2);
@@ -95,7 +96,7 @@ public class CourseApiControllerTest {
 
     @Test
     public void shouldAddRecord_whenAddMethodCalled() throws Exception {
-        Course course = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
 
         mockMvc.perform(MockMvcRequestBuilders.post(INDEX_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -109,10 +110,10 @@ public class CourseApiControllerTest {
 
     @Test
     public void shouldUpdateRecord_whenUpdateMethodCalled() throws Exception {
-        Course savedCourse = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO savedCourse = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
         courseService.save(savedCourse);
 
-        Course updatedCourse = Course.builder().id(1L).name("Updated Course").level(1).hours(12).build();
+        CourseDTO updatedCourse = CourseDTO.builder().id(1L).name("Updated Course").level(1).hours(12).build();
 
         mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, savedCourse.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -126,7 +127,7 @@ public class CourseApiControllerTest {
 
     @Test
     public void shouldDeleteEntity_whenDeleteMethodCalled() throws Exception {
-        Course course = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
         courseService.save(course);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, course.getId()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());

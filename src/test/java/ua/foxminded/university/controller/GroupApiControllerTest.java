@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.dto.GroupDTO;
 import ua.foxminded.university.model.Group;
 import ua.foxminded.university.service.GroupService;
 
@@ -44,9 +45,9 @@ public class GroupApiControllerTest {
 
     @Test
     public void shouldReturnAllRecords_whenViewAllMethodExecuted() throws Exception {
-        Group group1 = Group.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
-        Group group2 = Group.builder().id(2L).name(GROUP_NAME).maxStudents(20).build();
-        Group group3 = Group.builder().id(3L).name(GROUP_NAME).maxStudents(30).build();
+        GroupDTO group1 = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
+        GroupDTO group2 = GroupDTO.builder().id(2L).name(GROUP_NAME).maxStudents(20).build();
+        GroupDTO group3 = GroupDTO.builder().id(3L).name(GROUP_NAME).maxStudents(30).build();
 
         groupService.save(group1);
         groupService.save(group2);
@@ -68,9 +69,9 @@ public class GroupApiControllerTest {
 
     @Test
     public void shouldReturnOneJsonElement_whenViewOneMethodExecuted() throws Exception {
-        Group group1 = Group.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
-        Group group2 = Group.builder().id(2L).name(GROUP_NAME).maxStudents(20).build();
-        Group group3 = Group.builder().id(3L).name(GROUP_NAME).maxStudents(30).build();
+        GroupDTO group1 = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
+        GroupDTO group2 = GroupDTO.builder().id(2L).name(GROUP_NAME).maxStudents(20).build();
+        GroupDTO group3 = GroupDTO.builder().id(3L).name(GROUP_NAME).maxStudents(30).build();
 
         groupService.save(group1);
         groupService.save(group2);
@@ -83,7 +84,7 @@ public class GroupApiControllerTest {
 
     @Test
     public void shouldAddRecord_whenAddMethodCalled() throws Exception {
-        Group group = Group.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
+        GroupDTO group = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
 
         mockMvc.perform(MockMvcRequestBuilders.post(INDEX_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -96,10 +97,10 @@ public class GroupApiControllerTest {
 
     @Test
     public void shouldUpdateRecord_whenUpdateMethodCalled() throws Exception {
-        Group savedGroup = Group.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
+        GroupDTO savedGroup = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
         groupService.save(savedGroup);
 
-        Group updatedGroup = Group.builder().id(1L).name("Updated Group").maxStudents(10).build();
+        GroupDTO updatedGroup = GroupDTO.builder().id(1L).name("Updated Group").maxStudents(10).build();
 
         mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, savedGroup.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -112,7 +113,7 @@ public class GroupApiControllerTest {
 
     @Test
     public void shouldDeleteEntity_whenDeleteMethodCalled() throws Exception {
-        Group group = Group.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
+        GroupDTO group = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
         groupService.save(group);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, group.getId()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());

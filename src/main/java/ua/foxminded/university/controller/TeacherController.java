@@ -27,18 +27,15 @@ import javax.validation.Valid;
 @RequestMapping("/teachers")
 public class TeacherController {
     private TeacherService service;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public TeacherController(TeacherService service, ModelMapper modelMapper) {
+    public TeacherController(TeacherService service) {
         this.service = service;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public String list(Model model) {
-        List<Teacher> teachers = service.getAll();
-        List<TeacherDTO> teacherDTOList = teachers.stream().map(teacher -> modelMapper.map(teacher, TeacherDTO.class)).collect(Collectors.toList());
+        List<TeacherDTO> teacherDTOList = service.getAll();
         model.addAttribute("teachers", teacherDTOList);
         return "teacher/index";
     }
@@ -54,8 +51,7 @@ public class TeacherController {
         if (result.hasErrors()) {
             return "teacher/add";
         }
-        Teacher teacher = modelMapper.map(teacherDTO, Teacher.class);
-        service.save(teacher);
+        service.save(teacherDTO);
         return "redirect:/teachers";
     }
 
@@ -64,15 +60,13 @@ public class TeacherController {
         if (result.hasErrors()) {
             return "teacher/edit";
         }
-        Teacher teacher = modelMapper.map(teacherDTO, Teacher.class);
-        service.save(teacher);
+        service.save(teacherDTO);
         return "redirect:/teachers";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Teacher teacher = service.getById(id);
-        TeacherDTO teacherDTO = modelMapper.map(teacher, TeacherDTO.class);
+        TeacherDTO teacherDTO = service.getById(id);
         model.addAttribute("teacher", teacherDTO);
         return "teacher/edit";
     }

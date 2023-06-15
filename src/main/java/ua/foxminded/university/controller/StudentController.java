@@ -31,27 +31,23 @@ import javax.validation.Valid;
 public class StudentController {
     private StudentService service;
     private GroupService groupService;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public StudentController(StudentService service, GroupService groupService, ModelMapper modelMapper) {
+    public StudentController(StudentService service, GroupService groupService) {
         this.service = service;
         this.groupService = groupService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public String list(Model model) {
-        List<Student> students = service.getAll();
-        List<StudentDTO> studentDTOList = students.stream().map(student -> modelMapper.map(student, StudentDTO.class)).collect(Collectors.toList());
+        List<StudentDTO> studentDTOList = service.getAll();
         model.addAttribute("students", studentDTOList);
         return "student/index";
     }
 
     @GetMapping("/add")
     public String add(Model model) {
-        List<Group> groups = groupService.getAll();
-        List<GroupDTO> groupDTOList = groups.stream().map(group -> modelMapper.map(group, GroupDTO.class)).collect(Collectors.toList());
+        List<GroupDTO> groupDTOList = groupService.getAll();
         model.addAttribute("groups", groupDTOList);
         model.addAttribute("student", new StudentDTO());
         return "student/add";
@@ -62,30 +58,25 @@ public class StudentController {
         if (result.hasErrors()) {
             return "student/add";
         }
-        Student student = modelMapper.map(studentDTO, Student.class);
-        service.save(student);
+        service.save(studentDTO);
         return "redirect:/students";
     }
 
     @PatchMapping("update")
     public String update(@Valid @ModelAttribute("student") StudentDTO studentDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            List<Group> groups = groupService.getAll();
-            List<GroupDTO> groupDTOList = groups.stream().map(group -> modelMapper.map(group, GroupDTO.class)).collect(Collectors.toList());
+            List<GroupDTO> groupDTOList = groupService.getAll();
             model.addAttribute("groups", groupDTOList);
             return "student/edit";
         }
-        Student student = modelMapper.map(studentDTO, Student.class);
-        service.save(student);
+        service.save(studentDTO);
         return "redirect:/students";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Student student = service.getById(id);
-        StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
-        List<Group> groups = groupService.getAll();
-        List<GroupDTO> groupDTOList = groups.stream().map(group -> modelMapper.map(group, GroupDTO.class)).collect(Collectors.toList());
+        StudentDTO studentDTO = service.getById(id);
+        List<GroupDTO> groupDTOList = groupService.getAll();
         model.addAttribute("student", studentDTO);
         model.addAttribute("groups", groupDTOList);
         return "student/edit";

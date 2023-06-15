@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.dto.StudentDTO;
 import ua.foxminded.university.model.Student;
 import ua.foxminded.university.service.StudentService;
 
@@ -45,9 +46,9 @@ public class StudentApiControllerTest {
 
     @Test
     public void shouldReturnAllRecords_whenViewAllMethodExecuted() throws Exception {
-        Student student1 = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
-        Student student2 = Student.builder().id(2L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(2).build();
-        Student student3 = Student.builder().id(3L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(3).build();
+        StudentDTO student1 = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO student2 = StudentDTO.builder().id(2L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(2).build();
+        StudentDTO student3 = StudentDTO.builder().id(3L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(3).build();
 
         studentService.save(student1);
         studentService.save(student2);
@@ -72,9 +73,9 @@ public class StudentApiControllerTest {
 
     @Test
     public void shouldReturnOneJsonElement_whenViewOneMethodExecuted() throws Exception {
-        Student student1 = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
-        Student student2 = Student.builder().id(2L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(2).build();
-        Student student3 = Student.builder().id(3L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(3).build();
+        StudentDTO student1 = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO student2 = StudentDTO.builder().id(2L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(2).build();
+        StudentDTO student3 = StudentDTO.builder().id(3L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(3).build();
 
         studentService.save(student1);
         studentService.save(student2);
@@ -87,7 +88,7 @@ public class StudentApiControllerTest {
 
     @Test
     public void shouldAddRecord_whenAddMethodCalled() throws Exception {
-        Student student = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO student = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
 
         mockMvc.perform(MockMvcRequestBuilders.post(INDEX_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -101,10 +102,10 @@ public class StudentApiControllerTest {
 
     @Test
     public void shouldUpdateRecord_whenUpdateMethodCalled() throws Exception {
-        Student savedStudent = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO savedStudent = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
         studentService.save(savedStudent);
 
-        Student updatedStudent = Student.builder().id(1L).name("Updated Name").surname("Updated Surname").academicYear(1).build();
+        StudentDTO updatedStudent = StudentDTO.builder().id(1L).name("Updated Name").surname("Updated Surname").academicYear(1).build();
 
         mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, savedStudent.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -118,7 +119,7 @@ public class StudentApiControllerTest {
 
     @Test
     public void shouldDeleteEntity_whenDeleteMethodCalled() throws Exception {
-        Student student = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO student = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
         studentService.save(student);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, student.getId()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());

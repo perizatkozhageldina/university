@@ -15,25 +15,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/groups")
 public class GroupApiController {
     private GroupService service;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public GroupApiController(GroupService service, ModelMapper modelMapper) {
+    public GroupApiController(GroupService service) {
         this.service = service;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public List<GroupDTO> getAll() {
-        List<Group> groups = service.getAll();
-        return groups.stream().map(group -> modelMapper.map(group, GroupDTO.class)).collect(Collectors.toList());
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GroupDTO> getById(@PathVariable long id) {
-        Group group = service.getById(id);
-        if (group != null) {
-            GroupDTO groupDTO = modelMapper.map(group, GroupDTO.class);
+        GroupDTO groupDTO = service.getById(id);
+        if (groupDTO != null) {
             return ResponseEntity.ok(groupDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -42,10 +38,8 @@ public class GroupApiController {
 
     @PostMapping
     public ResponseEntity<GroupDTO> add(@RequestBody GroupDTO groupDTO) {
-        Group group = modelMapper.map(groupDTO, Group.class);
-        Group savedGroup = service.save(group);
-        if (savedGroup != null) {
-            GroupDTO savedGroupDTO = modelMapper.map(savedGroup, GroupDTO.class);
+        GroupDTO savedGroupDTO = service.save(groupDTO);
+        if (savedGroupDTO != null) {
             return ResponseEntity.ok(savedGroupDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -54,13 +48,11 @@ public class GroupApiController {
 
     @PutMapping("/{id}")
     public ResponseEntity<GroupDTO> update(@PathVariable Long id, @RequestBody GroupDTO updatedGroupDTO) {
-        Group updatedGroup = modelMapper.map(updatedGroupDTO, Group.class);
-        Group group = service.getById(updatedGroup.getId());
-        if (group != null) {
-            group.setName(updatedGroup.getName());
-            group.setMaxStudents(updatedGroup.getMaxStudents());
-            Group savedGroup = service.save(group);
-            GroupDTO savedGroupDTO = modelMapper.map(savedGroup, GroupDTO.class);
+        GroupDTO groupDTO = service.getById(id);
+        if (groupDTO != null) {
+            groupDTO.setName(updatedGroupDTO.getName());
+            groupDTO.setMaxStudents(updatedGroupDTO.getMaxStudents());
+            GroupDTO savedGroupDTO = service.save(groupDTO);
             return ResponseEntity.ok(savedGroupDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -69,8 +61,8 @@ public class GroupApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        Group group = service.getById(id);
-        if (group != null) {
+        GroupDTO groupDTO = service.getById(id);
+        if (groupDTO != null) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {

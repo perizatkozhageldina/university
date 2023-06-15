@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.dto.StudentDTO;
 import ua.foxminded.university.model.Student;
 import ua.foxminded.university.service.StudentService;
 
@@ -64,7 +65,7 @@ class StudentControllerTest {
 
     @Test
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
-        Student student = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO student = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
         studentService.save(student);
         mockMvc.perform(MockMvcRequestBuilders.get(ADD_PATH))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -74,7 +75,7 @@ class StudentControllerTest {
 
     @Test
     void shouldReturnSaveView_whenSaveMethodExecuted() throws Exception {
-        Student student = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO student = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
         String encoded = URLEncoder.encode(student.toString(), "UTF-8");
         mockMvc.perform(MockMvcRequestBuilders.post(SAVE_PATH).param(STUDENT_PARAM, encoded))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -83,7 +84,7 @@ class StudentControllerTest {
 
     @Test
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
-        Student student = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO student = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
         studentService.save(student);
         mockMvc.perform(MockMvcRequestBuilders.patch(UPDATE_PATH)
                 .param("name", "Updated Name")
@@ -95,7 +96,7 @@ class StudentControllerTest {
 
     @Test
     void shouldReturnEditView_whenEditMethodExecuted() throws Exception {
-        Student student = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO student = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
         studentService.save(student);
         mockMvc.perform(MockMvcRequestBuilders.get(EDIT_PATH, student.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -105,11 +106,10 @@ class StudentControllerTest {
 
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
-        Student student = Student.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
+        StudentDTO student = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
         studentService.save(student);
         mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_PATH, student.getId()))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
-
     }
 }

@@ -28,18 +28,15 @@ import javax.validation.Valid;
 @RequestMapping("/rooms")
 public class RoomController {
     private RoomService service;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public RoomController(RoomService service, ModelMapper modelMapper) {
+    public RoomController(RoomService service) {
         this.service = service;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public String list(Model model) {
-        List<Room> rooms = service.getAll();
-        List<RoomDTO> roomDTOList = rooms.stream().map(room -> modelMapper.map(room, RoomDTO.class)).collect(Collectors.toList());
+        List<RoomDTO> roomDTOList = service.getAll();
         model.addAttribute("rooms", roomDTOList);
         return "room/index";
     }
@@ -55,8 +52,7 @@ public class RoomController {
         if (result.hasErrors()) {
             return "room/add";
         }
-        Room room = modelMapper.map(roomDTO, Room.class);
-        service.save(room);
+        service.save(roomDTO);
         return "redirect:/rooms";
     }
 
@@ -65,15 +61,13 @@ public class RoomController {
         if (result.hasErrors()) {
             return "room/edit";
         }
-        Room room = modelMapper.map(roomDTO, Room.class);
-        service.save(room);
+        service.save(roomDTO);
         return "redirect:/rooms";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Room room = service.getById(id);
-        RoomDTO roomDTO = modelMapper.map(room, RoomDTO.class);
+        RoomDTO roomDTO = service.getById(id);
         model.addAttribute("room", roomDTO);
         return "room/edit";
     }

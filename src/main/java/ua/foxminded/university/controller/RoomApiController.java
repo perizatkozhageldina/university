@@ -9,6 +9,7 @@ import ua.foxminded.university.model.Course;
 import ua.foxminded.university.model.Room;
 import ua.foxminded.university.service.RoomService;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,25 +18,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/rooms")
 public class RoomApiController {
     private RoomService service;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public RoomApiController(RoomService service, ModelMapper modelMapper) {
+    public RoomApiController(RoomService service) {
         this.service = service;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public List<RoomDTO> getAll() {
-        List<Room> rooms = service.getAll();
-        return rooms.stream().map(room -> modelMapper.map(room, RoomDTO.class)).collect(Collectors.toList());
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomDTO> getById(@PathVariable long id) {
-        Room room = service.getById(id);
-        if (room != null) {
-            RoomDTO roomDTO = modelMapper.map(room, RoomDTO.class);
+        RoomDTO roomDTO = service.getById(id);
+        if (roomDTO != null) {
             return ResponseEntity.ok(roomDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -44,10 +41,8 @@ public class RoomApiController {
 
     @PostMapping
     public ResponseEntity<RoomDTO> add(@RequestBody RoomDTO roomDTO) {
-        Room room = modelMapper.map(roomDTO, Room.class);
-        Room savedRoom = service.save(room);
-        if (savedRoom != null) {
-            RoomDTO savedRoomDTO = modelMapper.map(savedRoom, RoomDTO.class);
+        RoomDTO savedRoomDTO = service.save(roomDTO);
+        if (savedRoomDTO != null) {
             return ResponseEntity.ok(savedRoomDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -56,13 +51,11 @@ public class RoomApiController {
 
     @PutMapping("/{id}")
     public ResponseEntity<RoomDTO> update(@PathVariable Long id, @RequestBody RoomDTO updatedRoomDTO) {
-        Room updatedRoom = modelMapper.map(updatedRoomDTO, Room.class);
-        Room room = service.getById(updatedRoom.getId());
-        if (room != null) {
-            room.setName(updatedRoom.getName());
-            room.setCapacity(updatedRoom.getCapacity());
-            Room savedRoom = service.save(room);
-            RoomDTO savedRoomDTO = modelMapper.map(savedRoom, RoomDTO.class);
+        RoomDTO roomDTO = service.getById(id);
+        if (roomDTO != null) {
+            roomDTO.setName(updatedRoomDTO.getName());
+            roomDTO.setCapacity(updatedRoomDTO.getCapacity());
+            RoomDTO savedRoomDTO = service.save(roomDTO);
             return ResponseEntity.ok(savedRoomDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -71,8 +64,8 @@ public class RoomApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        Room room = service.getById(id);
-        if (room != null) {
+        RoomDTO roomDTO = service.getById(id);
+        if (roomDTO != null) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {

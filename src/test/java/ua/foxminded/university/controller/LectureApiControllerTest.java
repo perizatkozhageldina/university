@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.dto.LectureDTO;
 import ua.foxminded.university.model.Lecture;
 import ua.foxminded.university.service.LectureService;
 
@@ -46,9 +47,9 @@ public class LectureApiControllerTest {
 
     @Test
     public void shouldReturnAllRecords_whenViewAllMethodExecuted() throws Exception {
-        Lecture lecture1 = Lecture.builder().id(1L).name(LECTURE_NAME).number(1).build();
-        Lecture lecture2 = Lecture.builder().id(2L).name(LECTURE_NAME).number(2).build();
-        Lecture lecture3 = Lecture.builder().id(3L).name(LECTURE_NAME).number(3).build();
+        LectureDTO lecture1 = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
+        LectureDTO lecture2 = LectureDTO.builder().id(2L).name(LECTURE_NAME).number(2).build();
+        LectureDTO lecture3 = LectureDTO.builder().id(3L).name(LECTURE_NAME).number(3).build();
 
         lectureService.save(lecture1);
         lectureService.save(lecture2);
@@ -70,9 +71,9 @@ public class LectureApiControllerTest {
 
     @Test
     public void shouldReturnOneJsonElement_whenViewOneMethodExecuted() throws Exception {
-        Lecture lecture1 = Lecture.builder().id(1L).name(LECTURE_NAME).number(1).build();
-        Lecture lecture2 = Lecture.builder().id(2L).name(LECTURE_NAME).number(2).build();
-        Lecture lecture3 = Lecture.builder().id(3L).name(LECTURE_NAME).number(3).build();
+        LectureDTO lecture1 = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
+        LectureDTO lecture2 = LectureDTO.builder().id(2L).name(LECTURE_NAME).number(2).build();
+        LectureDTO lecture3 = LectureDTO.builder().id(3L).name(LECTURE_NAME).number(3).build();
 
         lectureService.save(lecture1);
         lectureService.save(lecture2);
@@ -85,7 +86,7 @@ public class LectureApiControllerTest {
 
     @Test
     public void shouldAddRecord_whenAddMethodCalled() throws Exception {
-        Lecture lecture = Lecture.builder().id(1L).name(LECTURE_NAME).number(1).build();
+        LectureDTO lecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
 
         mockMvc.perform(MockMvcRequestBuilders.post(INDEX_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -98,10 +99,10 @@ public class LectureApiControllerTest {
 
     @Test
     public void shouldUpdateRecord_whenUpdateMethodCalled() throws Exception {
-        Lecture savedLecture = Lecture.builder().id(1L).name(LECTURE_NAME).number(1).build();
+        LectureDTO savedLecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
         lectureService.save(savedLecture);
 
-        Lecture updatedLecture = Lecture.builder().id(1L).name("Updated Lecture").number(1).build();
+        LectureDTO updatedLecture = LectureDTO.builder().id(1L).name("Updated Lecture").number(1).build();
 
         mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, savedLecture.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -114,7 +115,7 @@ public class LectureApiControllerTest {
 
     @Test
     public void shouldDeleteEntity_whenDeleteMethodCalled() throws Exception {
-        Lecture lecture = Lecture.builder().id(1L).name(LECTURE_NAME).number(1).build();
+        LectureDTO lecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
         lectureService.save(lecture);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, lecture.getId()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());

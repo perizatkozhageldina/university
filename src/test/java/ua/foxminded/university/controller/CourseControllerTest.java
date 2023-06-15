@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.dto.CourseDTO;
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.service.CourseService;
 
@@ -63,7 +64,7 @@ class CourseControllerTest {
 
     @Test
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
-        Course course = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
         courseService.save(course);
         mockMvc.perform(MockMvcRequestBuilders.get(ADD_PATH))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -73,7 +74,7 @@ class CourseControllerTest {
 
     @Test
     void shouldReturnSaveView_whenSaveMethodExecuted() throws Exception {
-        Course course = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
         String encoded = URLEncoder.encode(course.toString(), "UTF-8");
         mockMvc.perform(MockMvcRequestBuilders.post(SAVE_PATH).param(COURSE_PARAM, encoded))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -82,7 +83,7 @@ class CourseControllerTest {
 
     @Test
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
-        Course course = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
         courseService.save(course);
         mockMvc.perform(MockMvcRequestBuilders.patch(UPDATE_PATH)
                 .param("name", "Updated Course")
@@ -94,7 +95,7 @@ class CourseControllerTest {
 
     @Test
     void shouldReturnEditView_whenEditMethodExecuted() throws Exception {
-        Course course = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
         courseService.save(course);
         mockMvc.perform(MockMvcRequestBuilders.get(EDIT_PATH, course.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -104,11 +105,10 @@ class CourseControllerTest {
 
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
-        Course course = Course.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
+        CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
         courseService.save(course);
         mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_PATH, course.getId()))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
-
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.dto.RoomDTO;
 import ua.foxminded.university.model.Room;
 import ua.foxminded.university.service.RoomService;
 
@@ -44,9 +45,9 @@ public class RoomApiControllerTest {
 
     @Test
     public void shouldReturnAllRecords_whenViewAllMethodExecuted() throws Exception {
-        Room room1 = Room.builder().id(1L).name(ROOM_NAME).capacity(1).build();
-        Room room2 = Room.builder().id(2L).name(ROOM_NAME).capacity(2).build();
-        Room room3 = Room.builder().id(3L).name(ROOM_NAME).capacity(3).build();
+        RoomDTO room1 = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
+        RoomDTO room2 = RoomDTO.builder().id(2L).name(ROOM_NAME).capacity(2).build();
+        RoomDTO room3 = RoomDTO.builder().id(3L).name(ROOM_NAME).capacity(3).build();
 
         roomService.save(room1);
         roomService.save(room2);
@@ -68,9 +69,9 @@ public class RoomApiControllerTest {
 
     @Test
     public void shouldReturnOneJsonElement_whenViewOneMethodExecuted() throws Exception {
-        Room room1 = Room.builder().id(1L).name(ROOM_NAME).capacity(1).build();
-        Room room2 = Room.builder().id(2L).name(ROOM_NAME).capacity(2).build();
-        Room room3 = Room.builder().id(3L).name(ROOM_NAME).capacity(3).build();
+        RoomDTO room1 = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
+        RoomDTO room2 = RoomDTO.builder().id(2L).name(ROOM_NAME).capacity(2).build();
+        RoomDTO room3 = RoomDTO.builder().id(3L).name(ROOM_NAME).capacity(3).build();
 
         roomService.save(room1);
         roomService.save(room2);
@@ -83,7 +84,7 @@ public class RoomApiControllerTest {
 
     @Test
     public void shouldAddRecord_whenAddMethodCalled() throws Exception {
-        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(1).build();
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
 
         mockMvc.perform(MockMvcRequestBuilders.post(INDEX_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -96,10 +97,10 @@ public class RoomApiControllerTest {
 
     @Test
     public void shouldUpdateRecord_whenUpdateMethodCalled() throws Exception {
-        Room savedRoom = Room.builder().id(1L).name(ROOM_NAME).capacity(1).build();
+        RoomDTO savedRoom = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
         roomService.save(savedRoom);
 
-        Room updatedRoom = Room.builder().id(1L).name("Updated Room").capacity(1).build();
+        RoomDTO updatedRoom = RoomDTO.builder().id(1L).name("Updated Room").capacity(1).build();
 
         mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, savedRoom.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -112,7 +113,7 @@ public class RoomApiControllerTest {
 
     @Test
     public void shouldDeleteEntity_whenDeleteMethodCalled() throws Exception {
-        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(1).build();
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
         roomService.save(room);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, room.getId()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());

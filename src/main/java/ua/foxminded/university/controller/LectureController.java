@@ -27,18 +27,15 @@ import javax.validation.Valid;
 @RequestMapping("/lectures")
 public class LectureController {
     private LectureService service;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public LectureController(LectureService service, ModelMapper modelMapper) {
+    public LectureController(LectureService service) {
         this.service = service;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public String list(Model model) {
-        List<Lecture> lectures = service.getAll();
-        List<LectureDTO> lectureDTOList = lectures.stream().map(lecture -> modelMapper.map(lecture, LectureDTO.class)).collect(Collectors.toList());
+        List<LectureDTO> lectureDTOList = service.getAll();
         model.addAttribute("lectures", lectureDTOList);
         return "lecture/index";
     }
@@ -54,8 +51,7 @@ public class LectureController {
         if (result.hasErrors()) {
             return "lecture/add";
         }
-        Lecture lecture = modelMapper.map(lectureDTO, Lecture.class);
-        service.save(lecture);
+        service.save(lectureDTO);
         return "redirect:/lectures";
     }
 
@@ -64,15 +60,13 @@ public class LectureController {
         if (result.hasErrors()) {
             return "lecture/edit";
         }
-        Lecture lecture = modelMapper.map(lectureDTO, Lecture.class);
-        service.save(lecture);
+        service.save(lectureDTO);
         return "redirect:/lectures";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Lecture lecture = service.getById(id);
-        LectureDTO lectureDTO = modelMapper.map(lecture, LectureDTO.class);
+        LectureDTO lectureDTO = service.getById(id);
         model.addAttribute("lecture", lectureDTO);
         return "lecture/edit";
     }

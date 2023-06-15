@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.dto.RoomDTO;
 import ua.foxminded.university.model.Room;
 import ua.foxminded.university.service.RoomService;
 
@@ -63,7 +64,7 @@ class RoomControllerTest {
 
     @Test
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(10).build();
         roomService.save(room);
         mockMvc.perform(MockMvcRequestBuilders.get(ADD_PATH))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -73,7 +74,7 @@ class RoomControllerTest {
 
     @Test
     void shouldReturnSaveView_whenSaveMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(10).build();
         String encoded = URLEncoder.encode(room.toString(), "UTF-8");
         mockMvc.perform(MockMvcRequestBuilders.post(SAVE_PATH).param(ROOM_PARAM, encoded))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -82,7 +83,7 @@ class RoomControllerTest {
 
     @Test
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(10).build();
         roomService.save(room);
         mockMvc.perform(MockMvcRequestBuilders.patch(UPDATE_PATH)
                 .param("name", "Updated Room")
@@ -93,7 +94,7 @@ class RoomControllerTest {
 
     @Test
     void shouldReturnEditView_whenEditMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(10).build();
         roomService.save(room);
         mockMvc.perform(MockMvcRequestBuilders.get(EDIT_PATH, room.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -103,11 +104,10 @@ class RoomControllerTest {
 
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
-        Room room = Room.builder().id(1L).name(ROOM_NAME).capacity(10).build();
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(10).build();
         roomService.save(room);
         mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_PATH, room.getId()))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
-
     }
 }

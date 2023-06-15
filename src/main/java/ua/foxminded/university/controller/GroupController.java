@@ -27,18 +27,15 @@ import javax.validation.Valid;
 @RequestMapping("/groups")
 public class GroupController {
     private GroupService service;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public GroupController(GroupService service, ModelMapper modelMapper) {
+    public GroupController(GroupService service) {
         this.service = service;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public String list(Model model) {
-        List<Group> groups = service.getAll();
-        List<GroupDTO> groupDTOList = groups.stream().map(group -> modelMapper.map(group, GroupDTO.class)).collect(Collectors.toList());
+        List<GroupDTO> groupDTOList = service.getAll();
         model.addAttribute("groups", groupDTOList);
         return "group/index";
     }
@@ -54,8 +51,7 @@ public class GroupController {
         if (result.hasErrors()) {
             return "group/add";
         }
-        Group group = modelMapper.map(groupDTO, Group.class);
-        service.save(group);
+        service.save(groupDTO);
         return "redirect:/groups";
     }
 
@@ -64,15 +60,13 @@ public class GroupController {
         if (result.hasErrors()) {
             return "group/edit";
         }
-        Group group = modelMapper.map(groupDTO, Group.class);
-        service.save(group);
+        service.save(groupDTO);
         return "redirect:/groups";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Group group = service.getById(id);
-        GroupDTO groupDTO = modelMapper.map(group, GroupDTO.class);
+        GroupDTO groupDTO = service.getById(id);
         model.addAttribute("group", groupDTO);
         return "group/edit";
     }

@@ -15,25 +15,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/teachers")
 public class TeacherApiController {
     private TeacherService service;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public TeacherApiController(TeacherService service, ModelMapper modelMapper) {
+    public TeacherApiController(TeacherService service) {
         this.service = service;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public List<TeacherDTO> getAll() {
-        List<Teacher> teachers = service.getAll();
-        return teachers.stream().map(teacher -> modelMapper.map(teacher, TeacherDTO.class)).collect(Collectors.toList());
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TeacherDTO> getById(@PathVariable long id) {
-        Teacher teacher = service.getById(id);
-        if (teacher != null) {
-            TeacherDTO teacherDTO = modelMapper.map(teacher, TeacherDTO.class);
+        TeacherDTO teacherDTO = service.getById(id);
+        if (teacherDTO != null) {
             return ResponseEntity.ok(teacherDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -42,10 +38,8 @@ public class TeacherApiController {
 
     @PostMapping
     public ResponseEntity<TeacherDTO> add(@RequestBody TeacherDTO teacherDTO) {
-        Teacher teacher = modelMapper.map(teacherDTO, Teacher.class);
-        Teacher savedTeacher = service.save(teacher);
-        if (savedTeacher != null) {
-            TeacherDTO savedTeacherDTO = modelMapper.map(savedTeacher, TeacherDTO.class);
+        TeacherDTO savedTeacherDTO = service.save(teacherDTO);
+        if (savedTeacherDTO != null) {
             return ResponseEntity.ok(savedTeacherDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -54,15 +48,13 @@ public class TeacherApiController {
 
     @PutMapping("/{id}")
     public ResponseEntity<TeacherDTO> update(@PathVariable Long id, @RequestBody TeacherDTO updatedTeacherDTO) {
-        Teacher updatedTeacher = modelMapper.map(updatedTeacherDTO, Teacher.class);
-        Teacher teacher = service.getById(updatedTeacher.getId());
-        if (teacher != null) {
-            teacher.setName(updatedTeacher.getName());
-            teacher.setSurname(updatedTeacher.getSurname());
-            teacher.setCategory(updatedTeacher.getCategory());
-            teacher.setHours(updatedTeacher.getHours());
-            Teacher savedTeacher = service.save(teacher);
-            TeacherDTO savedTeacherDTO = modelMapper.map(savedTeacher, TeacherDTO.class);
+        TeacherDTO teacherDTO = service.getById(id);
+        if (teacherDTO != null) {
+            teacherDTO.setName(updatedTeacherDTO.getName());
+            teacherDTO.setSurname(updatedTeacherDTO.getSurname());
+            teacherDTO.setCategory(updatedTeacherDTO.getCategory());
+            teacherDTO.setHours(updatedTeacherDTO.getHours());
+            TeacherDTO savedTeacherDTO = service.save(teacherDTO);
             return ResponseEntity.ok(savedTeacherDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -71,8 +63,8 @@ public class TeacherApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        Teacher teacher = service.getById(id);
-        if (teacher != null) {
+        TeacherDTO teacherDTO = service.getById(id);
+        if (teacherDTO != null) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {

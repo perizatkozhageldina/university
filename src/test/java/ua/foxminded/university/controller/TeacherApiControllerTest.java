@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
+import ua.foxminded.university.dto.TeacherDTO;
 import ua.foxminded.university.model.Teacher;
 import ua.foxminded.university.service.TeacherService;
 
@@ -45,9 +46,9 @@ public class TeacherApiControllerTest {
 
     @Test
     public void shouldReturnAllRecords_whenViewAllMethodExecuted() throws Exception {
-        Teacher teacher1 = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
-        Teacher teacher2 = Teacher.builder().id(2L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(2).build();
-        Teacher teacher3 = Teacher.builder().id(3L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(3).build();
+        TeacherDTO teacher1 = TeacherDTO.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
+        TeacherDTO teacher2 = TeacherDTO.builder().id(2L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(2).build();
+        TeacherDTO teacher3 = TeacherDTO.builder().id(3L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(3).build();
 
         teacherService.save(teacher1);
         teacherService.save(teacher2);
@@ -72,9 +73,9 @@ public class TeacherApiControllerTest {
 
     @Test
     public void shouldReturnOneJsonElement_whenViewOneMethodExecuted() throws Exception {
-        Teacher teacher1 = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
-        Teacher teacher2 = Teacher.builder().id(2L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(2).build();
-        Teacher teacher3 = Teacher.builder().id(3L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(3).build();
+        TeacherDTO teacher1 = TeacherDTO.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
+        TeacherDTO teacher2 = TeacherDTO.builder().id(2L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(2).build();
+        TeacherDTO teacher3 = TeacherDTO.builder().id(3L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(3).build();
 
         teacherService.save(teacher1);
         teacherService.save(teacher2);
@@ -87,7 +88,7 @@ public class TeacherApiControllerTest {
 
     @Test
     public void shouldAddRecord_whenAddMethodCalled() throws Exception {
-        Teacher teacher = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
+        TeacherDTO teacher = TeacherDTO.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
 
         mockMvc.perform(MockMvcRequestBuilders.post(INDEX_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -101,10 +102,10 @@ public class TeacherApiControllerTest {
 
     @Test
     public void shouldUpdateRecord_whenUpdateMethodCalled() throws Exception {
-        Teacher savedTeacher = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
+        TeacherDTO savedTeacher = TeacherDTO.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
         teacherService.save(savedTeacher);
 
-        Teacher updatedTeacher = Teacher.builder().id(1L).name("Updated Name").surname("Updated Surname").hours(1).build();
+        TeacherDTO updatedTeacher = TeacherDTO.builder().id(1L).name("Updated Name").surname("Updated Surname").hours(1).build();
 
         mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, savedTeacher.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -118,7 +119,7 @@ public class TeacherApiControllerTest {
 
     @Test
     public void shouldDeleteEntity_whenDeleteMethodCalled() throws Exception {
-        Teacher teacher = Teacher.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
+        TeacherDTO teacher = TeacherDTO.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
         teacherService.save(teacher);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, teacher.getId()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());

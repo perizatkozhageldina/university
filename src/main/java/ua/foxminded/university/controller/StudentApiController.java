@@ -15,25 +15,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/students")
 public class StudentApiController {
     private StudentService service;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public StudentApiController(StudentService service, ModelMapper modelMapper) {
+    public StudentApiController(StudentService service) {
         this.service = service;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public List<StudentDTO> getAll() {
-        List<Student> students = service.getAll();
-        return students.stream().map(student -> modelMapper.map(student, StudentDTO.class)).collect(Collectors.toList());
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<StudentDTO> getById(@PathVariable long id) {
-        Student student = service.getById(id);
-        if (student != null) {
-            StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
+        StudentDTO studentDTO = service.getById(id);
+        if (studentDTO != null) {
             return ResponseEntity.ok(studentDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -42,10 +38,8 @@ public class StudentApiController {
 
     @PostMapping
     public ResponseEntity<StudentDTO> add(@RequestBody StudentDTO studentDTO) {
-        Student student = modelMapper.map(studentDTO, Student.class);
-        Student savedStudent = service.save(student);
-        if (savedStudent != null) {
-            StudentDTO savedStudentDTO = modelMapper.map(savedStudent, StudentDTO.class);
+        StudentDTO savedStudentDTO = service.save(studentDTO);
+        if (savedStudentDTO != null) {
             return ResponseEntity.ok(savedStudentDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -54,15 +48,13 @@ public class StudentApiController {
 
     @PutMapping("/{id}")
     public ResponseEntity<StudentDTO> update(@PathVariable Long id, @RequestBody StudentDTO updatedStudentDTO) {
-        Student updatedStudent = modelMapper.map(updatedStudentDTO, Student.class);
-        Student student = service.getById(updatedStudent.getId());
-        if (student != null) {
-            student.setName(updatedStudent.getName());
-            student.setSurname(updatedStudent.getSurname());
-            student.setAcademicYear(updatedStudent.getAcademicYear());
-            student.setGroupId(updatedStudent.getGroupId());
-            Student savedStudent = service.save(student);
-            StudentDTO savedStudentDTO = modelMapper.map(savedStudent, StudentDTO.class);
+        StudentDTO studentDTO = service.getById(updatedStudentDTO.getId());
+        if (studentDTO != null) {
+            studentDTO.setName(updatedStudentDTO.getName());
+            studentDTO.setSurname(updatedStudentDTO.getSurname());
+            studentDTO.setAcademicYear(updatedStudentDTO.getAcademicYear());
+            studentDTO.setGroupId(updatedStudentDTO.getGroupId());
+            StudentDTO savedStudentDTO = service.save(studentDTO);
             return ResponseEntity.ok(savedStudentDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -71,8 +63,8 @@ public class StudentApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        Student student = service.getById(id);
-        if (student != null) {
+        StudentDTO studentDTO = service.getById(id);
+        if (studentDTO != null) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {

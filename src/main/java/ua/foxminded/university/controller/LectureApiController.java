@@ -15,25 +15,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/lectures")
 public class LectureApiController {
     private LectureService service;
-    private ModelMapper modelMapper;
 
     @Autowired
-    public LectureApiController(LectureService service, ModelMapper modelMapper) {
+    public LectureApiController(LectureService service) {
         this.service = service;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public List<LectureDTO> getAll() {
-        List<Lecture> lectures = service.getAll();
-        return lectures.stream().map(lecture -> modelMapper.map(lecture, LectureDTO.class)).collect(Collectors.toList());
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<LectureDTO> getById(@PathVariable long id) {
-        Lecture lecture = service.getById(id);
-        if (lecture != null) {
-            LectureDTO lectureDTO = modelMapper.map(lecture, LectureDTO.class);
+        LectureDTO lectureDTO = service.getById(id);
+        if (lectureDTO != null) {
             return ResponseEntity.ok(lectureDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -42,10 +38,8 @@ public class LectureApiController {
 
     @PostMapping
     public ResponseEntity<LectureDTO> add(@RequestBody LectureDTO lectureDTO) {
-        Lecture lecture = modelMapper.map(lectureDTO, Lecture.class);
-        Lecture savedLecture = service.save(lecture);
-        if (savedLecture != null) {
-            LectureDTO savedLectureDTO = modelMapper.map(savedLecture, LectureDTO.class);
+        LectureDTO savedLectureDTO = service.save(lectureDTO);
+        if (savedLectureDTO != null) {
             return ResponseEntity.ok(savedLectureDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -54,13 +48,11 @@ public class LectureApiController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LectureDTO> update(@PathVariable Long id, @RequestBody LectureDTO updatedLectureDTO) {
-        Lecture updatedLecture = modelMapper.map(updatedLectureDTO, Lecture.class);
-        Lecture lecture = service.getById(updatedLecture.getId());
-        if (lecture != null) {
-            lecture.setName(updatedLecture.getName());
-            lecture.setNumber(updatedLecture.getNumber());
-            Lecture savedLecture = service.save(lecture);
-            LectureDTO savedLectureDTO = modelMapper.map(savedLecture, LectureDTO.class);
+        LectureDTO lectureDTO = service.getById(id);
+        if (lectureDTO != null) {
+            lectureDTO.setName(updatedLectureDTO.getName());
+            lectureDTO.setNumber(updatedLectureDTO.getNumber());
+            LectureDTO savedLectureDTO = service.save(lectureDTO);
             return ResponseEntity.ok(savedLectureDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -69,8 +61,8 @@ public class LectureApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        Lecture lecture = service.getById(id);
-        if (lecture != null) {
+        LectureDTO lectureDTO = service.getById(id);
+        if (lectureDTO != null) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {
