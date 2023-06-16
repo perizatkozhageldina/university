@@ -54,8 +54,10 @@ public class StudentController {
     }
 
     @PostMapping("save")
-    public String save(@Valid @ModelAttribute("student") StudentDTO studentDTO, BindingResult result) {
+    public String save(@Valid @ModelAttribute("student") StudentDTO studentDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            List<GroupDTO> groupDTOList = groupService.getAll();
+            model.addAttribute("groups", groupDTOList);
             return "student/add";
         }
         service.save(studentDTO);
