@@ -60,11 +60,11 @@ public class GroupApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<GroupDTO> delete(@PathVariable("id") Long id) {
         GroupDTO groupDTO = service.getById(id);
         if (groupDTO != null) {
             service.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(groupDTO);
         } else {
             return ResponseEntity.notFound().build();
         }

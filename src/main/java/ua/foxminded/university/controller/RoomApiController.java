@@ -63,11 +63,11 @@ public class RoomApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<RoomDTO> delete(@PathVariable("id") Long id) {
         RoomDTO roomDTO = service.getById(id);
         if (roomDTO != null) {
             service.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(roomDTO);
         } else {
             return ResponseEntity.notFound().build();
         }

@@ -62,11 +62,11 @@ public class TeacherApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<TeacherDTO> delete(@PathVariable("id") Long id) {
         TeacherDTO teacherDTO = service.getById(id);
         if (teacherDTO != null) {
             service.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(teacherDTO);
         } else {
             return ResponseEntity.notFound().build();
         }

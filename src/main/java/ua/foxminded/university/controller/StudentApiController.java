@@ -62,11 +62,11 @@ public class StudentApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<StudentDTO> delete(@PathVariable("id") Long id) {
         StudentDTO studentDTO = service.getById(id);
         if (studentDTO != null) {
             service.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(studentDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
