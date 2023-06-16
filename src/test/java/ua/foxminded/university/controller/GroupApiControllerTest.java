@@ -116,7 +116,7 @@ public class GroupApiControllerTest {
         GroupDTO group = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(10).build();
         groupService.save(group);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, group.getId()))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     private String asJsonString(Object object) {

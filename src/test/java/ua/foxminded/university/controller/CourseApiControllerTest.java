@@ -130,7 +130,7 @@ public class CourseApiControllerTest {
         CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
         courseService.save(course);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, course.getId()))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     private String asJsonString(Object object) {

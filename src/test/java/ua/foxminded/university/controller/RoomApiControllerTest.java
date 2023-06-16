@@ -116,7 +116,7 @@ public class RoomApiControllerTest {
         RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
         roomService.save(room);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, room.getId()))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     private String asJsonString(Object object) {

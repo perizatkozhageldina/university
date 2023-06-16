@@ -118,7 +118,7 @@ public class LectureApiControllerTest {
         LectureDTO lecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
         lectureService.save(lecture);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, lecture.getId()))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     private String asJsonString(Object object) {

@@ -122,7 +122,7 @@ public class StudentApiControllerTest {
         StudentDTO student = StudentDTO.builder().id(1L).name(STUDENT_NAME).surname(STUDENT_SURNAME).academicYear(1).build();
         studentService.save(student);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, student.getId()))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     private String asJsonString(Object object) {

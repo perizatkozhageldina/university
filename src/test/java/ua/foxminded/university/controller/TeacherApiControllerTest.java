@@ -122,7 +122,7 @@ public class TeacherApiControllerTest {
         TeacherDTO teacher = TeacherDTO.builder().id(1L).name(TEACHER_NAME).surname(TEACHER_SURNAME).hours(1).build();
         teacherService.save(teacher);
         mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, teacher.getId()))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     private String asJsonString(Object object) {
