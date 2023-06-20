@@ -1,19 +1,17 @@
 package ua.foxminded.university.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
 import org.hibernate.service.spi.ServiceException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.validation.annotation.Validated;
 import ua.foxminded.university.dto.CourseDTO;
 import ua.foxminded.university.model.Course;
 import ua.foxminded.university.repository.CourseJdbcRepository;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Validated
