@@ -1,5 +1,6 @@
 package ua.foxminded.university.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.modelmapper.ModelMapper;
@@ -60,6 +61,11 @@ public class AppConfig implements WebMvcConfigurer {
                 .info(new Info().title("University API Documentation")
                         .description("This App uses to generate timetable for university")
                         .version("1.0"));
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 
     @Override

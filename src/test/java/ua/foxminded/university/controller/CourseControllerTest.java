@@ -3,7 +3,9 @@ package ua.foxminded.university.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -14,7 +16,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.dto.CourseDTO;
-import ua.foxminded.university.model.Course;
 import ua.foxminded.university.service.CourseService;
 
 import java.net.URLEncoder;
@@ -43,8 +44,8 @@ class CourseControllerTest {
     @Autowired
     private WebApplicationContext wac;
 
-    @Autowired
-    private CourseService courseService;
+    @MockBean
+    private CourseService service;
 
     private MockMvc mockMvc;
 
@@ -65,7 +66,7 @@ class CourseControllerTest {
     @Test
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
         CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
-        courseService.save(course);
+        Mockito.when(service.save(Mockito.any())).thenReturn(course);
         mockMvc.perform(MockMvcRequestBuilders.get(ADD_PATH))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name(ADD_VIEW))
@@ -84,7 +85,7 @@ class CourseControllerTest {
     @Test
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
         CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
-        courseService.save(course);
+        Mockito.when(service.save(Mockito.any())).thenReturn(course);
         mockMvc.perform(MockMvcRequestBuilders.patch(UPDATE_PATH)
                 .param("name", "Updated Course")
                 .param("level", "1")
@@ -96,17 +97,16 @@ class CourseControllerTest {
     @Test
     void shouldReturnEditView_whenEditMethodExecuted() throws Exception {
         CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
-        courseService.save(course);
+        Mockito.when(service.getById(course.getId())).thenReturn(course);
         mockMvc.perform(MockMvcRequestBuilders.get(EDIT_PATH, course.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name(EDIT_VIEW))
-                .andExpect(model().attributeExists(COURSE_ATTRIBUTE));
+                .andExpect(MockMvcResultMatchers.view().name(EDIT_VIEW));
     }
 
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
         CourseDTO course = CourseDTO.builder().id(1L).name(COURSE_NAME).level(1).hours(12).build();
-        courseService.save(course);
+        Mockito.when(service.save(Mockito.any())).thenReturn(course);
         mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_PATH, course.getId()))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));

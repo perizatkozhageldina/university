@@ -3,7 +3,9 @@ package ua.foxminded.university.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -14,7 +16,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.dto.GroupDTO;
-import ua.foxminded.university.model.Group;
 import ua.foxminded.university.service.GroupService;
 
 import java.net.URLEncoder;
@@ -43,8 +44,8 @@ class GroupControllerTest {
     @Autowired
     private WebApplicationContext wac;
 
-    @Autowired
-    private GroupService groupService;
+    @MockBean
+    private GroupService service;
 
     private MockMvc mockMvc;
 
@@ -65,7 +66,7 @@ class GroupControllerTest {
     @Test
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
         GroupDTO group = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(20).build();
-        groupService.save(group);
+        Mockito.when(service.save(Mockito.any())).thenReturn(group);
         mockMvc.perform(MockMvcRequestBuilders.get(ADD_PATH))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name(ADD_VIEW))
@@ -84,7 +85,7 @@ class GroupControllerTest {
     @Test
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
         GroupDTO group = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(20).build();
-        groupService.save(group);
+        Mockito.when(service.save(Mockito.any())).thenReturn(group);
         mockMvc.perform(MockMvcRequestBuilders.patch(UPDATE_PATH)
                 .param("name", "Updated Group")
                 .param("maxStudents", "20"))
@@ -95,7 +96,7 @@ class GroupControllerTest {
     @Test
     void shouldReturnEditView_whenEditMethodExecuted() throws Exception {
         GroupDTO group = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(20).build();
-        groupService.save(group);
+        Mockito.when(service.getById(group.getId())).thenReturn(group);
         mockMvc.perform(MockMvcRequestBuilders.get(EDIT_PATH, group.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name(EDIT_VIEW))
@@ -105,7 +106,7 @@ class GroupControllerTest {
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
         GroupDTO group = GroupDTO.builder().id(1L).name(GROUP_NAME).maxStudents(20).build();
-        groupService.save(group);
+        Mockito.when(service.save(Mockito.any())).thenReturn(group);
         mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_PATH, group.getId()))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));

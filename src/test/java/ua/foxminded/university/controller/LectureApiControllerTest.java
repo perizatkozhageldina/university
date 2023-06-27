@@ -6,7 +6,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -18,10 +20,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.dto.LectureDTO;
-import ua.foxminded.university.model.Lecture;
 import ua.foxminded.university.service.LectureService;
 
-import java.util.List;
+import java.util.Arrays;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -35,7 +36,10 @@ public class LectureApiControllerTest {
     private WebApplicationContext wac;
 
     @Autowired
-    private LectureService lectureService;
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private LectureService service;
 
     private MockMvc mockMvc;
 
@@ -50,84 +54,56 @@ public class LectureApiControllerTest {
         LectureDTO lecture1 = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
         LectureDTO lecture2 = LectureDTO.builder().id(2L).name(LECTURE_NAME).number(2).build();
         LectureDTO lecture3 = LectureDTO.builder().id(3L).name(LECTURE_NAME).number(3).build();
-
-        lectureService.save(lecture1);
-        lectureService.save(lecture2);
-        lectureService.save(lecture3);
-
+        Mockito.when(service.getAll()).thenReturn(Arrays.asList(lecture1, lecture2, lecture3));
         mockMvc.perform(MockMvcRequestBuilders.get(INDEX_PATH))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.is(LECTURE_NAME)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].number", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.is(LECTURE_NAME)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].number", Matchers.is(2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.is(3)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name", Matchers.is(LECTURE_NAME)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].number", Matchers.is(3)));
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(Arrays.asList(lecture1, lecture2, lecture3))));
     }
 
     @Test
     public void shouldReturnOneJsonElement_whenViewOneMethodExecuted() throws Exception {
-        LectureDTO lecture1 = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
-        LectureDTO lecture2 = LectureDTO.builder().id(2L).name(LECTURE_NAME).number(2).build();
-        LectureDTO lecture3 = LectureDTO.builder().id(3L).name(LECTURE_NAME).number(3).build();
-
-        lectureService.save(lecture1);
-        lectureService.save(lecture2);
-        lectureService.save(lecture3);
-
-        mockMvc.perform(MockMvcRequestBuilders.get(ENTITY_PATH, lecture1.getId()))
+        LectureDTO lecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
+        Mockito.when(service.getById(Mockito.anyLong())).thenReturn(lecture);
+        mockMvc.perform(
+                MockMvcRequestBuilders.get(ENTITY_PATH, lecture.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("{'id': 1}"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"));
     }
 
     @Test
     public void shouldAddRecord_whenAddMethodCalled() throws Exception {
         LectureDTO lecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
-
-        mockMvc.perform(MockMvcRequestBuilders.post(INDEX_PATH)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(lecture)))
+        Mockito.when(service.save(Mockito.any())).thenReturn(lecture);
+        mockMvc.perform(
+                MockMvcRequestBuilders.post(INDEX_PATH)
+                        .content(objectMapper.writeValueAsString(lecture))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is(LECTURE_NAME)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.number", Matchers.is(1)));
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(lecture)));
     }
 
     @Test
     public void shouldUpdateRecord_whenUpdateMethodCalled() throws Exception {
-        LectureDTO savedLecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
-        lectureService.save(savedLecture);
+        LectureDTO lecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
+        LectureDTO updatedLecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(10).build();
+        Mockito.when(service.save(Mockito.any())).thenReturn(lecture);
+        Mockito.when(service.getById(Mockito.anyLong())).thenReturn(lecture);
 
-        LectureDTO updatedLecture = LectureDTO.builder().id(1L).name("Updated Lecture").number(1).build();
-
-        mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, savedLecture.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(updatedLecture)))
+        mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, lecture.getId())
+                .content(objectMapper.writeValueAsString(updatedLecture))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("Updated Lecture")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.number", Matchers.is(1)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is(LECTURE_NAME)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.number", Matchers.is(10)));
     }
 
     @Test
     public void shouldDeleteEntity_whenDeleteMethodCalled() throws Exception {
         LectureDTO lecture = LectureDTO.builder().id(1L).name(LECTURE_NAME).number(1).build();
-        lectureService.save(lecture);
-        mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, lecture.getId()))
+        Mockito.when(service.getById(Mockito.anyLong())).thenReturn(lecture);
+        mockMvc.perform
+                (MockMvcRequestBuilders.delete(ENTITY_PATH, lecture.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    private String asJsonString(Object object) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            return objectMapper.writeValueAsString(object);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

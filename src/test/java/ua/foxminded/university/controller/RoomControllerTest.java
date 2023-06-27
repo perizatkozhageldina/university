@@ -3,7 +3,9 @@ package ua.foxminded.university.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -14,7 +16,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.dto.RoomDTO;
-import ua.foxminded.university.model.Room;
 import ua.foxminded.university.service.RoomService;
 
 import java.net.URLEncoder;
@@ -43,8 +44,8 @@ class RoomControllerTest {
     @Autowired
     private WebApplicationContext wac;
 
-    @Autowired
-    private RoomService roomService;
+    @MockBean
+    private RoomService service;
 
     private MockMvc mockMvc;
 
@@ -65,7 +66,7 @@ class RoomControllerTest {
     @Test
     void shouldReturnAddView_whenAddMethodExecuted() throws Exception {
         RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(10).build();
-        roomService.save(room);
+        Mockito.when(service.save(Mockito.any())).thenReturn(room);
         mockMvc.perform(MockMvcRequestBuilders.get(ADD_PATH))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name(ADD_VIEW))
@@ -84,7 +85,7 @@ class RoomControllerTest {
     @Test
     void shouldReturnUpdateView_whenUpdateMethodExecuted() throws Exception {
         RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(10).build();
-        roomService.save(room);
+        Mockito.when(service.save(Mockito.any())).thenReturn(room);
         mockMvc.perform(MockMvcRequestBuilders.patch(UPDATE_PATH)
                 .param("name", "Updated Room")
                 .param("capacity", "10"))
@@ -95,7 +96,7 @@ class RoomControllerTest {
     @Test
     void shouldReturnEditView_whenEditMethodExecuted() throws Exception {
         RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(10).build();
-        roomService.save(room);
+        Mockito.when(service.getById(room.getId())).thenReturn(room);
         mockMvc.perform(MockMvcRequestBuilders.get(EDIT_PATH, room.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name(EDIT_VIEW))
@@ -105,7 +106,7 @@ class RoomControllerTest {
     @Test
     void shouldReturnIndexView_whenDeleteMethodExecuted() throws Exception {
         RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(10).build();
-        roomService.save(room);
+        Mockito.when(service.save(Mockito.any())).thenReturn(room);
         mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_PATH, room.getId()))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));

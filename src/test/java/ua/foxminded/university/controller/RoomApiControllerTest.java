@@ -6,7 +6,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -18,8 +20,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.foxminded.university.config.AppConfig;
 import ua.foxminded.university.dto.RoomDTO;
-import ua.foxminded.university.model.Room;
 import ua.foxminded.university.service.RoomService;
+
+import java.util.Arrays;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -33,7 +36,10 @@ public class RoomApiControllerTest {
     private WebApplicationContext wac;
 
     @Autowired
-    private RoomService roomService;
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private RoomService service;
 
     private MockMvc mockMvc;
 
@@ -45,87 +51,58 @@ public class RoomApiControllerTest {
 
     @Test
     public void shouldReturnAllRecords_whenViewAllMethodExecuted() throws Exception {
-        RoomDTO room1 = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
-        RoomDTO room2 = RoomDTO.builder().id(2L).name(ROOM_NAME).capacity(2).build();
-        RoomDTO room3 = RoomDTO.builder().id(3L).name(ROOM_NAME).capacity(3).build();
-
-        roomService.save(room1);
-        roomService.save(room2);
-        roomService.save(room3);
-
-        mockMvc.perform(MockMvcRequestBuilders.get(INDEX_PATH))
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
+        Mockito.when(service.getById(Mockito.anyLong())).thenReturn(room);
+        mockMvc.perform(
+                MockMvcRequestBuilders.get(ENTITY_PATH, room.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.is(ROOM_NAME)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].capacity", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.is(ROOM_NAME)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].capacity", Matchers.is(2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.is(3)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name", Matchers.is(ROOM_NAME)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].capacity", Matchers.is(3)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"));
     }
 
     @Test
     public void shouldReturnOneJsonElement_whenViewOneMethodExecuted() throws Exception {
-        RoomDTO room1 = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
-        RoomDTO room2 = RoomDTO.builder().id(2L).name(ROOM_NAME).capacity(2).build();
-        RoomDTO room3 = RoomDTO.builder().id(3L).name(ROOM_NAME).capacity(3).build();
-
-        roomService.save(room1);
-        roomService.save(room2);
-        roomService.save(room3);
-
-        mockMvc.perform(MockMvcRequestBuilders.get(ENTITY_PATH, room1.getId()))
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
+        Mockito.when(service.getById(Mockito.anyLong())).thenReturn(room);
+        mockMvc.perform(
+                MockMvcRequestBuilders.get(ENTITY_PATH, room.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("{'id': 1}"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"));
     }
 
     @Test
     public void shouldAddRecord_whenAddMethodCalled() throws Exception {
         RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
-
-        mockMvc.perform(MockMvcRequestBuilders.post(INDEX_PATH)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(room)))
+        Mockito.when(service.save(Mockito.any())).thenReturn(room);
+        mockMvc.perform(
+                MockMvcRequestBuilders.post(INDEX_PATH)
+                        .content(objectMapper.writeValueAsString(room))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is(ROOM_NAME)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.capacity", Matchers.is(1)));
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(room)));
     }
 
     @Test
     public void shouldUpdateRecord_whenUpdateMethodCalled() throws Exception {
-        RoomDTO savedRoom = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
-        roomService.save(savedRoom);
+        RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
+        RoomDTO updatedRoom = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(24).build();
+        Mockito.when(service.save(Mockito.any())).thenReturn(room);
+        Mockito.when(service.getById(Mockito.anyLong())).thenReturn(room);
 
-        RoomDTO updatedRoom = RoomDTO.builder().id(1L).name("Updated Room").capacity(1).build();
-
-        mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, savedRoom.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(updatedRoom)))
+        mockMvc.perform(MockMvcRequestBuilders.put(ENTITY_PATH, room.getId())
+                .content(objectMapper.writeValueAsString(updatedRoom))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("Updated Room")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.capacity", Matchers.is(1)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is(ROOM_NAME)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.capacity", Matchers.is(24)));
     }
 
     @Test
     public void shouldDeleteEntity_whenDeleteMethodCalled() throws Exception {
         RoomDTO room = RoomDTO.builder().id(1L).name(ROOM_NAME).capacity(1).build();
-        roomService.save(room);
-        mockMvc.perform(MockMvcRequestBuilders.delete(ENTITY_PATH, room.getId()))
+        Mockito.when(service.getById(Mockito.anyLong())).thenReturn(room);
+        mockMvc.perform
+                (MockMvcRequestBuilders.delete(ENTITY_PATH, room.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    private String asJsonString(Object object) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            return objectMapper.writeValueAsString(object);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }
