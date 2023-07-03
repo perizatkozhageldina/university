@@ -64,4 +64,4 @@ public class CourseController {
 		service.deleteById(id);
 		return "redirect:/courses";
 	}
-}//
+}

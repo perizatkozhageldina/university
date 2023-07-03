@@ -52,4 +52,3 @@ public class LectureJdbcRepositoryIntegrationTest {
         Assert.assertNull(dao.findById(savedLecture.getId()).orElse(null));
     }
 }
-//

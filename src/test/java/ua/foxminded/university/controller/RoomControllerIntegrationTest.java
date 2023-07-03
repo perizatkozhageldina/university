@@ -105,4 +105,4 @@ public class RoomControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
     }
-}//
+}

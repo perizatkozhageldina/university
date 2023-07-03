@@ -62,4 +62,4 @@ class RoomJdbcRepositoryTest {
         List<Room> actualRooms = dao.findAll();
         assertEquals(expectedRooms, actualRooms);
     }
-}//
+}

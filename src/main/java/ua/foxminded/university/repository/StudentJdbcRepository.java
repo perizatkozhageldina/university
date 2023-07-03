@@ -11,4 +11,4 @@ import java.util.List;
 @Repository
 public interface StudentJdbcRepository extends JpaRepository<Student, Long> {
     int countByGroupId(Long groupId);
-}//
+}

@@ -101,4 +101,3 @@ public class GroupApiControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
-//

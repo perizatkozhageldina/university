@@ -26,4 +26,4 @@ public class StudentDTO {
     private Integer academicYear;
     @MaxStudentsInGroup
     private Long groupId;
-}//
+}

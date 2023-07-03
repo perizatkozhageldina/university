@@ -21,4 +21,3 @@ public class LectureDTO {
     @NotNull(message = "Number cannot be null.")
     private int number;
 }
-//

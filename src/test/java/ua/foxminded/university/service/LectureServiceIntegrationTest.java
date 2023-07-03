@@ -54,4 +54,3 @@ public class LectureServiceIntegrationTest {
         Assert.assertFalse(dao.existsById(savedLecture.getId()));
     }
 }
-//

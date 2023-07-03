@@ -27,4 +27,4 @@ public class Teacher {
     private String surname;
     private String category;
     private int hours;
-}//
+}

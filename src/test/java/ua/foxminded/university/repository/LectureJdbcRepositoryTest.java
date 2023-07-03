@@ -63,4 +63,3 @@ class LectureJdbcRepositoryTest {
         assertEquals(expectedLectures, actualLectures);
     }
 }
-//

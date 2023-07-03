@@ -31,4 +31,4 @@ public class Student {
     @JoinColumn(name = "groupId")
     @MaxStudentsInGroup
     private Long groupId;
-}//
+}

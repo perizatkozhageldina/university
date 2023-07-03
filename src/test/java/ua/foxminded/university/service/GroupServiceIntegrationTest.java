@@ -54,4 +54,3 @@ public class GroupServiceIntegrationTest {
         Assert.assertFalse(dao.existsById(savedGroup.getId()));
     }
 }
-//

@@ -10,4 +10,4 @@ public class HomeController {
     public String welcome() {
         return "main-page";
     }
-}//
+}

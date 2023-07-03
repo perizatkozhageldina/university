@@ -91,4 +91,4 @@ public class LectureApiController {
             return ResponseEntity.notFound().build();
         }
     }
-}//
+}

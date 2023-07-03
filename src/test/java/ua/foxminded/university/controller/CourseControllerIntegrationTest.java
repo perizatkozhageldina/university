@@ -104,4 +104,3 @@ public class CourseControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
     }
 }
-//

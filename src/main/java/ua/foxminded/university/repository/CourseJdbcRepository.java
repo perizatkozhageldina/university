@@ -7,4 +7,4 @@ import ua.foxminded.university.model.Course;
 
 @Repository
 public interface CourseJdbcRepository extends JpaRepository<Course, Long> {
-}//
+}

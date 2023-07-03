@@ -79,4 +79,4 @@ public class AppConfig implements WebMvcConfigurer {
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
     }
-}/**/
+}

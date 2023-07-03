@@ -42,4 +42,4 @@ public class TeacherService {
     public List<TeacherDTO> getAll() throws ServiceException {
         return dao.findAll().stream().map(teacher -> modelMapper.map(teacher, TeacherDTO.class)).collect(Collectors.toList());
     }
-}//
+}

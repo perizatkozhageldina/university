@@ -20,4 +20,3 @@ public class TeacherDTO {
     private String category;
     private int hours;
 }
-//

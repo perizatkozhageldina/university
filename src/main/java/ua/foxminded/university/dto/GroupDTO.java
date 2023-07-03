@@ -20,4 +20,4 @@ public class GroupDTO {
     @NotNull(message = "Fill in maximum size of students in group.")
     @Min(0)
     private int maxStudents;
-}//
+}

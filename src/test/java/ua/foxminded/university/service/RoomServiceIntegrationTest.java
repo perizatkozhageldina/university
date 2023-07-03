@@ -54,4 +54,3 @@ public class RoomServiceIntegrationTest {
         Assert.assertFalse(dao.existsById(savedLecture.getId()));
     }
 }
-//
