@@ -105,4 +105,4 @@ public class GroupApiControllerTest {
                 (MockMvcRequestBuilders.delete(ENTITY_PATH, group.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-}
+}//

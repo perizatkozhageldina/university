@@ -42,4 +42,4 @@ public class StudentService {
     public List<StudentDTO> getAll() throws ServiceException {
         return dao.findAll().stream().map(student -> modelMapper.map(student, StudentDTO.class)).collect(Collectors.toList());
     }
-}
+}//

@@ -106,3 +106,4 @@ public class LectureApiControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
+//

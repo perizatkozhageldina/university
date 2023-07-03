@@ -107,4 +107,4 @@ public class CourseApiControllerTest {
                 (MockMvcRequestBuilders.delete(ENTITY_PATH, course.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-}
+}//

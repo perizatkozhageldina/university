@@ -25,4 +25,4 @@ public class Room {
     private String name;
     @NotNull(message = "Capacity cannot be null.")
     private int capacity;
-}
+}//

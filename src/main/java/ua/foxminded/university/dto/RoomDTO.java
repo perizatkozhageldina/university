@@ -19,3 +19,4 @@ public class RoomDTO {
     @NotNull(message = "Capacity cannot be null.")
     private int capacity;
 }
+//

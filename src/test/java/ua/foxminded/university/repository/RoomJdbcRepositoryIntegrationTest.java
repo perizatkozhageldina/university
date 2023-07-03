@@ -53,3 +53,4 @@ public class RoomJdbcRepositoryIntegrationTest {
         Assert.assertNull(dao.findById(savedRoom.getId()).orElse(null));
     }
 }
+//

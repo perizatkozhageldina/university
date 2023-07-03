@@ -94,4 +94,4 @@ public class RoomApiControllerIntegrationTest {
                 (MockMvcRequestBuilders.delete(ENTITY_PATH, room.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-}
+}//

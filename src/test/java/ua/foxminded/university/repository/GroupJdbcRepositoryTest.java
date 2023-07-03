@@ -63,3 +63,4 @@ class GroupJdbcRepositoryTest {
         assertEquals(expectedGroups, actualGroups);
     }
 }
+//

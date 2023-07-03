@@ -65,3 +65,4 @@ public class LectureController {
         return "redirect:/lectures";
     }
 }
+//

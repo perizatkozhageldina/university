@@ -101,4 +101,4 @@ public class CourseApiControllerIntegrationTest {
                 (MockMvcRequestBuilders.delete(ENTITY_PATH, course.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-}
+}//

@@ -9,4 +9,4 @@ import ua.foxminded.university.model.Group;
 
 @Repository
 public interface GroupJdbcRepository extends JpaRepository<Group, Long> {
-}
+}//

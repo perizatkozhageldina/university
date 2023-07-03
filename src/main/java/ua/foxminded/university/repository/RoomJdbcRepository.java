@@ -7,4 +7,4 @@ import ua.foxminded.university.model.Room;
 
 @Repository
 public interface RoomJdbcRepository extends JpaRepository<Room, Long> {
-}
+}//

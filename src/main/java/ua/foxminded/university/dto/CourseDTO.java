@@ -22,4 +22,4 @@ public class CourseDTO {
     private int level;
     @NotNull(message = "Hours cannot be null.")
     private int hours;
-}
+}//

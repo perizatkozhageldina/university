@@ -112,3 +112,4 @@ class LectureControllerTest {
                 .andExpect(MockMvcResultMatchers.view().name(REDIRECT_VIEW));
     }
 }
+//

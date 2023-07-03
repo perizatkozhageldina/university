@@ -53,3 +53,4 @@ public class GroupJdbcRepositoryIntegrationTest {
         Assert.assertNull(dao.findById(savedGroup.getId()).orElse(null));
     }
 }
+//

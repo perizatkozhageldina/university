@@ -42,4 +42,4 @@ public class GroupService {
     public List<GroupDTO> getAll() throws ServiceException {
         return dao.findAll().stream().map(group -> modelMapper.map(group, GroupDTO.class)).collect(Collectors.toList());
     }
-}
+}//

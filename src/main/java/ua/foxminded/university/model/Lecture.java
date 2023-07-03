@@ -28,3 +28,4 @@ public class Lecture {
     @NotNull(message = "Number cannot be null.")
     private int number;
 }
+//

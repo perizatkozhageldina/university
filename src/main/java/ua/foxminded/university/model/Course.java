@@ -30,4 +30,4 @@ public class Course {
     private int level;
     @NotNull(message = "Hours cannot be null.")
     private int hours;
-}
+}//
