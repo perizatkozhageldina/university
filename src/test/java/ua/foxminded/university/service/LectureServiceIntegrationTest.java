@@ -1,6 +1,6 @@
 package ua.foxminded.university.service;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +28,9 @@ public class LectureServiceIntegrationTest {
         LectureDTO lecture = LectureDTO.builder().id(1L).name("Lecture").number(10).build();
         LectureDTO createdLecture = service.save(lecture);
         LectureDTO retrievedLecture = service.getById(createdLecture.getId());
-        Assert.assertNotNull(retrievedLecture);
-        Assert.assertEquals(lecture.getName(), retrievedLecture.getName());
-        Assert.assertEquals(lecture.getNumber(), retrievedLecture.getNumber());
+        Assertions.assertNotNull(retrievedLecture);
+        Assertions.assertEquals(lecture.getName(), retrievedLecture.getName());
+        Assertions.assertEquals(lecture.getNumber(), retrievedLecture.getNumber());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class LectureServiceIntegrationTest {
         service.save(lecture2);
 
         List<LectureDTO> allLectures = service.getAll();
-        Assert.assertEquals(2, allLectures.size());
+        Assertions.assertEquals(2, allLectures.size());
     }
 
     @Test
@@ -51,6 +51,6 @@ public class LectureServiceIntegrationTest {
         LectureDTO lecture = LectureDTO.builder().id(1L).name("Lecture").number(10).build();
         LectureDTO savedLecture = service.save(lecture);
         service.deleteById(savedLecture.getId());
-        Assert.assertFalse(dao.existsById(savedLecture.getId()));
+        Assertions.assertFalse(dao.existsById(savedLecture.getId()));
     }
 }

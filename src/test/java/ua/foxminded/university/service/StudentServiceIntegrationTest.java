@@ -1,6 +1,6 @@
 package ua.foxminded.university.service;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +26,13 @@ public class StudentServiceIntegrationTest {
     void shouldAddAndGetStudent_whenServiceAddAndGetMethodsCalled() {
         StudentDTO student = StudentDTO.builder().id(1L).name("Name").surname("Surname").academicYear(1).build();
         StudentDTO createdStudent = service.save(student);
-        Assert.assertNotNull(createdStudent.getId());
+        Assertions.assertNotNull(createdStudent.getId());
 
         StudentDTO retrievedStudent = service.getById(createdStudent.getId());
-        Assert.assertNotNull(retrievedStudent);
-        Assert.assertEquals(student.getName(), retrievedStudent.getName());
-        Assert.assertEquals(student.getSurname(), retrievedStudent.getSurname());
-        Assert.assertEquals(student.getAcademicYear(), retrievedStudent.getAcademicYear());
+        Assertions.assertNotNull(retrievedStudent);
+        Assertions.assertEquals(student.getName(), retrievedStudent.getName());
+        Assertions.assertEquals(student.getSurname(), retrievedStudent.getSurname());
+        Assertions.assertEquals(student.getAcademicYear(), retrievedStudent.getAcademicYear());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class StudentServiceIntegrationTest {
         service.save(student2);
 
         List<StudentDTO> allStudents = service.getAll();
-        Assert.assertEquals(2, allStudents.size());
+        Assertions.assertEquals(2, allStudents.size());
     }
 
     @Test
@@ -53,6 +53,6 @@ public class StudentServiceIntegrationTest {
         StudentDTO student = StudentDTO.builder().id(1L).name("Name").surname("Surname").academicYear(1).build();
         StudentDTO savedStudent = service.save(student);
         service.deleteById(savedStudent.getId());
-        Assert.assertFalse(dao.existsById(savedStudent.getId()));
+        Assertions.assertFalse(dao.existsById(savedStudent.getId()));
     }
 }

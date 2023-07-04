@@ -1,6 +1,6 @@
 package ua.foxminded.university.repository;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,9 +20,9 @@ public class StudentJdbcRepositoryIntegrationTest {
     public void shouldSaveStudent_whenSaveMethodCalled() {
         Student student = Student.builder().id(1L).name("Name").surname("Surname").academicYear(1).build();
         Student savedStudent = dao.save(student);
-        Assert.assertNotNull(savedStudent.getId());
-        Assert.assertEquals(savedStudent.getName(), "Name");
-        Assert.assertEquals(savedStudent.getSurname(), "Surname");
+        Assertions.assertNotNull(savedStudent.getId());
+        Assertions.assertEquals(savedStudent.getName(), "Name");
+        Assertions.assertEquals(savedStudent.getSurname(), "Surname");
     }
 
     @Test
@@ -31,9 +31,9 @@ public class StudentJdbcRepositoryIntegrationTest {
         Student student = Student.builder().id(1L).name("Name").surname("Surname").academicYear(1).build();
         dao.save(student);
         Student foundStudent = dao.findById(student.getId()).orElse(null);
-        Assert.assertNotNull(foundStudent);
-        Assert.assertEquals(foundStudent.getName(),"Name");
-        Assert.assertEquals(foundStudent.getSurname(), "Surname");
+        Assertions.assertNotNull(foundStudent);
+        Assertions.assertEquals(foundStudent.getName(),"Name");
+        Assertions.assertEquals(foundStudent.getSurname(), "Surname");
     }
 
     @Test
@@ -44,7 +44,7 @@ public class StudentJdbcRepositoryIntegrationTest {
         dao.save(student1);
         dao.save(student2);
         List<Student> students = dao.findAll();
-        Assert.assertEquals(2, students.size());
+        Assertions.assertEquals(2, students.size());
     }
 
     @Test
@@ -53,6 +53,6 @@ public class StudentJdbcRepositoryIntegrationTest {
         Student student = Student.builder().id(1L).name("Name").surname("Surname").academicYear(1).build();
         Student savedStudent = dao.save(student);
         dao.deleteById(savedStudent.getId());
-        Assert.assertNull(dao.findById(savedStudent.getId()).orElse(null));
+        Assertions.assertNull(dao.findById(savedStudent.getId()).orElse(null));
     }
 }

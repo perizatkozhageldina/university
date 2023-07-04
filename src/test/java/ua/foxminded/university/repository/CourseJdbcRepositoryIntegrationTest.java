@@ -1,7 +1,7 @@
 package ua.foxminded.university.repository;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import junit.framework.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
@@ -19,7 +19,7 @@ public class CourseJdbcRepositoryIntegrationTest {
     public void shouldSaveCourse_whenSaveMethodCalled() {
         Course course = Course.builder().id(1L).name("Course").level(1).hours(12).build();
         Course savedCourse = dao.save(course);
-        Assert.assertEquals(savedCourse.getName(), "Course");
+        Assertions.assertEquals(savedCourse.getName(), "Course");
     }
 
     @Test
@@ -28,8 +28,8 @@ public class CourseJdbcRepositoryIntegrationTest {
         Course course = Course.builder().id(1L).name("Course").level(1).hours(12).build();
         dao.save(course);
         Course foundCourse = dao.findById(course.getId()).orElse(null);
-        Assert.assertNotNull(foundCourse);
-        Assert.assertEquals(foundCourse.getName(),"Course");
+        Assertions.assertNotNull(foundCourse);
+        Assertions.assertEquals(foundCourse.getName(),"Course");
     }
 
     @Test
@@ -40,7 +40,7 @@ public class CourseJdbcRepositoryIntegrationTest {
         dao.save(course1);
         dao.save(course2);
         List<Course> courses = dao.findAll();
-        Assert.assertEquals(2, courses.size());
+        Assertions.assertEquals(2, courses.size());
     }
 
     @Test
@@ -49,6 +49,6 @@ public class CourseJdbcRepositoryIntegrationTest {
         Course course = Course.builder().id(1L).name("Course").level(1).hours(12).build();
         Course savedCourse = dao.save(course);
         dao.deleteById(savedCourse.getId());
-        Assert.assertNull(dao.findById(savedCourse.getId()).orElse(null));
+        Assertions.assertNull(dao.findById(savedCourse.getId()).orElse(null));
     }
 }

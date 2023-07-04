@@ -1,6 +1,6 @@
 package ua.foxminded.university.repository;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,7 +20,7 @@ public class GroupJdbcRepositoryIntegrationTest {
     public void shouldSaveGroup_whenSaveMethodCalled() {
         Group group = Group.builder().id(1L).name("Group").maxStudents(10).build();
         Group savedGroup = dao.save(group);
-        Assert.assertEquals(savedGroup.getName(), "Group");
+        Assertions.assertEquals(savedGroup.getName(), "Group");
     }
 
     @Test
@@ -29,8 +29,8 @@ public class GroupJdbcRepositoryIntegrationTest {
         Group group = Group.builder().id(1L).name("Group").maxStudents(10).build();
         dao.save(group);
         Group foundGroup = dao.findById(group.getId()).orElse(null);
-        Assert.assertNotNull(foundGroup);
-        Assert.assertEquals(foundGroup.getName(),"Group");
+        Assertions.assertNotNull(foundGroup);
+        Assertions.assertEquals(foundGroup.getName(),"Group");
     }
 
     @Test
@@ -41,7 +41,7 @@ public class GroupJdbcRepositoryIntegrationTest {
         dao.save(group1);
         dao.save(group2);
         List<Group> groups = dao.findAll();
-        Assert.assertEquals(2, groups.size());
+        Assertions.assertEquals(2, groups.size());
     }
 
     @Test
@@ -50,6 +50,6 @@ public class GroupJdbcRepositoryIntegrationTest {
         Group group = Group.builder().id(1L).name("Group").maxStudents(10).build();
         Group savedGroup = dao.save(group);
         dao.deleteById(savedGroup.getId());
-        Assert.assertNull(dao.findById(savedGroup.getId()).orElse(null));
+        Assertions.assertNull(dao.findById(savedGroup.getId()).orElse(null));
     }
 }

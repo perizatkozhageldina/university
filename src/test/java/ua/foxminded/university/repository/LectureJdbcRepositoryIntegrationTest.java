@@ -1,6 +1,6 @@
 package ua.foxminded.university.repository;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,7 +19,7 @@ public class LectureJdbcRepositoryIntegrationTest {
     public void shouldSaveLecture_whenSaveMethodCalled() {
         Lecture lecture = Lecture.builder().id(1L).name("Lecture").number(1).build();
         Lecture savedLecture = dao.save(lecture);
-        Assert.assertEquals(savedLecture.getName(), "Lecture");
+        Assertions.assertEquals(savedLecture.getName(), "Lecture");
     }
 
     @Test
@@ -28,8 +28,8 @@ public class LectureJdbcRepositoryIntegrationTest {
         Lecture lecture = Lecture.builder().id(1L).name("Lecture").number(1).build();
         dao.save(lecture);
         Lecture foundLecture = dao.findById(lecture.getId()).orElse(null);
-        Assert.assertNotNull(foundLecture);
-        Assert.assertEquals(foundLecture.getName(),"Lecture");
+        Assertions.assertNotNull(foundLecture);
+        Assertions.assertEquals(foundLecture.getName(),"Lecture");
     }
 
     @Test
@@ -40,7 +40,7 @@ public class LectureJdbcRepositoryIntegrationTest {
         dao.save(lecture1);
         dao.save(lecture2);
         List<Lecture> lectures = dao.findAll();
-        Assert.assertEquals(2, lectures.size());
+        Assertions.assertEquals(2, lectures.size());
     }
 
     @Test
@@ -49,6 +49,6 @@ public class LectureJdbcRepositoryIntegrationTest {
         Lecture lecture = Lecture.builder().id(1L).name("Lecture").number(1).build();
         Lecture savedLecture = dao.save(lecture);
         dao.deleteById(savedLecture.getId());
-        Assert.assertNull(dao.findById(savedLecture.getId()).orElse(null));
+        Assertions.assertNull(dao.findById(savedLecture.getId()).orElse(null));
     }
 }

@@ -1,6 +1,6 @@
 package ua.foxminded.university.service;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +28,9 @@ public class RoomServiceIntegrationTest {
         RoomDTO room = RoomDTO.builder().id(1L).name("Room").capacity(10).build();
         RoomDTO createdRoom = service.save(room);
         RoomDTO retrievedRoom = service.getById(createdRoom.getId());
-        Assert.assertNotNull(retrievedRoom);
-        Assert.assertEquals(room.getName(), retrievedRoom.getName());
-        Assert.assertEquals(room.getCapacity(), retrievedRoom.getCapacity());
+        Assertions.assertNotNull(retrievedRoom);
+        Assertions.assertEquals(room.getName(), retrievedRoom.getName());
+        Assertions.assertEquals(room.getCapacity(), retrievedRoom.getCapacity());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class RoomServiceIntegrationTest {
         service.save(room2);
 
         List<RoomDTO> allRooms = service.getAll();
-        Assert.assertEquals(2, allRooms.size());
+        Assertions.assertEquals(2, allRooms.size());
     }
 
     @Test
@@ -51,6 +51,6 @@ public class RoomServiceIntegrationTest {
         RoomDTO room = RoomDTO.builder().id(1L).name("Lecture").capacity(10).build();
         RoomDTO savedLecture = service.save(room);
         service.deleteById(savedLecture.getId());
-        Assert.assertFalse(dao.existsById(savedLecture.getId()));
+        Assertions.assertFalse(dao.existsById(savedLecture.getId()));
     }
 }

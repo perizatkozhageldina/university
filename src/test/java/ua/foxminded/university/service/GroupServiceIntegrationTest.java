@@ -1,6 +1,6 @@
 package ua.foxminded.university.service;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +28,9 @@ public class GroupServiceIntegrationTest {
         GroupDTO group = GroupDTO.builder().id(1L).name("Group").maxStudents(10).build();
         GroupDTO createdGroup = service.save(group);
         GroupDTO retrievedGroup = service.getById(createdGroup.getId());
-        Assert.assertNotNull(retrievedGroup);
-        Assert.assertEquals(group.getName(), retrievedGroup.getName());
-        Assert.assertEquals(group.getMaxStudents(), retrievedGroup.getMaxStudents());
+        Assertions.assertNotNull(retrievedGroup);
+        Assertions.assertEquals(group.getName(), retrievedGroup.getName());
+        Assertions.assertEquals(group.getMaxStudents(), retrievedGroup.getMaxStudents());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class GroupServiceIntegrationTest {
         service.save(group2);
 
         List<GroupDTO> allGroups = service.getAll();
-        Assert.assertEquals(2, allGroups.size());
+        Assertions.assertEquals(2, allGroups.size());
     }
 
     @Test
@@ -51,6 +51,6 @@ public class GroupServiceIntegrationTest {
         GroupDTO group = GroupDTO.builder().id(1L).name("Group").maxStudents(10).build();
         GroupDTO savedGroup = service.save(group);
         service.deleteById(savedGroup.getId());
-        Assert.assertFalse(dao.existsById(savedGroup.getId()));
+        Assertions.assertFalse(dao.existsById(savedGroup.getId()));
     }
 }
