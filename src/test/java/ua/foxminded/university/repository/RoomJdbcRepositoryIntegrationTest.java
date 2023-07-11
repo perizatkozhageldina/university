@@ -1,6 +1,7 @@
 package ua.foxminded.university.repository;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,7 +21,7 @@ public class RoomJdbcRepositoryIntegrationTest {
     public void shouldSaveRoom_whenSaveMethodCalled() {
         Room room = Room.builder().id(1L).name("Room").capacity(10).build();
         Room savedRoom = dao.save(room);
-        Assertions.assertEquals(savedRoom.getName(), "Room");
+        assertEquals(savedRoom.getName(), "Room");
     }
 
     @Test
@@ -29,8 +30,8 @@ public class RoomJdbcRepositoryIntegrationTest {
         Room room = Room.builder().id(1L).name("Room").capacity(10).build();
         dao.save(room);
         Room foundRoom = dao.findById(room.getId()).orElse(null);
-        Assertions.assertNotNull(foundRoom);
-        Assertions.assertEquals(foundRoom.getName(),"Room");
+        assertNotNull(foundRoom);
+        assertEquals(foundRoom.getName(),"Room");
     }
 
     @Test
@@ -41,7 +42,7 @@ public class RoomJdbcRepositoryIntegrationTest {
         dao.save(room1);
         dao.save(room2);
         List<Room> rooms = dao.findAll();
-        Assertions.assertEquals(2, rooms.size());
+        assertEquals(2, rooms.size());
     }
 
     @Test
@@ -50,6 +51,6 @@ public class RoomJdbcRepositoryIntegrationTest {
         Room room = Room.builder().id(1L).name("Room").capacity(10).build();
         Room savedRoom = dao.save(room);
         dao.deleteById(savedRoom.getId());
-        Assertions.assertNull(dao.findById(savedRoom.getId()).orElse(null));
+        assertNull(dao.findById(savedRoom.getId()).orElse(null));
     }
 }

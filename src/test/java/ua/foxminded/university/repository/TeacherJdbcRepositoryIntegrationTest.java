@@ -1,6 +1,6 @@
 package ua.foxminded.university.repository;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,8 +20,8 @@ public class TeacherJdbcRepositoryIntegrationTest {
     public void shouldSaveTeacher_whenSaveMethodCalled() {
         Teacher teacher = Teacher.builder().id(1L).name("Name").surname("Surname").hours(10).category("middle").build();
         Teacher savedTeacher = dao.save(teacher);
-        Assertions.assertEquals(savedTeacher.getName(), "Name");
-        Assertions.assertEquals(savedTeacher.getSurname(), "Surname");
+        assertEquals(savedTeacher.getName(), "Name");
+        assertEquals(savedTeacher.getSurname(), "Surname");
     }
 
     @Test
@@ -30,9 +30,9 @@ public class TeacherJdbcRepositoryIntegrationTest {
         Teacher teacher = Teacher.builder().id(1L).name("Name").surname("Surname").hours(10).category("middle").build();
         dao.save(teacher);
         Teacher foundTeacher = dao.findById(teacher.getId()).orElse(null);
-        Assertions.assertNotNull(foundTeacher);
-        Assertions.assertEquals(foundTeacher.getName(),"Name");
-        Assertions.assertEquals(foundTeacher.getSurname(), "Surname");
+        assertNotNull(foundTeacher);
+        assertEquals(foundTeacher.getName(),"Name");
+        assertEquals(foundTeacher.getSurname(), "Surname");
     }
 
     @Test
@@ -43,7 +43,7 @@ public class TeacherJdbcRepositoryIntegrationTest {
         dao.save(teacher1);
         dao.save(teacher2);
         List<Teacher> teachers = dao.findAll();
-        Assertions.assertEquals(2, teachers.size());
+        assertEquals(2, teachers.size());
     }
 
     @Test
@@ -52,6 +52,6 @@ public class TeacherJdbcRepositoryIntegrationTest {
         Teacher teacher = Teacher.builder().id(1L).name("Name").surname("Surname").hours(10).category("middle").build();
         Teacher savedTeacher = dao.save(teacher);
         dao.deleteById(savedTeacher.getId());
-        Assertions.assertNull(dao.findById(savedTeacher.getId()).orElse(null));
+        assertNull(dao.findById(savedTeacher.getId()).orElse(null));
     }
 }

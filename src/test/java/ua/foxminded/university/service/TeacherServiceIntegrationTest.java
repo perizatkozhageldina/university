@@ -1,6 +1,7 @@
 package ua.foxminded.university.service;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,10 @@ public class TeacherServiceIntegrationTest {
         TeacherDTO teacher = TeacherDTO.builder().id(1L).name("Name").surname("Surname").hours(12).build();
         TeacherDTO createdTeacher = service.save(teacher);
         TeacherDTO retrievedTeacher = service.getById(createdTeacher.getId());
-        Assertions.assertNotNull(retrievedTeacher);
-        Assertions.assertEquals(teacher.getName(), retrievedTeacher.getName());
-        Assertions.assertEquals(teacher.getSurname(), retrievedTeacher.getSurname());
-        Assertions.assertEquals(teacher.getHours(), retrievedTeacher.getHours());
+        assertNotNull(retrievedTeacher);
+        assertEquals(teacher.getName(), retrievedTeacher.getName());
+        assertEquals(teacher.getSurname(), retrievedTeacher.getSurname());
+        assertEquals(teacher.getHours(), retrievedTeacher.getHours());
     }
 
     @Test
@@ -42,7 +43,7 @@ public class TeacherServiceIntegrationTest {
         service.save(teacher2);
 
         List<TeacherDTO> allTeachers = service.getAll();
-        Assertions.assertEquals(2, allTeachers.size());
+        assertEquals(2, allTeachers.size());
     }
 
     @Test
@@ -51,6 +52,6 @@ public class TeacherServiceIntegrationTest {
         TeacherDTO teacher = TeacherDTO.builder().id(1L).name("Lecture1").surname("Surname").hours(12).build();
         TeacherDTO savedTeacher = service.save(teacher);
         service.deleteById(savedTeacher.getId());
-        Assertions.assertFalse(dao.existsById(savedTeacher.getId()));
+        assertFalse(dao.existsById(savedTeacher.getId()));
     }
 }
